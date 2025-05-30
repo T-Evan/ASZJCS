@@ -5,7 +5,7 @@
 ## ASZJCS
 
 基于全新架构的仗剑传说小助手。图像技术 + 模拟控制，解放双手！
-由 [AScript]([https://github.com/MaaXYZ/MaaFramework](https://ascript.cn/docs/android/intro)) 强力驱动！
+由 [AScript](https://ascript.cn/docs/android/intro) 强力驱动！
 
 </div>
 
