@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <title>仗剑挂机助手</title>
+    <style>
+        #shouye:checked ~ ul li.richang_content {
+            display: none;
+        }
+        #shouye:checked ~ ul li.yingdi_content {
+            display: none;
+        }
+        #shouye:checked ~ ul li.maoxian_content {
+            display: none;
+        }
+        #shouye:checked ~ ul li.lvtuan_content {
+            display: none;
+        }
+        #shouye:checked ~ ul li.qita_content {
+            display: none;
+        }
+
+        #richang:checked ~ ul li.shouye_content {
+            display: none;
+        }
+        #richang:checked ~ ul li.yingdi_content {
+            display: none;
+        }
+        #richang:checked ~ ul li.maoxian_content {
+            display: none;
+        }
+        #richang:checked ~ ul li.lvtuan_content {
+            display: none;
+        }
+        #richang:checked ~ ul li.qita_content {
+            display: none;
+        }
+
+        #maoxian:checked ~ ul li.shouye_content {
+            display: none;
+        }
+        #maoxian:checked ~ ul li.richang_content {
+            display: none;
+        }
+        #maoxian:checked ~ ul li.yingdi_content {
+            display: none;
+        }
+        #maoxian:checked ~ ul li.lvtuan_content {
+            display: none;
+        }
+        #maoxian:checked ~ ul li.qita_content {
+            display: none;
+        }
+
+
+        #yingdi:checked ~ ul li.shouye_content {
+            display: none;
+        }
+        #yingdi:checked ~ ul li.richang_content {
+            display: none;
+        }
+        #yingdi:checked ~ ul li.maoxian_content {
+            display: none;
+        }
+        #yingdi:checked ~ ul li.lvtuan_content {
+            display: none;
+        }
+        #yingdi:checked ~ ul li.qita_content {
+            display: none;
+        }
+
+        #lvtuan:checked ~ ul li.shouye_content {
+            display: none;
+        }
+        #lvtuan:checked ~ ul li.richang_content {
+            display: none;
+        }
+        #lvtuan:checked ~ ul li.yingdi_content {
+            display: none;
+        }
+        #lvtuan:checked ~ ul li.maoxian_content {
+            display: none;
+        }
+        #lvtuan:checked ~ ul li.qita_content {
+            display: none;
+        }
+
+        #qita:checked ~ ul li.shouye_content {
+            display: none;
+        }
+        #qita:checked ~ ul li.richang_content {
+            display: none;
+        }
+        #qita:checked ~ ul li.yingdi_content {
+            display: none;
+        }
+        #qita:checked ~ ul li.maoxian_content {
+            display: none;
+        }
+        #qita:checked ~ ul li.lvtuan_content {
+            display: none;
+        }
+
+        form input {
+            margin-top: 6px;
+            margin-bottom: 6px;
+            margin-right: 3px;
+            height: 16px;
+            width: 16px;
+            position: relative;
+            top: 2px;
+        }
+
+        label:hover {
+            background-color: cyan;
+            color: dodgerblue;
+        }
+
+        h3 {
+            color: rgb(0,150,255);
+        }
+
+        h4 {
+            color: rgb(0,150,255);
+        }
+        legend {
+            color: rgb(0,150,255);
+        }
+
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px; /* 添加间距以分隔复选框 */
+    }
+    .checkbox-item {
+        display: flex;
+        z-index: 2;
+        align-items: center;
+    }
+
+    .gray-text {
+        color: gray;
+    }
+
+     #countdown {
+            margin-top: 10px;
+            font-size: 18px;
+            color: rgb(0,150,255);
+        }
+
+    .flex-container {
+        display: flex;
+        align-items: center; /* 垂直居中 */
+    }
+    label {
+        margin-right: 10px; /* 为输入框留出一点空间 */
+    }
+
+    .shouye_container {
+    display: flex;
+    align-items: center; /* 水平居中 */
+    }
+
+    .shouye_item {
+        flex: 1; /* 均分宽度 */
+        text-align: center; /* 文本居中 */
+        margin: 0 10px; /* 添加一些间距 */
+    }
+
+    .toast {
+        position: fixed;
+        bottom: 70px;
+        right: 20px;
+        background-color: #4caf50;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .show {
+        opacity: 1;
+    }
+
+/* 头部样式 */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1E9FFF;
+    height: 50px; /* 增加高度 */
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    transition: background-color 0.3s ease; /* 平滑过渡效果 */
+}
+
+.header:hover {
+    background-color: #1C86EE; /* 鼠标悬停时改变背景颜色 */
+}
+
+.header h3 {
+    color: white;
+    font-size: 1.2em; /* 增大字体大小 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* 添加文字阴影 */
+    margin-bottom: 13px;
+}
+
+/* 按钮标签样式 */
+.button-label {
+    position: fixed;
+    left: 0;
+    width: 16.6%;
+    height: 28px;
+    color: #1E9FFF;
+    background-color: white;
+    border: 2px solid #1E9FFF;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    z-index: 8;
+    cursor: pointer; /* 鼠标指针变为手形 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 平滑过渡效果 */
+}
+
+/* 鼠标悬停时的样式 */
+.button-label:hover {
+    background-color: #1E9FFF;
+    color: white;
+}
+
+/* 鼠标点击时的样式 */
+.button-label:active {
+    background-color: #1C86EE;
+    color: white;
+}
+    </style>
+</head>
+<body style="margin: 0;padding: 0;list-style: none;text-decoration: none;">
+<div class="header">
+    <h3 style="margin-left:110px;">仗剑挂机助手</h3>
+    <h3 style="margin-left:95px;margin-bottom:20px;color:#98FB98" id="countdown">00</h3>
+</div>
+<div style="height: 36px; width: 100%;">
+</div>
+<div>
+    <input checked id="shouye" name="sexx" style="display: none;z-index:8;" type="radio">
+    <input id="richang" name="sexx" style="display: none;z-index:8;" type="radio">
+    <input id="maoxian" name="sexx" style="display: none;z-index:8;" type="radio">
+    <input id="yingdi" name="sexx" style="display: none;z-index:8;" type="radio">
+    <input id="lvtuan" name="sexx" style="display: none;z-index:8;" type="radio">
+    <input id="qita" name="sexx" style="display: none;z-index:8;" type="radio">
+    <label class="button-label" for="shouye">
+        首页
+    </label>
+    <label class="button-label" for="richang"
+           style="left: 16.6%;">
+        日常
+    </label>
+    <label class="button-label" for="maoxian"
+           style="left: 33.2%;">
+        战斗
+    </label>
+    <label class="button-label" for="yingdi"
+           style="left: 49.8%;">
+        家园
+    </label>
+    <label class="button-label" for="lvtuan"
+           style="left: 66.4%;">
+        公会
+    </label>
+    <label class="button-label" for="qita"
+           style="left: 83%;">
+        其他
+    </label>
+    <ul style="margin:0px 3px;padding: 0px;width:100%;">
+        <div style="height: 35px; width: 100%;background-color: white;"></div>
+        <!--        <div id="toast" class="toast">保存成功</div>-->
+        <li class="shouye_content">
+            <h3>公告：Have Fun ！</h3>
+            <br>
+            <div class="flex-container">
+                <fieldset>
+                    <legend>激活码</legend>
+                    <!--                    <input type="text" id="激活码" name="激活码" lay-verify="title"-->
+                    <!--                           autocomplete="off"-->
+                    <!--                           placeholder="无需输入，元旦畅玩" class="layui-input">-->
+                    <input type="text" id="激活码" name="激活码" lay-verify="title"
+                           autocomplete="off"
+                           placeholder="激活码（留空可试用）" class="layui-input">
+                </fieldset>
+            </div>
+            <form action="">
+                <fieldset>
+                    <div class="flex-container">
+                        <label for="选择游戏版本">游戏版本:</label>
+                        <div class="layui-form">
+                            <div class="layui-input-inline">
+                                <select name="选择游戏版本" id="选择游戏版本" lay-filter="mijing1-filter">
+                                    <option value="公测服">公测服</option>
+                                    <option value="内测服">内测服</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </li>
+
+        <li class="richang_content">
+            <form action="">
+                <fieldset>
+                    <legend>日常功能</legend>
+                    <input id="日常总开关" name="vehicle" type="checkbox" value="Bike">日常总开关<br>
+                    <legend>主线相关</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="自动主线" name="vehicle" type="checkbox" value="Bike">自动主线<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭(施工中)<br>
+                        </div>
+                    </div>
+                    <legend>家园相关</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="日常任务领取" name="vehicle" type="checkbox" value="Bike">日常任务领取<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="小推车领取" name="vehicle" type="checkbox" value="Bike">小推车领取<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="小木床领取" name="vehicle" type="checkbox" value="Bike">小木床领取<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="邮件领取" name="vehicle" type="checkbox" value="Bike">邮件领取<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="每日商店" name="vehicle" type="checkbox" value="Bike">每日商店<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="家园清理" name="vehicle" type="checkbox" value="Bike">家园清理(施工中)<br>
+                        </div>
+                    </div>
+                    <legend>活动相关</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="每日签到" name="vehicle" type="checkbox" value="Bike">每日签到<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="成长试炼" name="vehicle" type="checkbox" value="Bike">成长试炼<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="启程签到" name="vehicle" type="checkbox" value="Bike">启程签到<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="菜就多躺" name="vehicle" type="checkbox" value="Bike">菜就多躺<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="巡礼之证" name="vehicle" type="checkbox"
+                                   value="Bike">巡礼之证(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="秘宝大作战" name="vehicle" type="checkbox" value="Bike">秘宝大作战(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取(施工中)<br>
+                        </div>
+                    </div>
+                    <legend>角色相关</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="自动更换装备" name="vehicle" type="checkbox"
+                                   value="Bike">自动更换装备<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="自动强化装备" name="vehicle" type="checkbox"
+                                   value="Bike">自动强化装备<br>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </li>
+
+        <li class="yingdi_content">
+            <form action="">
+                <fieldset>
+                    <legend>幻兽功能</legend>
+                </fieldset>
+            </form>
+        </li>
+
+        <li class="maoxian_content">
+            <form action="">
+                <fieldset>
+                    <legend>战斗功能</legend>
+                </fieldset>
+                </fieldset>
+            </form>
+        </li>
+        <li class="lvtuan_content">
+            <form action="">
+                <fieldset>
+                    <legend>公会功能</legend>
+                </fieldset>
+            </form>
+        </li>
+        <li class="qita_content">
+            <form action="">
+                <fieldset>
+                    <legend>活动相关</legend>
+                    <fieldset>
+                        <legend>常驻活动</legend>
+                    </fieldset>
+                    <fieldset>
+                        <legend>限时活动</legend>
+                    </fieldset>
+                </fieldset>
+                <fieldset>
+                    <legend>喊话相关</legend>
+                </fieldset>
+            </form>
+        </li>
+
+    </ul>
+</div>
+<div style="  display: flex; margin-bottom: 30px; align-items: center;justify-content: center; width: 100%; height: 46px; position: sticky;">
+    <button id="guanbi" onclick="wclose()"
+            style="flex: 1;height: 40px;color: #1E9FFF; background-color: white;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 16px;"
+            type="button"
+            value="关闭">
+        退出
+    </button>
+    <button id="queding" onclick="submit()"
+            style="flex: 1;height: 40px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 16px;"
+            type="button"
+            value="确定">
+        运行
+    </button>
+</div>
+<!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
+<script src="layui/layui.js"></script>
+<script src="layui/jquery-3.6.1.js"></script>
+<script type="text/javascript">
+    // 定义一个函数用于保存开关的状态到 localStorage
+    function saveSwitchStatus(id) {
+        var isChecked = document.getElementById(id).checked;
+        localStorage.setItem(id, isChecked);
+        return isChecked
+    }
+
+    function deleteAllItems(configNum) {
+        localStorage.clear();
+        console.log('当前配置 已清空');
+        setAllItems()
+    }
+
+    function saveConfigItems(configNum) {
+        saveAllItems()
+        const allItems = {};
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                const value = localStorage.getItem(key);
+                allItems[key] = value;
+            }
+        }
+        const jsonString = JSON.stringify(allItems, null, 2);
+        localStorage.setItem('config' + configNum, jsonString);
+
+<!--        console.log('All Items:', localStorage.getItem("config1"));-->
+        showToast('保存成功')
+    }
+
+     function showToast(message) {
+        var toast = document.getElementById('toast');
+        toast.innerHTML = message; // 设置 toast 的内容
+        toast.classList.add('show');
+
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 2000); // 3秒后自动隐藏
+    }
+
+    function toggleInviteToast() {
+        var isChecked = document.getElementById('秘境自动接收邀请').checked;
+        var isChecked2 = document.getElementById('恶龙自动接收邀请').checked;
+        var isChecked3 = document.getElementById('梦魇自动接收邀请').checked;
+        var isChecked4 = document.getElementById('绝境自动接收邀请').checked;
+        var isChecked5 = document.getElementById('暴走自动接收邀请').checked;
+        var isChecked6 = document.getElementById('终末战自动接收邀请').checked;
+        var isChecked7 = document.getElementById('三魔头自动接收邀请').checked;
+        if (isChecked || isChecked2 || isChecked3 || isChecked4 || isChecked5 || isChecked6 || isChecked7) {
+            showToast('开启自动接收组队邀请，自动任务将暂停执行');
+        }
+    }
+
+    function toggleAIStartToast() {
+        var isChecked = document.getElementById('AI进入战斗后启动').checked;
+        var isChecked2 = document.getElementById('暴走进入战斗后启动').checked;
+        var isChecked3 = document.getElementById('技能进入战斗后启动').checked;
+        if (isChecked || isChecked2 || isChecked3) {
+            showToast('开启进入战斗后启动，自动任务将暂停执行');
+        }
+    }
+
+    function shuaZanAllItems() {
+        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"绿洲","恶龙重复挑战":"false","营地总开关":"false","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"false","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"false","猫猫包自动融合":"false","旅团调查队":"false","账号4配置":"0","秘境关卡":"白沙渊下的鼓动","账号4开关":"false","世界喊话开关":"false","世界AI发言":"false","世界发言随机字体颜色":"false","世界喊话间隔":"","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"true","建房重复挑战次数":"66","旅团任务":"false","自动升级技能":"false","自动升星秘宝":"false","自动点亮天赋":"false","稚星道途领取":"false","稚星道途升级":"false","自动转职":"false","旅团优秀经验":"false","升级1次麦乐兽":"false","摸鱼时间到":"false","钓鱼王":"false","宝藏湖":"false","旅团唤兽琴弦":"false","自动换图":"false","日常总开关":"false","旅团全价兽粮":"false","旅团总开关":"false","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"false","箱庭苗圃":"false","箱庭苗圃自动提交任务":"false","箱庭苗圃自动兑换商品":"false","恶龙自动接收邀请":"false","秘宝钻石兑换次数":"","旅团金币":"false","角色4开关":"false","月签到":"false","大暴走开关":"false","技能3释放间隔":"","旅团史诗经验":"false","秘境无体力继续":"true","终末战开关":"false","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"false","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"false","原材料":"false","商店星星经验":"false","账号3配置":"0","邮件领取":"false","兑换码领取":"false","旅团许愿墙":"false","旅团自动许愿":"false","技能2释放间隔":"","队伍喊话":"求赞","恶龙宠物切换":"false","星星经验":"false","单飞后寻找结伴":"false","自动使用经验补剂":"false","绝境自动接收邀请":"false","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"true","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"false","绝境开关":"false","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"false","旅团超级成长零食":"false","账号1名称":"","恶龙开关":"false","暴走目标阶段":"10","创建房间":"true","秘境匹配中寻找房间":"false","恶龙匹配中寻找房间":"false","世界喊话":"","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"","钻石兑换门票次数":"","自动更换装备":"false","自动进阶装备":"false","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"","自动切换主战宠物":"false","配置4名称":"","月卡":"false","梦魇宠物名称":"光翼","商店超级成长零食三折":"false","账号5配置":"0","冒险手册领取":"false","角色1开关":"false","释放1次战术技能":"false","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"false","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"false","紧急委托":"false","职能优先坦克":"false","暴走自动接收邀请":"false","秘境创建房间":"true","仓鼠百货":"false","秘境补给":"false","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"false","钻石兑换卢恩次数":"","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"false","自动讲述领取绮想妙成真":"false","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"false","队员不满足单飞":"false","不开宝箱":"true","星辰同行":"false","领取猫猫包果木":"false","登录好礼":"false","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"false","日礼包":"false","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"false","优先升级同一技能":"false","付费浇灌次数":"","旅团浇树":"false","梦魇开关":"false","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"false","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"false","旅团普通经验":"false","技能释放循环次数":"","纸飞机":"false","选择启动角色":"0","商店黑烬突破石五折":"false","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"false","商店无限棱镜五折":"false","优先升级同一技能至下一阶段":"false","队伍喊话":"求赞","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"false","讲述故事次数":"","秘境建房重复挑战次数":"66","骑兽乐园":"false","旅团商店开关":"false","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"false","队伍AI发言":"true","队伍AI走位":"true","队伍AI锁敌":"true","其他签到活动":"false","紧急特惠":"false","纸飞机信物兑换":"false","纸飞机礼包购买":"false","秘境补给星钻":"false","秘境补给无限棱镜":"false","秘境补给善意野兽积点卡":"false","秘境补给焕新刷具":"false","秘境补给骑行兽基础晶石":"false","秘境补给群星自选包":"false","秘境补给史诗经验":"false","秘境补给绮想妙成真":"false","秘境补给黑烬突破石":"false","秘境补给星星经验":"false","三魔头开关":"false","三魔头自动接收邀请":"false","斗歌会自动接收邀请":"false","派对大师":"false","斗歌会":"false","桎梏之形开关":"false","桎梏之形自动接收邀请":"false","梦魇无尽自动离队":"false"}';
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载默认配置成功，请继续调整')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    function daiDuiAllItems() {
+        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"最新地图","恶龙重复挑战":"false","营地总开关":"false","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"false","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"false","猫猫包自动融合":"false","旅团调查队":"false","账号4配置":"0","秘境关卡":"最新关卡","账号4开关":"false","世界喊话开关":"true","世界AI发言":"true","世界发言随机字体颜色":"true","世界喊话间隔":"10","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"false","建房重复挑战次数":"66","旅团任务":"false","自动升级技能":"false","自动升星秘宝":"false","自动点亮天赋":"false","稚星道途领取":"false","稚星道途升级":"false","自动转职":"false","旅团优秀经验":"false","升级1次麦乐兽":"false","摸鱼时间到":"false","钓鱼王":"false","宝藏湖":"false","旅团唤兽琴弦":"false","自动换图":"true","日常总开关":"true","旅团全价兽粮":"false","旅团总开关":"false","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"false","箱庭苗圃":"false","箱庭苗圃自动提交任务":"false","箱庭苗圃自动兑换商品":"false","恶龙自动接收邀请":"true","秘宝钻石兑换次数":"","旅团金币":"false","角色4开关":"false","月签到":"false","大暴走开关":"true","技能3释放间隔":"","旅团史诗经验":"false","秘境无体力继续":"false","终末战开关":"true","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"false","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"false","原材料":"false","商店星星经验":"false","账号3配置":"0","邮件领取":"false","兑换码领取":"false","旅团许愿墙":"false","旅团自动许愿":"false","技能2释放间隔":"","队伍喊话":"求赞","恶龙宠物切换":"false","星星经验":"false","单飞后寻找结伴":"false","自动使用经验补剂":"false","绝境自动接收邀请":"true","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"false","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"true","绝境开关":"true","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"true","旅团超级成长零食":"false","账号1名称":"","恶龙开关":"true","暴走目标阶段":"10","创建房间":"false","秘境匹配中寻找房间":"false","恶龙匹配中寻找房间":"false","世界喊话":"打工","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"","钻石兑换门票次数":"","自动更换装备":"false","自动进阶装备":"false","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"","自动切换主战宠物":"false","配置4名称":"","月卡":"false","梦魇宠物名称":"光翼","商店超级成长零食三折":"false","账号5配置":"0","冒险手册领取":"false","角色1开关":"false","释放1次战术技能":"false","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"false","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"false","紧急委托":"false","职能优先坦克":"false","暴走自动接收邀请":"true","秘境创建房间":"false","仓鼠百货":"false","秘境补给":"false","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"false","钻石兑换卢恩次数":"","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"false","自动讲述领取绮想妙成真":"false","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"true","队员不满足单飞":"false","不开宝箱":"false","星辰同行":"false","领取猫猫包果木":"false","登录好礼":"false","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"false","日礼包":"false","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"false","优先升级同一技能":"false","付费浇灌次数":"","旅团浇树":"false","梦魇开关":"true","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"false","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"true","旅团普通经验":"false","技能释放循环次数":"","纸飞机":"false","选择启动角色":"0","商店黑烬突破石五折":"false","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"false","商店无限棱镜五折":"false","优先升级同一技能至下一阶段":"false","队伍喊话":"求赞","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"false","讲述故事次数":"","秘境建房重复挑战次数":"","骑兽乐园":"false","旅团商店开关":"false","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"false","队伍AI发言":"true","队伍AI走位":"true","队伍AI锁敌":"true","梦魇无尽自动离队":"false","其他签到活动":"false","紧急特惠":"false","纸飞机信物兑换":"false","纸飞机礼包购买":"false","秘境补给星钻":"false","秘境补给无限棱镜":"false","秘境补给善意野兽积点卡":"false","秘境补给焕新刷具":"false","秘境补给骑行兽基础晶石":"false","秘境补给群星自选包":"false","秘境补给史诗经验":"false","秘境补给绮想妙成真":"false","秘境补给黑烬突破石":"false","秘境补给星星经验":"false","三魔头开关":"true","三魔头自动接收邀请":"true","斗歌会自动接收邀请":"true","派对大师":"false","斗歌会":"true","旅团大采购":"false","旅团许愿墙不捐公共":"false","桎梏之形开关":"true","桎梏之形自动接收邀请":"true"}';
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载默认配置成功，请继续调整')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    function dailyAllItems() {
+        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"最新地图","恶龙重复挑战":"false","营地总开关":"true","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"true","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"true","猫猫包自动融合":"true","旅团调查队":"true","账号4配置":"0","秘境关卡":"最新关卡","账号4开关":"false","世界喊话开关":"false","世界AI发言":"false","世界发言随机字体颜色":"false","世界喊话间隔":"","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"false","建房重复挑战次数":"","旅团任务":"true","旅团大采购":"true","自动升级技能":"true","自动升星秘宝":"true","自动点亮天赋":"true","稚星道途领取":"true","稚星道途升级":"true","自动转职":"true","旅团优秀经验":"true","升级1次麦乐兽":"true","摸鱼时间到":"true","钓鱼王":"true","宝藏湖":"true","旅团唤兽琴弦":"true","自动换图":"true","日常总开关":"true","旅团全价兽粮":"true","旅团总开关":"true","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"true","箱庭苗圃":"true","箱庭苗圃自动提交任务":"true","箱庭苗圃自动兑换商品":"true","恶龙自动接收邀请":"false","秘宝钻石兑换次数":"3","旅团金币":"false","角色4开关":"false","月签到":"true","大暴走开关":"true","技能3释放间隔":"","旅团史诗经验":"true","秘境无体力继续":"false","终末战开关":"false","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"true","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"true","原材料":"true","商店星星经验":"true","账号3配置":"0","邮件领取":"true","兑换码领取":"true","旅团许愿墙":"true","旅团自动许愿":"true","技能2释放间隔":"","队伍喊话":"","恶龙宠物切换":"false","星星经验":"true","单飞后寻找结伴":"true","自动使用经验补剂":"true","绝境自动接收邀请":"false","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"false","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"false","绝境开关":"false","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"false","旅团超级成长零食":"true","账号1名称":"","恶龙开关":"true","暴走目标阶段":"10","创建房间":"false","秘境匹配中寻找房间":"true","恶龙匹配中寻找房间":"true","世界喊话":"","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"3","钻石兑换门票次数":"3","自动更换装备":"false","自动进阶装备":"true","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"1","自动切换主战宠物":"false","配置4名称":"","月卡":"true","梦魇宠物名称":"光翼","商店超级成长零食三折":"true","账号5配置":"0","冒险手册领取":"true","角色1开关":"false","释放1次战术技能":"true","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"true","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"true","紧急委托":"true","职能优先坦克":"false","暴走自动接收邀请":"false","秘境创建房间":"false","仓鼠百货":"true","秘境补给":"true","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"true","钻石兑换卢恩次数":"3","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"true","自动讲述领取绮想妙成真":"true","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"false","队员不满足单飞":"true","不开宝箱":"false","星辰同行":"true","领取猫猫包果木":"true","登录好礼":"true","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"true","日礼包":"true","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"true","优先升级同一技能":"true","付费浇灌次数":"1","旅团浇树":"true","梦魇开关":"true","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"true","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"true","旅团普通经验":"true","技能释放循环次数":"","纸飞机":"true","选择启动角色":"0","商店黑烬突破石五折":"true","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"true","商店无限棱镜五折":"true","优先升级同一技能至下一阶段":"false","队伍喊话":"","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"true","讲述故事次数":"","秘境建房重复挑战次数":"","骑兽乐园":"true","旅团商店开关":"true","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"true","队伍AI发言":"false","队伍AI走位":"true","队伍AI锁敌":"true","其他签到活动":"true","紧急特惠":"true","纸飞机信物兑换":"false","纸飞机礼包购买":"true","秘境补给星钻":"true","秘境补给无限棱镜":"true","秘境补给善意野兽积点卡":"true","秘境补给焕新刷具":"true","秘境补给骑行兽基础晶石":"true","秘境补给群星自选包":"true","秘境补给史诗经验":"true","秘境补给绮想妙成真":"true","秘境补给黑烬突破石":"true","秘境补给星星经验":"true","三魔头开关":"true","三魔头自动接收邀请":"false","斗歌会自动接收邀请":"false","派对大师":"true","斗歌会":"true","桎梏之形开关":"true","桎梏之形自动接收邀请":"false"}';
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载默认配置成功，请继续调整')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    function qiHaoAllItems() {
+        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"最新地图","恶龙重复挑战":"false","营地总开关":"true","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"true","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"false","猫猫包自动融合":"false","旅团调查队":"false","账号4配置":"0","秘境关卡":"最新关卡","账号4开关":"false","世界喊话开关":"false","世界AI发言":"false","世界发言随机字体颜色":"false","世界喊话间隔":"","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"false","建房重复挑战次数":"","旅团任务":"false","旅团大采购":"false","自动升级技能":"true","自动升星秘宝":"true","自动点亮天赋":"true","稚星道途领取":"false","稚星道途升级":"false","自动转职":"true","旅团优秀经验":"false","升级1次麦乐兽":"true","摸鱼时间到":"true","钓鱼王":"true","宝藏湖":"true","旅团唤兽琴弦":"false","自动换图":"true","日常总开关":"true","旅团全价兽粮":"false","旅团总开关":"false","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"true","箱庭苗圃":"false","箱庭苗圃自动提交任务":"false","箱庭苗圃自动兑换商品":"false","恶龙自动接收邀请":"false","秘宝钻石兑换次数":"3","旅团金币":"false","角色4开关":"false","月签到":"true","大暴走开关":"true","技能3释放间隔":"","旅团史诗经验":"false","秘境无体力继续":"false","终末战开关":"false","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"true","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"true","原材料":"true","商店星星经验":"true","账号3配置":"0","邮件领取":"true","兑换码领取":"true","旅团许愿墙":"false","旅团自动许愿":"false","技能2释放间隔":"","队伍喊话":"","恶龙宠物切换":"false","星星经验":"true","单飞后寻找结伴":"true","自动使用经验补剂":"true","绝境自动接收邀请":"false","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"false","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"false","绝境开关":"false","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"false","旅团超级成长零食":"false","账号1名称":"","恶龙开关":"true","暴走目标阶段":"10","创建房间":"false","秘境匹配中寻找房间":"true","恶龙匹配中寻找房间":"true","世界喊话":"","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"3","钻石兑换门票次数":"3","自动更换装备":"true","自动进阶装备":"true","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"1","自动切换主战宠物":"false","配置4名称":"","月卡":"true","梦魇宠物名称":"光翼","商店超级成长零食三折":"true","账号5配置":"0","冒险手册领取":"true","角色1开关":"false","释放1次战术技能":"true","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"true","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"true","紧急委托":"true","职能优先坦克":"false","暴走自动接收邀请":"false","秘境创建房间":"false","仓鼠百货":"true","秘境补给":"false","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"true","钻石兑换卢恩次数":"3","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"true","自动讲述领取绮想妙成真":"false","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"false","队员不满足单飞":"true","不开宝箱":"false","星辰同行":"true","领取猫猫包果木":"false","登录好礼":"true","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"true","日礼包":"true","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"true","优先升级同一技能":"true","付费浇灌次数":"1","旅团浇树":"false","梦魇开关":"true","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"true","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"true","旅团普通经验":"false","技能释放循环次数":"","纸飞机":"true","选择启动角色":"0","商店黑烬突破石五折":"true","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"true","商店无限棱镜五折":"false","优先升级同一技能至下一阶段":"false","队伍喊话":"","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"true","讲述故事次数":"","秘境建房重复挑战次数":"","骑兽乐园":"true","旅团商店开关":"false","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"true","队伍AI发言":"false","队伍AI走位":"false","队伍AI锁敌":"false","其他签到活动":"true","紧急特惠":"true","纸飞机信物兑换":"false","纸飞机礼包购买":"false","秘境补给星钻":"false","秘境补给无限棱镜":"false","秘境补给善意野兽积点卡":"false","秘境补给焕新刷具":"false","秘境补给骑行兽基础晶石":"false","秘境补给群星自选包":"false","秘境补给史诗经验":"false","秘境补给绮想妙成真":"false","秘境补给黑烬突破石":"false","秘境补给星星经验":"false","三魔头开关":"false","三魔头自动接收邀请":"false","斗歌会自动接收邀请":"false","派对大师":"true","斗歌会":"false","桎梏之形开关":"false","桎梏之形自动接收邀请":"false"}';
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载默认配置成功，请继续调整')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    function readAllItems(configNum) {
+        const jsonString = localStorage.getItem('config' + configNum);
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载成功')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    let isAutoClicked = false;
+    function autoClickButton() {
+        const button = document.getElementById('queding');
+        const countdownElement = document.getElementById('countdown');
+
+        if (button && countdownElement) {
+            let remainingTime = 300;
+            countdownElement.textContent = `${remainingTime}`;
+
+            const intervalId = setInterval(() => {
+                remainingTime--;
+                countdownElement.textContent = `${remainingTime}`;
+
+                if (remainingTime <= 0) {
+                    clearInterval(intervalId);
+                    if (!isAutoClicked) {
+                        button.click();  // 触发按钮的点击事件
+                        console.log("按钮已点击");
+                        isAutoClicked = true;
+                    }
+                }
+            }, 1000);  // 每秒更新一次倒计时
+        } else {
+            console.error("未找到按钮或倒计时元素");
+        }
+    }
+
+    function setAllItems() {
+        var 激活码 = localStorage.getItem("激活码");
+        document.getElementById("激活码").value = 激活码;
+
+        <!--日常-->
+        setSwitchStatus("日常总开关");
+
+        setSwitchStatus("自动主线");
+        setSwitchStatus("幻想阶梯");
+        setSwitchStatus("日常副本");
+        setSwitchStatus("圣兽试炼");
+        setSwitchStatus("素材秘境");
+        setSwitchStatus("虚空裂隙");
+        setSwitchStatus("混沌侵袭");
+
+        setSwitchStatus("日常任务领取");
+        setSwitchStatus("小推车领取");
+        setSwitchStatus("小木床领取");
+        setSwitchStatus("邮件领取");
+        setSwitchStatus("每日商店");
+        setSwitchStatus("每日签到");
+        setSwitchStatus("成长试炼");
+        setSwitchStatus("启程签到");
+        setSwitchStatus("菜就多躺");
+
+        setSwitchStatus("家园清理");
+        setSwitchStatus("巡礼之证");
+        setSwitchStatus("秘宝大作战");
+        setSwitchStatus("月卡领取");
+
+        setSwitchStatus("自动更换装备");
+        setSwitchStatus("自动强化装备");
+
+        var defaultValue = localStorage.getItem('选择游戏版本');
+        var selectElement = document.getElementById('选择游戏版本');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
+        // 重新渲染 select 元素
+        layui.form.render('select');
+    }
+
+    window.onload = function () {
+        console.log("窗口加载成功了");
+        autoClickButton();
+        airscript.call("加载", "成功");
+        setAllItems()
+    };
+
+    layui.use(['form'], function(){
+      var form = layui.form;
+
+      // 监听秘境选择框的选择事件
+      form.on('select(mijing1-filter)', function(data){
+        var mjId = data.value;
+        console.log(mjId);
+        var $mjgqSelect = $('#秘境关卡');
+
+        if(mjId === '原野') {
+          $mjgqSelect.html('<option value="古遗迹上的幽影">古遗迹上的幽影</option>');
+        }
+
+        form.render('select'); // 更新城市选择框的UI
+      });
+    });
+
+    // 定义一个函数用于处理开关的状态设置
+    function setSwitchStatus(id) {
+        var itemValue = localStorage.getItem(id);
+        document.getElementById(id).checked = itemValue === "true";
+    }
+
+    function xgip(xip) {
+        document.getElementById("bjip").innerHTML = xip;
+    }
+
+    function saveAllItems() {
+        var 激活码 = document.getElementById("激活码").value;
+        localStorage.setItem("激活码", 激活码);
+
+        <!--日常-->
+        日常总开关 = saveSwitchStatus("日常总开关");
+        自动主线 = saveSwitchStatus("自动主线");
+        幻想阶梯 = saveSwitchStatus("幻想阶梯");
+
+        日常任务领取 = saveSwitchStatus("日常任务领取");
+        自动更换装备 = saveSwitchStatus("自动更换装备");
+        自动强化装备 = saveSwitchStatus("自动强化装备");
+        小推车领取 = saveSwitchStatus("小推车领取");
+        小木床领取 = saveSwitchStatus("小木床领取");
+        邮件领取 = saveSwitchStatus("邮件领取");
+        每日商店 = saveSwitchStatus("每日商店");
+        每日签到 = saveSwitchStatus("每日签到");
+        成长试炼 = saveSwitchStatus("成长试炼");
+        启程签到 = saveSwitchStatus("启程签到");
+        菜就多躺 = saveSwitchStatus("菜就多躺");
+
+        var 选择游戏版本 = document.getElementById("选择游戏版本").value;
+        localStorage.setItem("选择游戏版本", 选择游戏版本);
+
+        var data = {
+            激活码: 激活码,
+            选择游戏版本: 选择游戏版本,
+
+            <!--日常-->
+            日常总开关: 日常总开关,
+            自动主线: 自动主线,
+            幻想阶梯: 幻想阶梯,
+
+            日常任务领取: 日常任务领取,
+            自动更换装备: 自动更换装备,
+            自动强化装备: 自动强化装备,
+
+            小推车领取: 小推车领取,
+            小木床领取: 小木床领取,
+            邮件领取: 邮件领取,
+            每日商店: 每日商店,
+            每日签到: 每日签到,
+            成长试炼: 成长试炼,
+            启程签到: 启程签到,
+            菜就多躺: 菜就多躺,
+        };
+
+        return data
+    }
+
+    function submit() {
+<!--        console.log("点击了确定");-->
+        isAutoClicked = true;
+        data = saveAllItems()
+        // 将data 转为JSON文件传递给PY
+        airscript.call("submit", JSON.stringify(data));
+        airscript.close();
+    }
+
+    function wclose() {
+        var guan = document.getElementById("guanbi").value;
+        airscript.call("guan", guan);
+        console.log("退出程序" + guan);
+        airscript.close();
+    }
+</script>
+
+</body>
+
+</html>
