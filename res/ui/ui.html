@@ -326,24 +326,6 @@
                         <div class="checkbox-item">
                             <input id="自动主线" name="vehicle" type="checkbox" value="Bike">自动主线<br>
                         </div>
-                        <div class="checkbox-item">
-                            <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭(施工中)<br>
-                        </div>
                     </div>
                     <legend>家园相关</legend>
                     <div class="checkbox-group">
@@ -382,14 +364,19 @@
                         </div>
                         <div class="checkbox-item">
                             <input id="巡礼之证" name="vehicle" type="checkbox"
-                                   value="Bike">巡礼之证(施工中)<br>
+                                   value="Bike">巡礼之证<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取<br>
                         </div>
                         <div class="checkbox-item">
                             <input id="秘宝大作战" name="vehicle" type="checkbox" value="Bike">秘宝大作战(施工中)<br>
                         </div>
                         <div class="checkbox-item">
-                            <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取(施工中)<br>
+                            <input id="其他签到活动" name="vehicle" type="checkbox"
+                                   value="Bike">其他签到活动<br>
                         </div>
+                        <label class="gray-text">(5.29："启程好礼、幻想学院、魔法文具")</label><br>
                     </div>
                     <legend>角色相关</legend>
                     <div class="checkbox-group">
@@ -418,6 +405,46 @@
             <form action="">
                 <fieldset>
                     <legend>战斗功能</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭(施工中)<br>
+                        </div>
+                    </div>
+                    <div class="checkbox-item">
+                        <input id="地图探索" name="vehicle" type="checkbox" value="Bike">地图探索(施工中)<br>
+                    </div>
+                    <label for="地图探索配置">地图探索配置:</label><br>
+                    <div class="flex-container">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input id="金币探索" name="vehicle" type="checkbox" value="Bike">金币探索<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="粗炼石探索" name="vehicle" type="checkbox"
+                                       value="Bike">粗炼石探索<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="时之砂探索" name="vehicle" type="checkbox"
+                                       value="Bike">时之砂探索<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="历战精华探索" name="vehicle" type="checkbox"
+                                       value="Bike">历战精华探索<br>
+                            </div>
+                        </div>
+                    </div>
                 </fieldset>
                 </fieldset>
             </form>
@@ -425,7 +452,16 @@
         <li class="lvtuan_content">
             <form action="">
                 <fieldset>
+                    <input id="公会总开关" name="vehicle" type="checkbox" value="Bike">公会总开关<br>
                     <legend>公会功能</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="公会捐赠" name="vehicle" type="checkbox" value="Bike">公会捐赠<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="公会挂机奖励" name="vehicle" type="checkbox" value="Bike">挂机奖励<br>
+                        </div>
+                    </div>
                 </fieldset>
             </form>
         </li>
@@ -690,7 +726,7 @@
 
         setSwitchStatus("自动主线");
         setSwitchStatus("幻想阶梯");
-        setSwitchStatus("日常副本");
+        setSwitchStatus("地图探索");
         setSwitchStatus("圣兽试炼");
         setSwitchStatus("素材秘境");
         setSwitchStatus("虚空裂隙");
@@ -708,11 +744,16 @@
 
         setSwitchStatus("家园清理");
         setSwitchStatus("巡礼之证");
-        setSwitchStatus("秘宝大作战");
         setSwitchStatus("月卡领取");
+        setSwitchStatus("秘宝大作战");
+        setSwitchStatus("其他签到活动");
 
         setSwitchStatus("自动更换装备");
         setSwitchStatus("自动强化装备");
+
+        setSwitchStatus("公会总开关");
+        setSwitchStatus("公会捐赠");
+        setSwitchStatus("公会挂机奖励");
 
         var defaultValue = localStorage.getItem('选择游戏版本');
         var selectElement = document.getElementById('选择游戏版本');
@@ -769,6 +810,7 @@
         日常总开关 = saveSwitchStatus("日常总开关");
         自动主线 = saveSwitchStatus("自动主线");
         幻想阶梯 = saveSwitchStatus("幻想阶梯");
+        地图探索 = saveSwitchStatus("地图探索");
 
         日常任务领取 = saveSwitchStatus("日常任务领取");
         自动更换装备 = saveSwitchStatus("自动更换装备");
@@ -782,6 +824,15 @@
         启程签到 = saveSwitchStatus("启程签到");
         菜就多躺 = saveSwitchStatus("菜就多躺");
 
+        月卡领取 = saveSwitchStatus("月卡领取");
+        秘宝大作战 = saveSwitchStatus("秘宝大作战");
+        其他签到活动 = saveSwitchStatus("其他签到活动");
+
+        公会总开关 = saveSwitchStatus("公会总开关");
+        公会捐赠 = saveSwitchStatus("公会捐赠");
+        公会挂机奖励 = saveSwitchStatus("公会挂机奖励");
+
+
         var 选择游戏版本 = document.getElementById("选择游戏版本").value;
         localStorage.setItem("选择游戏版本", 选择游戏版本);
 
@@ -793,6 +844,7 @@
             日常总开关: 日常总开关,
             自动主线: 自动主线,
             幻想阶梯: 幻想阶梯,
+            地图探索: 地图探索,
 
             日常任务领取: 日常任务领取,
             自动更换装备: 自动更换装备,
@@ -806,6 +858,15 @@
             成长试炼: 成长试炼,
             启程签到: 启程签到,
             菜就多躺: 菜就多躺,
+
+            巡礼之证: 巡礼之证,
+            月卡领取: 月卡领取,
+            秘宝大作战: 秘宝大作战,
+            其他签到活动: 其他签到活动,
+
+            公会总开关: 公会总开关,
+            公会捐赠: 公会捐赠,
+            公会挂机奖励: 公会挂机奖励,
         };
 
         return data

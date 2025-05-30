@@ -16,7 +16,7 @@ def init_tomatoOcr():
     ocr = TomatoOcr()
     ocr.setContext(rec_type="ch-3.0")
 
-    ocr.setLicense("","仗剑挂机助手")
+    ocr.setLicense("DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO","仗剑挂机助手")
 
     ocr.setRecType("ch-3.0")
     ocr.setDetBoxType("rect")
@@ -32,7 +32,7 @@ def init_tomatoOcrJson():
     ocr = TomatoOcr()
     ocr.setContext(rec_type="ch-3.0")
 
-    ocr.setLicense("","仗剑挂机助手")
+    ocr.setLicense("DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO","仗剑挂机助手")
 
     ocr.setRecType("ch-3.0")
     ocr.setDetBoxType("rect")

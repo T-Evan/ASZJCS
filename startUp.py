@@ -29,7 +29,7 @@ class StartUp:
         # r = system.shell(f"start -n com.xd.cfbmf")
         tryTimes = 0
 
-        max_attempt = 18
+        max_attempt = 30
         for attempt in range(max_attempt):
             tryTimes = tryTimes + 1
 
@@ -61,10 +61,10 @@ class StartUp:
                 功能开关["fighting"] = 0
                 Toast('正在返回首页')
                 tapSleepV2(52, 1229)
-                tapSleepV2(52, 1229)
+                # tapSleepV2(52, 1229)
             Toast(f'启动游戏，等待加载中，{attempt}/{max_attempt}')
 
-            sleep(2)  # 等待游戏启动
+            sleep(1)  # 等待游戏启动
         print('启动游戏失败，尝试重启游戏')
         # 结束应用
         r = system.shell(f"am force-stop {功能开关['游戏包名']}", L())

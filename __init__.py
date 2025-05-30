@@ -10,6 +10,7 @@ from .res.ui.ui import 任务记录
 from .startUp import StartUp
 from .daily import DailyTask
 from .jueSe import JueSeTask
+from .gongHui import GongHuiTask
 from .res.ui.ui import 初始化任务记录
 from .baseUtils import *
 import time
@@ -198,6 +199,7 @@ def main():
         start_up = StartUp(f'{功能开关["游戏包名"]}')
         dailyTask = DailyTask()
         jueSeTask = JueSeTask()
+        gongHuiTask = GongHuiTask()
 
         # dailyTask.地图探索()
         # system.exit()
@@ -206,12 +208,18 @@ def main():
             try:
                 # 启动app
                 start_up.start_app()
+                if 功能开关["日常总开关"] == 0 and 功能开关["公会总开关"] == 0:
+                    Toast('未开启功能，请检查功能配置')
+                    sleep(3)
 
                 # 日常（优先领取）
                 dailyTask.dailyTask()
 
                 # 角色
                 jueSeTask.jueSeTask()
+
+                # 公会
+                gongHuiTask.gongHuiTask()
 
 
             except Exception as e:
