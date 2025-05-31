@@ -60,7 +60,8 @@ class StartUp:
                 功能开关["needHome"] = 1
                 功能开关["fighting"] = 0
                 Toast('正在返回首页')
-                tapSleepV2(52, 1229)
+                tapSleep(52, 1229)
+                TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
                 # tapSleepV2(52, 1229)
             Toast(f'启动游戏，等待加载中，{attempt}/{max_attempt}')
 

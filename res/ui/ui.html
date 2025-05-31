@@ -268,7 +268,7 @@
     </label>
     <label class="button-label" for="maoxian"
            style="left: 33.2%;">
-        战斗
+        副本
     </label>
     <label class="button-label" for="yingdi"
            style="left: 49.8%;">
@@ -339,6 +339,9 @@
                             <input id="小木床领取" name="vehicle" type="checkbox" value="Bike">小木床领取<br>
                         </div>
                         <div class="checkbox-item">
+                            <input id="命运之树领取" name="vehicle" type="checkbox" value="Bike">命运之树领取<br>
+                        </div>
+                        <div class="checkbox-item">
                             <input id="邮件领取" name="vehicle" type="checkbox" value="Bike">邮件领取<br>
                         </div>
                         <div class="checkbox-item">
@@ -365,6 +368,14 @@
                         <div class="checkbox-item">
                             <input id="巡礼之证" name="vehicle" type="checkbox"
                                    value="Bike">巡礼之证<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="每日特惠" name="vehicle" type="checkbox"
+                                   value="Bike">每日特惠<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="本周精选" name="vehicle" type="checkbox"
+                                   value="Bike">本周精选<br>
                         </div>
                         <div class="checkbox-item">
                             <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取<br>
@@ -396,7 +407,7 @@
         <li class="yingdi_content">
             <form action="">
                 <fieldset>
-                    <legend>幻兽功能</legend>
+                    <legend>家园功能</legend>
                 </fieldset>
             </form>
         </li>
@@ -404,10 +415,14 @@
         <li class="maoxian_content">
             <form action="">
                 <fieldset>
-                    <legend>战斗功能</legend>
+                    <legend>副本功能</legend>
+                    <input id="副本总开关" name="vehicle" type="checkbox" value="Bike">副本总开关<br>
                     <div class="checkbox-group">
                         <div class="checkbox-item">
                             <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本<br>
                         </div>
                         <div class="checkbox-item">
                             <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
@@ -423,7 +438,7 @@
                         </div>
                     </div>
                     <div class="checkbox-item">
-                        <input id="地图探索" name="vehicle" type="checkbox" value="Bike">地图探索(施工中)<br>
+                        <input id="地图探索" name="vehicle" type="checkbox" value="Bike">地图探索<br>
                     </div>
                     <label for="地图探索配置">地图探索配置:</label><br>
                     <div class="flex-container">
@@ -725,7 +740,9 @@
         setSwitchStatus("日常总开关");
 
         setSwitchStatus("自动主线");
+        setSwitchStatus("副本总开关");
         setSwitchStatus("幻想阶梯");
+        setSwitchStatus("日常副本");
         setSwitchStatus("地图探索");
         setSwitchStatus("圣兽试炼");
         setSwitchStatus("素材秘境");
@@ -735,6 +752,7 @@
         setSwitchStatus("日常任务领取");
         setSwitchStatus("小推车领取");
         setSwitchStatus("小木床领取");
+        setSwitchStatus("命运之树领取");
         setSwitchStatus("邮件领取");
         setSwitchStatus("每日商店");
         setSwitchStatus("每日签到");
@@ -744,6 +762,8 @@
 
         setSwitchStatus("家园清理");
         setSwitchStatus("巡礼之证");
+        setSwitchStatus("每日特惠");
+        setSwitchStatus("本周精选");
         setSwitchStatus("月卡领取");
         setSwitchStatus("秘宝大作战");
         setSwitchStatus("其他签到活动");
@@ -809,7 +829,9 @@
         <!--日常-->
         日常总开关 = saveSwitchStatus("日常总开关");
         自动主线 = saveSwitchStatus("自动主线");
+        副本总开关 = saveSwitchStatus("副本总开关");
         幻想阶梯 = saveSwitchStatus("幻想阶梯");
+        日常副本 = saveSwitchStatus("日常副本");
         地图探索 = saveSwitchStatus("地图探索");
 
         日常任务领取 = saveSwitchStatus("日常任务领取");
@@ -817,6 +839,7 @@
         自动强化装备 = saveSwitchStatus("自动强化装备");
         小推车领取 = saveSwitchStatus("小推车领取");
         小木床领取 = saveSwitchStatus("小木床领取");
+        命运之树领取 = saveSwitchStatus("命运之树领取");
         邮件领取 = saveSwitchStatus("邮件领取");
         每日商店 = saveSwitchStatus("每日商店");
         每日签到 = saveSwitchStatus("每日签到");
@@ -824,6 +847,9 @@
         启程签到 = saveSwitchStatus("启程签到");
         菜就多躺 = saveSwitchStatus("菜就多躺");
 
+        巡礼之证 = saveSwitchStatus("巡礼之证");
+        每日特惠 = saveSwitchStatus("每日特惠");
+        本周精选 = saveSwitchStatus("本周精选");
         月卡领取 = saveSwitchStatus("月卡领取");
         秘宝大作战 = saveSwitchStatus("秘宝大作战");
         其他签到活动 = saveSwitchStatus("其他签到活动");
@@ -843,7 +869,10 @@
             <!--日常-->
             日常总开关: 日常总开关,
             自动主线: 自动主线,
+
+            副本总开关: 副本总开关,
             幻想阶梯: 幻想阶梯,
+            日常副本: 日常副本,
             地图探索: 地图探索,
 
             日常任务领取: 日常任务领取,
@@ -852,6 +881,7 @@
 
             小推车领取: 小推车领取,
             小木床领取: 小木床领取,
+            命运之树领取: 命运之树领取,
             邮件领取: 邮件领取,
             每日商店: 每日商店,
             每日签到: 每日签到,
@@ -860,6 +890,8 @@
             菜就多躺: 菜就多躺,
 
             巡礼之证: 巡礼之证,
+            每日特惠: 每日特惠,
+            本周精选: 本周精选,
             月卡领取: 月卡领取,
             秘宝大作战: 秘宝大作战,
             其他签到活动: 其他签到活动,

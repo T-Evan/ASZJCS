@@ -21,6 +21,7 @@ from ascript.android.system import Device
 from ascript.android.ui import Loger
 from ascript.android import system
 from ascript.android.action import Path
+from .thread import *
 
 # ldE.set_log_level(10)  # Debug
 # ldE.set_log_level(20)  # Info
@@ -200,6 +201,8 @@ def main():
         dailyTask = DailyTask()
         jueSeTask = JueSeTask()
         gongHuiTask = GongHuiTask()
+
+        runThreadNotice()
 
         # dailyTask.地图探索()
         # system.exit()

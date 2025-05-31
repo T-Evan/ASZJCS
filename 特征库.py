@@ -21,6 +21,7 @@ def swipe(x1, y1, x2, y2, dur=500):
 def click(x, y, dur=200):
     action.click(x, y, dur)
 
+
 def clickV2(x, y, dur=200):
     action.Touch.down(x, y, dur)
     action.Touch.up(x, y, dur)
@@ -38,12 +39,12 @@ def compareColors(colorStr, diff=0.9):
         return False
 
 
-def imageFind(name, confidence1=0.9, x1=0, y1=0, x2=720, y2=1280, timeLock=10):
+def imageFind(name, confidence1=0.9, x1=0, y1=0, x2=720, y2=1280, timeLock=10, rgb=False):
     try:
         try:
             # with TimeoutLock(timeLock):
             path = R.res(f"/img/{name}.png")  # 这里替换为你的图片地址
-            res = FindImages.find_template(path, [x1, y1, x2, y2], confidence=confidence1)
+            res = FindImages.find_template(path, [x1, y1, x2, y2], confidence=confidence1, rgb=rgb)
         except RuntimeError as e:
             print(f"imageFind获取锁超时")
             return False, 0, 0
@@ -86,12 +87,12 @@ def imageFindAll(name, confidence1=0.9, x1=0, y1=0, x2=720, y2=1280, timeLock=10
         return False, []
 
 
-def imageFindClick(name, sleep1=1, confidence1=0.7, x1=0, y1=0, x2=720, y2=1280, offsetX=0, offsetY=0):
+def imageFindClick(name, sleep1=1, confidence1=0.7, x1=0, y1=0, x2=720, y2=1280, offsetX=0, offsetY=0, rgb=False):
     try:
         try:
             # with TimeoutLock():
             path = R.res(f"/img/{name}.png")  # 这里替换为你的图片地址
-            res = FindImages.find_template(path, [x1, y1, x2, y2], confidence=confidence1)
+            res = FindImages.find_template(path, [x1, y1, x2, y2], confidence=confidence1, rgb=rgb)
         except RuntimeError as e:
             print(f"imageFindClick获取锁超时")
             return False
