@@ -284,7 +284,7 @@
     </label>
     <ul style="margin:0px 3px;padding: 0px;width:100%;">
         <div style="height: 35px; width: 100%;background-color: white;"></div>
-        <!--        <div id="toast" class="toast">保存成功</div>-->
+        <div id="toast" class="toast">保存成功</div>
         <li class="shouye_content">
             <h3>公告：Have Fun ！</h3>
             <br>
@@ -301,15 +301,151 @@
             </div>
             <form action="">
                 <fieldset>
+                    <legend>配置切换</legend>
+                    <label class="gray-text">(第一次使用建议先点击下方按钮一键配置，然后直接下拉点击运行)</label><br><br>
+                    <button onclick="dailyAllItems()"
+                            style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                            type="button">
+                        一键日常配置
+                    </button>
+                    <button onclick="shuaZanAllItems()"
+                            style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                            type="button">
+                        一键刷币配置
+                    </button>
+                    <div class="flex-container">
+                        <label class="gray-text">1</label><input type="text" id="配置1名称" name="配置1"
+                                                                 lay-verify="title" autocomplete="off"
+                                                                 placeholder="配置1" class="layui-input"
+                                                                 style="height: 30px;width: 80px;margin-right:5px;">
+
+                        <label style="margin-right:1px;" for="定时切换">，</label>
+                        <div class="item" style="width: 35px">
+                            <input type="text" id="配置1运行时长" name="配置1运行时长"
+                                   lay-verify="title" autocomplete="off"
+                                   placeholder="分" class="layui-input"
+                                   style="height: 30px;width: 35px;">
+                        </div>
+                        <label style="margin-left:5px;" for="定时休息">分钟后切换配置</label>
+                        <button onclick="saveConfigItems(1)"
+                                style="color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                                type="button">
+                            保存
+                        </button>
+                        <button onclick="readAllItems(1)"
+                                style="margin-left:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                                type="button">
+                            读取
+                        </button>
+                    </div>
+                    <div class="flex-container">
+                        <label class="gray-text">2</label><input type="text" id="配置2名称" name="配置2"
+                                                                 lay-verify="title" autocomplete="off"
+                                                                 placeholder="配置2" class="layui-input"
+                                                                 style="height: 30px;width: 80px;margin-right:5px;">
+                        <label style="margin-right:1px;" for="定时切换">，</label>
+                        <div class="item" style="width: 35px">
+                            <input type="text" id="配置2运行时长" name="配置2运行时长"
+                                   lay-verify="title" autocomplete="off"
+                                   placeholder="分" class="layui-input"
+                                   style="height: 30px;width: 35px;">
+                        </div>
+                        <label style="margin-left:5px;" for="定时休息">分钟后切换配置</label>
+                        <button onclick="saveConfigItems(2)"
+                                style="color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                                type="button">
+                            保存
+                        </button>
+                        <button onclick="readAllItems(2)"
+                                style="margin-left:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                                type="button">
+                            读取
+                        </button>
+                    </div>
+                    <div class="flex-container">
+                        <label class="gray-text">3</label><input type="text" id="配置3名称" name="配置3"
+                                                                 lay-verify="title" autocomplete="off"
+                                                                 placeholder="配置3" class="layui-input"
+                                                                 style="height: 30px;width: 80px;margin-right:5px;">
+                        <label style="margin-right:1px;" for="定时切换">，</label>
+                        <div class="item" style="width: 35px">
+                            <input type="text" id="配置3运行时长" name="配置3运行时长"
+                                   lay-verify="title" autocomplete="off"
+                                   placeholder="分" class="layui-input"
+                                   style="height: 30px;width: 35px;">
+                        </div>
+                        <label style="margin-left:5px;" for="定时休息">分钟后切换配置</label>
+                        <button onclick="saveConfigItems(3)"
+                                style="color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                                type="button">
+                            保存
+                        </button>
+                        <button onclick="readAllItems(3)"
+                                style="margin-left:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                                type="button">
+                            读取
+                        </button>
+                    </div>
+                    <div class="flex-container">
+                        <label style="width:95px;" for="选择启动配置">选择启动配置:</label>
+                        <div class="layui-form">
+                            <div class="layui-input-inline">
+                                <select name="选择启动配置" id="选择启动配置" lay-filter="mijing1-filter">
+                                    <option value="0">默认(不切换配置)</option>
+                                    <option value="1">配置1</option>
+                                    <option value="2">配置2</option>
+                                    <option value="3">配置3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="gray-text">！配置定时切换不可与多账号自动切换同时使用！</label>
                     <div class="flex-container">
                         <label for="选择游戏版本">游戏版本:</label>
                         <div class="layui-form">
                             <div class="layui-input-inline">
                                 <select name="选择游戏版本" id="选择游戏版本" lay-filter="mijing1-filter">
-                                    <option value="公测服">公测服</option>
-                                    <option value="内测服">内测服</option>
+                                    <option value="雷霆官服(公测)">雷霆官服(公测)</option>
+                                    <option value="哔哩哔哩服(公测)">哔哩哔哩服(公测)</option>
+                                    <option value="雷霆官服(内测)">雷霆官服(内测)</option>
                                 </select>
                             </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <form action="">
+                <fieldset>
+                    <legend>定时配置</legend>
+                    <div class="shouye_container">
+                        <div class="item">
+                            <label for="定时运行">运行</label>
+                        </div>
+                        <div class="item" style="width: 50px">
+                            <input type="text" id="定时运行" name="定时运行" lay-verify="title" autocomplete="off"
+                                   placeholder="分钟" class="layui-input">
+                        </div>
+                        <div class="item">
+                            <label for="定时休息">分钟后休息</label>
+                        </div>
+                        <div class="item" style="width: 50px">
+                            <input type="text" id="定时休息" name="定时休息" lay-verify="title" autocomplete="off"
+                                   placeholder="分钟" class="layui-input">
+                        </div>
+                        <div class="item">
+                            <label for="定时休息">分钟</label>
+                        </div>
+                    </div>
+                    <div class="shouye_container">
+                        <div class="item">
+                            <label for="顶号等待">顶号等待</label>
+                        </div>
+                        <div class="item" style="width: 50px">
+                            <input type="text" id="顶号等待" name="顶号等待" lay-verify="title" autocomplete="off"
+                                   placeholder="分钟" class="layui-input">
+                        </div>
+                        <div class="item">
+                            <label for="顶号等待">分钟后重新登录</label>
                         </div>
                     </div>
                 </fieldset>
@@ -351,44 +487,6 @@
                             <input id="家园清理" name="vehicle" type="checkbox" value="Bike">家园清理(施工中)<br>
                         </div>
                     </div>
-                    <legend>活动相关</legend>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input id="每日签到" name="vehicle" type="checkbox" value="Bike">每日签到<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="成长试炼" name="vehicle" type="checkbox" value="Bike">成长试炼<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="启程签到" name="vehicle" type="checkbox" value="Bike">启程签到<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="菜就多躺" name="vehicle" type="checkbox" value="Bike">菜就多躺<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="巡礼之证" name="vehicle" type="checkbox"
-                                   value="Bike">巡礼之证<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="每日特惠" name="vehicle" type="checkbox"
-                                   value="Bike">每日特惠<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="本周精选" name="vehicle" type="checkbox"
-                                   value="Bike">本周精选<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="秘宝大作战" name="vehicle" type="checkbox" value="Bike">秘宝大作战(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="其他签到活动" name="vehicle" type="checkbox"
-                                   value="Bike">其他签到活动<br>
-                        </div>
-                        <label class="gray-text">(5.29："启程好礼、幻想学院、魔法文具")</label><br>
-                    </div>
                     <legend>角色相关</legend>
                     <div class="checkbox-group">
                         <div class="checkbox-item">
@@ -428,7 +526,7 @@
                             <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
                         </div>
                         <div class="checkbox-item">
-                            <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境(施工中)<br>
+                            <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境<br>
                         </div>
                         <div class="checkbox-item">
                             <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
@@ -458,9 +556,11 @@
                                 <input id="历战精华探索" name="vehicle" type="checkbox"
                                        value="Bike">历战精华探索<br>
                             </div>
+                            <input type="text" id="探索次数" name="探索次数" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="探索次数（默认选中物品各采集15次）" class="layui-input">
                         </div>
                     </div>
-                </fieldset>
                 </fieldset>
             </form>
         </li>
@@ -486,6 +586,43 @@
                     <legend>活动相关</legend>
                     <fieldset>
                         <legend>常驻活动</legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input id="每日签到" name="vehicle" type="checkbox" value="Bike">每日签到<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="成长试炼" name="vehicle" type="checkbox" value="Bike">成长试炼<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="启程签到" name="vehicle" type="checkbox" value="Bike">启程签到<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="菜就多躺" name="vehicle" type="checkbox" value="Bike">菜就多躺<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="巡礼之证" name="vehicle" type="checkbox"
+                                       value="Bike">巡礼之证<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="每日特惠" name="vehicle" type="checkbox"
+                                       value="Bike">每日特惠<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="本周精选" name="vehicle" type="checkbox"
+                                       value="Bike">本周精选<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="秘宝大作战" name="vehicle" type="checkbox" value="Bike">秘宝大作战(施工中)<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="其他签到活动" name="vehicle" type="checkbox"
+                                       value="Bike">其他签到活动<br>
+                            </div>
+                            <label class="gray-text">(5.29："启程好礼、幻想学院、魔法文具")</label><br>
+                        </div>
                     </fieldset>
                     <fieldset>
                         <legend>限时活动</legend>
@@ -581,7 +718,7 @@
     }
 
     function shuaZanAllItems() {
-        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"绿洲","恶龙重复挑战":"false","营地总开关":"false","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"false","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"false","猫猫包自动融合":"false","旅团调查队":"false","账号4配置":"0","秘境关卡":"白沙渊下的鼓动","账号4开关":"false","世界喊话开关":"false","世界AI发言":"false","世界发言随机字体颜色":"false","世界喊话间隔":"","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"true","建房重复挑战次数":"66","旅团任务":"false","自动升级技能":"false","自动升星秘宝":"false","自动点亮天赋":"false","稚星道途领取":"false","稚星道途升级":"false","自动转职":"false","旅团优秀经验":"false","升级1次麦乐兽":"false","摸鱼时间到":"false","钓鱼王":"false","宝藏湖":"false","旅团唤兽琴弦":"false","自动换图":"false","日常总开关":"false","旅团全价兽粮":"false","旅团总开关":"false","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"false","箱庭苗圃":"false","箱庭苗圃自动提交任务":"false","箱庭苗圃自动兑换商品":"false","恶龙自动接收邀请":"false","秘宝钻石兑换次数":"","旅团金币":"false","角色4开关":"false","月签到":"false","大暴走开关":"false","技能3释放间隔":"","旅团史诗经验":"false","秘境无体力继续":"true","终末战开关":"false","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"false","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"false","原材料":"false","商店星星经验":"false","账号3配置":"0","邮件领取":"false","兑换码领取":"false","旅团许愿墙":"false","旅团自动许愿":"false","技能2释放间隔":"","队伍喊话":"求赞","恶龙宠物切换":"false","星星经验":"false","单飞后寻找结伴":"false","自动使用经验补剂":"false","绝境自动接收邀请":"false","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"true","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"false","绝境开关":"false","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"false","旅团超级成长零食":"false","账号1名称":"","恶龙开关":"false","暴走目标阶段":"10","创建房间":"true","秘境匹配中寻找房间":"false","恶龙匹配中寻找房间":"false","世界喊话":"","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"","钻石兑换门票次数":"","自动更换装备":"false","自动进阶装备":"false","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"","自动切换主战宠物":"false","配置4名称":"","月卡":"false","梦魇宠物名称":"光翼","商店超级成长零食三折":"false","账号5配置":"0","冒险手册领取":"false","角色1开关":"false","释放1次战术技能":"false","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"false","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"false","紧急委托":"false","职能优先坦克":"false","暴走自动接收邀请":"false","秘境创建房间":"true","仓鼠百货":"false","秘境补给":"false","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"false","钻石兑换卢恩次数":"","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"false","自动讲述领取绮想妙成真":"false","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"false","队员不满足单飞":"false","不开宝箱":"true","星辰同行":"false","领取猫猫包果木":"false","登录好礼":"false","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"false","日礼包":"false","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"false","优先升级同一技能":"false","付费浇灌次数":"","旅团浇树":"false","梦魇开关":"false","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"false","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"false","旅团普通经验":"false","技能释放循环次数":"","纸飞机":"false","选择启动角色":"0","商店黑烬突破石五折":"false","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"false","商店无限棱镜五折":"false","优先升级同一技能至下一阶段":"false","队伍喊话":"求赞","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"false","讲述故事次数":"","秘境建房重复挑战次数":"66","骑兽乐园":"false","旅团商店开关":"false","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"false","队伍AI发言":"true","队伍AI走位":"true","队伍AI锁敌":"true","其他签到活动":"false","紧急特惠":"false","纸飞机信物兑换":"false","纸飞机礼包购买":"false","秘境补给星钻":"false","秘境补给无限棱镜":"false","秘境补给善意野兽积点卡":"false","秘境补给焕新刷具":"false","秘境补给骑行兽基础晶石":"false","秘境补给群星自选包":"false","秘境补给史诗经验":"false","秘境补给绮想妙成真":"false","秘境补给黑烬突破石":"false","秘境补给星星经验":"false","三魔头开关":"false","三魔头自动接收邀请":"false","斗歌会自动接收邀请":"false","派对大师":"false","斗歌会":"false","桎梏之形开关":"false","桎梏之形自动接收邀请":"false","梦魇无尽自动离队":"false"}';
+        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"公会挂机奖励":false}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -606,7 +743,7 @@
     }
 
     function daiDuiAllItems() {
-        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"最新地图","恶龙重复挑战":"false","营地总开关":"false","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"false","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"false","猫猫包自动融合":"false","旅团调查队":"false","账号4配置":"0","秘境关卡":"最新关卡","账号4开关":"false","世界喊话开关":"true","世界AI发言":"true","世界发言随机字体颜色":"true","世界喊话间隔":"10","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"false","建房重复挑战次数":"66","旅团任务":"false","自动升级技能":"false","自动升星秘宝":"false","自动点亮天赋":"false","稚星道途领取":"false","稚星道途升级":"false","自动转职":"false","旅团优秀经验":"false","升级1次麦乐兽":"false","摸鱼时间到":"false","钓鱼王":"false","宝藏湖":"false","旅团唤兽琴弦":"false","自动换图":"true","日常总开关":"true","旅团全价兽粮":"false","旅团总开关":"false","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"false","箱庭苗圃":"false","箱庭苗圃自动提交任务":"false","箱庭苗圃自动兑换商品":"false","恶龙自动接收邀请":"true","秘宝钻石兑换次数":"","旅团金币":"false","角色4开关":"false","月签到":"false","大暴走开关":"true","技能3释放间隔":"","旅团史诗经验":"false","秘境无体力继续":"false","终末战开关":"true","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"false","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"false","原材料":"false","商店星星经验":"false","账号3配置":"0","邮件领取":"false","兑换码领取":"false","旅团许愿墙":"false","旅团自动许愿":"false","技能2释放间隔":"","队伍喊话":"求赞","恶龙宠物切换":"false","星星经验":"false","单飞后寻找结伴":"false","自动使用经验补剂":"false","绝境自动接收邀请":"true","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"false","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"true","绝境开关":"true","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"true","旅团超级成长零食":"false","账号1名称":"","恶龙开关":"true","暴走目标阶段":"10","创建房间":"false","秘境匹配中寻找房间":"false","恶龙匹配中寻找房间":"false","世界喊话":"打工","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"","钻石兑换门票次数":"","自动更换装备":"false","自动进阶装备":"false","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"","自动切换主战宠物":"false","配置4名称":"","月卡":"false","梦魇宠物名称":"光翼","商店超级成长零食三折":"false","账号5配置":"0","冒险手册领取":"false","角色1开关":"false","释放1次战术技能":"false","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"false","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"false","紧急委托":"false","职能优先坦克":"false","暴走自动接收邀请":"true","秘境创建房间":"false","仓鼠百货":"false","秘境补给":"false","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"false","钻石兑换卢恩次数":"","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"false","自动讲述领取绮想妙成真":"false","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"true","队员不满足单飞":"false","不开宝箱":"false","星辰同行":"false","领取猫猫包果木":"false","登录好礼":"false","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"false","日礼包":"false","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"false","优先升级同一技能":"false","付费浇灌次数":"","旅团浇树":"false","梦魇开关":"true","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"false","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"true","旅团普通经验":"false","技能释放循环次数":"","纸飞机":"false","选择启动角色":"0","商店黑烬突破石五折":"false","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"false","商店无限棱镜五折":"false","优先升级同一技能至下一阶段":"false","队伍喊话":"求赞","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"false","讲述故事次数":"","秘境建房重复挑战次数":"","骑兽乐园":"false","旅团商店开关":"false","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"false","队伍AI发言":"true","队伍AI走位":"true","队伍AI锁敌":"true","梦魇无尽自动离队":"false","其他签到活动":"false","紧急特惠":"false","纸飞机信物兑换":"false","纸飞机礼包购买":"false","秘境补给星钻":"false","秘境补给无限棱镜":"false","秘境补给善意野兽积点卡":"false","秘境补给焕新刷具":"false","秘境补给骑行兽基础晶石":"false","秘境补给群星自选包":"false","秘境补给史诗经验":"false","秘境补给绮想妙成真":"false","秘境补给黑烬突破石":"false","秘境补给星星经验":"false","三魔头开关":"true","三魔头自动接收邀请":"true","斗歌会自动接收邀请":"true","派对大师":"false","斗歌会":"true","旅团大采购":"false","旅团许愿墙不捐公共":"false","桎梏之形开关":"true","桎梏之形自动接收邀请":"true"}';
+        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":false,"金币探索":true,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -631,7 +768,7 @@
     }
 
     function dailyAllItems() {
-        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"最新地图","恶龙重复挑战":"false","营地总开关":"true","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"true","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"true","猫猫包自动融合":"true","旅团调查队":"true","账号4配置":"0","秘境关卡":"最新关卡","账号4开关":"false","世界喊话开关":"false","世界AI发言":"false","世界发言随机字体颜色":"false","世界喊话间隔":"","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"false","建房重复挑战次数":"","旅团任务":"true","旅团大采购":"true","自动升级技能":"true","自动升星秘宝":"true","自动点亮天赋":"true","稚星道途领取":"true","稚星道途升级":"true","自动转职":"true","旅团优秀经验":"true","升级1次麦乐兽":"true","摸鱼时间到":"true","钓鱼王":"true","宝藏湖":"true","旅团唤兽琴弦":"true","自动换图":"true","日常总开关":"true","旅团全价兽粮":"true","旅团总开关":"true","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"true","箱庭苗圃":"true","箱庭苗圃自动提交任务":"true","箱庭苗圃自动兑换商品":"true","恶龙自动接收邀请":"false","秘宝钻石兑换次数":"3","旅团金币":"false","角色4开关":"false","月签到":"true","大暴走开关":"true","技能3释放间隔":"","旅团史诗经验":"true","秘境无体力继续":"false","终末战开关":"false","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"true","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"true","原材料":"true","商店星星经验":"true","账号3配置":"0","邮件领取":"true","兑换码领取":"true","旅团许愿墙":"true","旅团自动许愿":"true","技能2释放间隔":"","队伍喊话":"","恶龙宠物切换":"false","星星经验":"true","单飞后寻找结伴":"true","自动使用经验补剂":"true","绝境自动接收邀请":"false","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"false","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"false","绝境开关":"false","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"false","旅团超级成长零食":"true","账号1名称":"","恶龙开关":"true","暴走目标阶段":"10","创建房间":"false","秘境匹配中寻找房间":"true","恶龙匹配中寻找房间":"true","世界喊话":"","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"3","钻石兑换门票次数":"3","自动更换装备":"false","自动进阶装备":"true","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"1","自动切换主战宠物":"false","配置4名称":"","月卡":"true","梦魇宠物名称":"光翼","商店超级成长零食三折":"true","账号5配置":"0","冒险手册领取":"true","角色1开关":"false","释放1次战术技能":"true","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"true","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"true","紧急委托":"true","职能优先坦克":"false","暴走自动接收邀请":"false","秘境创建房间":"false","仓鼠百货":"true","秘境补给":"true","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"true","钻石兑换卢恩次数":"3","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"true","自动讲述领取绮想妙成真":"true","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"false","队员不满足单飞":"true","不开宝箱":"false","星辰同行":"true","领取猫猫包果木":"true","登录好礼":"true","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"true","日礼包":"true","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"true","优先升级同一技能":"true","付费浇灌次数":"1","旅团浇树":"true","梦魇开关":"true","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"true","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"true","旅团普通经验":"true","技能释放循环次数":"","纸飞机":"true","选择启动角色":"0","商店黑烬突破石五折":"true","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"true","商店无限棱镜五折":"true","优先升级同一技能至下一阶段":"false","队伍喊话":"","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"true","讲述故事次数":"","秘境建房重复挑战次数":"","骑兽乐园":"true","旅团商店开关":"true","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"true","队伍AI发言":"false","队伍AI走位":"true","队伍AI锁敌":"true","其他签到活动":"true","紧急特惠":"true","纸飞机信物兑换":"false","纸飞机礼包购买":"true","秘境补给星钻":"true","秘境补给无限棱镜":"true","秘境补给善意野兽积点卡":"true","秘境补给焕新刷具":"true","秘境补给骑行兽基础晶石":"true","秘境补给群星自选包":"true","秘境补给史诗经验":"true","秘境补给绮想妙成真":"true","秘境补给黑烬突破石":"true","秘境补给星星经验":"true","三魔头开关":"true","三魔头自动接收邀请":"false","斗歌会自动接收邀请":"false","派对大师":"true","斗歌会":"true","桎梏之形开关":"true","桎梏之形自动接收邀请":"false"}';
+        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"金币探索":true,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -656,7 +793,7 @@
     }
 
     function qiHaoAllItems() {
-        const jsonString = '{"梦魇添加佣兵":"false","秘境地图":"最新地图","恶龙重复挑战":"false","营地总开关":"true","冒险手册完成后停止":"false","恶龙添加佣兵":"false","自动强化装备":"true","露营打卡点":"false","账号1开关":"false","猫猫包自动升温":"false","猫猫包自动融合":"false","旅团调查队":"false","账号4配置":"0","秘境关卡":"最新关卡","账号4开关":"false","世界喊话开关":"false","世界AI发言":"false","世界发言随机字体颜色":"false","世界喊话间隔":"","调查队自动接收邀请":"false","绝境不退出房间":"false","自动切换喊话频道":"false","无体力继续":"false","建房重复挑战次数":"","旅团任务":"false","旅团大采购":"false","自动升级技能":"true","自动升星秘宝":"true","自动点亮天赋":"true","稚星道途领取":"false","稚星道途升级":"false","自动转职":"true","旅团优秀经验":"false","升级1次麦乐兽":"true","摸鱼时间到":"true","钓鱼王":"true","宝藏湖":"true","旅团唤兽琴弦":"false","自动换图":"true","日常总开关":"true","旅团全价兽粮":"false","旅团总开关":"false","账号2保存":"false","暴走职能优先输出":"false","商店全价兽粮":"true","箱庭苗圃":"false","箱庭苗圃自动提交任务":"false","箱庭苗圃自动兑换商品":"false","恶龙自动接收邀请":"false","秘宝钻石兑换次数":"3","旅团金币":"false","角色4开关":"false","月签到":"true","大暴走开关":"true","技能3释放间隔":"","旅团史诗经验":"false","秘境无体力继续":"false","终末战开关":"false","秘境点赞队友":"false","秘境开关":"true","暴走自动离队时间":"","自动离房等待时间":"","经验补剂五折":"true","配置3名称":"","秘宝地图":"最新地图","配置5名称":"","秘宝收集":"true","原材料":"true","商店星星经验":"true","账号3配置":"0","邮件领取":"true","兑换码领取":"true","旅团许愿墙":"false","旅团自动许愿":"false","技能2释放间隔":"","队伍喊话":"","恶龙宠物切换":"false","星星经验":"true","单飞后寻找结伴":"true","自动使用经验补剂":"true","绝境自动接收邀请":"false","账号2配置":"0","顶号等待":"20","摸鱼重复次数":"","秘境不开宝箱":"false","账号2名称":"","冒险总开关":"true","秘境自动接收邀请":"false","绝境开关":"false","账号3名称":"","暴走职能优先坦克":"false","终末战自动接收邀请":"false","旅团超级成长零食":"false","账号1名称":"","恶龙开关":"true","暴走目标阶段":"10","创建房间":"false","秘境匹配中寻找房间":"true","恶龙匹配中寻找房间":"true","世界喊话":"","点赞队友":"false","定时运行":"","角色3开关":"false","钻石兑换果木次数":"3","钻石兑换门票次数":"3","自动更换装备":"true","自动进阶装备":"true","职能优先输出":"false","技能1释放间隔":"","旅团原材料":"false","调查队挑战次数":"1","自动切换主战宠物":"false","配置4名称":"","月卡":"true","梦魇宠物名称":"光翼","商店超级成长零食三折":"true","账号5配置":"0","冒险手册领取":"true","角色1开关":"false","释放1次战术技能":"true","三技能自动释放":"false","定时切角色":"","needHome":"0","洗练1次装备":"true","恶龙职能优先坦克":"false","定时切账号":"","火力全开":"true","紧急委托":"true","职能优先坦克":"false","暴走自动接收邀请":"false","秘境创建房间":"false","仓鼠百货":"true","秘境补给":"false","定时休息":"","优先推图到最新关卡":"false","暴走进入战斗后启动":"false","骑兽探索次数":"","绝境自动离队时间":"","超级成长零食三折":"true","钻石兑换卢恩次数":"3","队伍喊话间隔":"","恶龙宠物名称":"光翼","史莱姆选择":"暴走烈焰大王","招式创造":"true","自动讲述领取绮想妙成真":"false","账号1保存":"false","账号5名称":"","梦魇自动接收邀请":"false","队员不满足单飞":"true","不开宝箱":"false","星辰同行":"true","领取猫猫包果木":"false","登录好礼":"true","摸鱼队伍喊话":"","恶龙自动离队时间":"","账号5开关":"false","限时特惠":"true","日礼包":"true","秘境添加佣兵":"false","账号4保存":"false","BBQ派对":"true","优先升级同一技能":"true","付费浇灌次数":"1","旅团浇树":"false","梦魇开关":"true","账号3保存":"false","仅强化武器戒指护腕":"false","仅强化防御装备":"false","账号4名称":"","补充体力次数":"3","角色5开关":"false","主动释放技能":"false","全价兽粮":"true","宠物技能释放间隔":"","账号5保存":"false","自动挑战首领":"true","旅团普通经验":"false","技能释放循环次数":"","纸飞机":"true","选择启动角色":"0","商店黑烬突破石五折":"true","fighting":"0","账号1配置":"0","账号2开关":"false","商店经验补剂五折":"true","商店无限棱镜五折":"false","优先升级同一技能至下一阶段":"false","队伍喊话":"","梦魇宠物切换":"false","账号3开关":"false","黑烬突破石五折":"true","讲述故事次数":"","秘境建房重复挑战次数":"","骑兽乐园":"true","旅团商店开关":"false","选择启动账号":"0","恶龙职能优先输出":"false","梦魇自动离队时间":"","终末自动离队时间":"","角色2开关":"false","技能定时释放":"false","商店原材料":"true","队伍AI发言":"false","队伍AI走位":"false","队伍AI锁敌":"false","其他签到活动":"true","紧急特惠":"true","纸飞机信物兑换":"false","纸飞机礼包购买":"false","秘境补给星钻":"false","秘境补给无限棱镜":"false","秘境补给善意野兽积点卡":"false","秘境补给焕新刷具":"false","秘境补给骑行兽基础晶石":"false","秘境补给群星自选包":"false","秘境补给史诗经验":"false","秘境补给绮想妙成真":"false","秘境补给黑烬突破石":"false","秘境补给星星经验":"false","三魔头开关":"false","三魔头自动接收邀请":"false","斗歌会自动接收邀请":"false","派对大师":"true","斗歌会":"false","桎梏之形开关":"false","桎梏之形自动接收邀请":"false"}';
+        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":false,"金币探索":true,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -736,6 +873,15 @@
         var 激活码 = localStorage.getItem("激活码");
         document.getElementById("激活码").value = 激活码;
 
+        var 定时运行 = localStorage.getItem("定时运行");
+        document.getElementById("定时运行").value = 定时运行;
+
+        var 定时休息 = localStorage.getItem("定时休息");
+        document.getElementById("定时休息").value = 定时休息;
+
+        var 顶号等待 = localStorage.getItem("顶号等待");
+        document.getElementById("顶号等待").value = 顶号等待;
+
         <!--日常-->
         setSwitchStatus("日常总开关");
 
@@ -744,6 +890,13 @@
         setSwitchStatus("幻想阶梯");
         setSwitchStatus("日常副本");
         setSwitchStatus("地图探索");
+        setSwitchStatus("金币探索");
+        setSwitchStatus("粗炼石探索");
+        setSwitchStatus("时之砂探索");
+        setSwitchStatus("历战精华探索");
+        var 探索次数 = localStorage.getItem("探索次数");
+        document.getElementById("探索次数").value = 探索次数;
+        
         setSwitchStatus("圣兽试炼");
         setSwitchStatus("素材秘境");
         setSwitchStatus("虚空裂隙");
@@ -826,6 +979,15 @@
         var 激活码 = document.getElementById("激活码").value;
         localStorage.setItem("激活码", 激活码);
 
+        var 定时运行 = document.getElementById("定时运行").value;
+        localStorage.setItem("定时运行", 定时运行);
+
+        var 定时休息 = document.getElementById("定时休息").value;
+        localStorage.setItem("定时休息", 定时休息);
+
+        var 顶号等待 = document.getElementById("顶号等待").value;
+        localStorage.setItem("顶号等待", 顶号等待);
+
         <!--日常-->
         日常总开关 = saveSwitchStatus("日常总开关");
         自动主线 = saveSwitchStatus("自动主线");
@@ -833,6 +995,14 @@
         幻想阶梯 = saveSwitchStatus("幻想阶梯");
         日常副本 = saveSwitchStatus("日常副本");
         地图探索 = saveSwitchStatus("地图探索");
+        金币探索 = saveSwitchStatus("金币探索");
+        粗炼石探索 = saveSwitchStatus("粗炼石探索");
+        时之砂探索 = saveSwitchStatus("时之砂探索");
+        历战精华探索 = saveSwitchStatus("历战精华探索");
+        var 探索次数 = document.getElementById("探索次数").value;
+        localStorage.setItem("探索次数", 探索次数);
+        
+        素材秘境 = saveSwitchStatus("素材秘境");
 
         日常任务领取 = saveSwitchStatus("日常任务领取");
         自动更换装备 = saveSwitchStatus("自动更换装备");
@@ -866,6 +1036,10 @@
             激活码: 激活码,
             选择游戏版本: 选择游戏版本,
 
+            定时运行: 定时运行,
+            定时休息: 定时休息,
+            顶号等待: 顶号等待,
+
             <!--日常-->
             日常总开关: 日常总开关,
             自动主线: 自动主线,
@@ -874,6 +1048,13 @@
             幻想阶梯: 幻想阶梯,
             日常副本: 日常副本,
             地图探索: 地图探索,
+            金币探索: 金币探索,
+            粗炼石探索: 粗炼石探索,
+            时之砂探索: 时之砂探索,
+            历战精华探索: 历战精华探索,
+            探索次数: 探索次数,
+
+            素材秘境: 素材秘境,
 
             日常任务领取: 日常任务领取,
             自动更换装备: 自动更换装备,

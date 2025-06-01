@@ -98,9 +98,11 @@ switch_lock = threading.Lock()
 # switch_ocr_apk_lock = Lock()
 功能开关 = {}
 功能开关 = config
-if 功能开关['选择游戏版本'] == "公测服":
+if 功能开关['选择游戏版本'] == "雷霆官服(公测)":
     功能开关['游戏包名'] = "com.leiting.zjcs"
-elif 功能开关['选择游戏版本'] == "内测服":
+elif 功能开关['选择游戏版本'] == "哔哩哔哩服(公测)":
+    功能开关['游戏包名'] = "com.leiting.zjcs.bilibili"
+elif 功能开关['选择游戏版本'] == "雷霆官服(内测)":
     功能开关['游戏包名'] = "com.leiting.zjcs.b"
 
 # thread_main_paused = False
@@ -117,11 +119,14 @@ def 初始化任务记录(initAll=True):
     # 日常
     任务记录.update({
         "首页卡死检测-倒计时": 0,
+        "定时休息-倒计时": 0,
+        "任务重置-倒计时": 0,
         "强化装备-倒计时": 0,
         "小推车-倒计时": 0,
         "小木床-倒计时": 0,
         "命运之树-倒计时": 0,
         "探索生命补充-倒计时": 0,
+        "地图探索-倒计时": 0,
 
         "邮件领取": 0,
         "每日签到": 0,
@@ -138,6 +143,8 @@ def 初始化任务记录(initAll=True):
         "每日特惠": 0,
         "本周精选": 0,
 
+        "素材秘境": 0,
+
         "公会挂机奖励": 0,
         "公会捐赠": 0,
     })
@@ -145,3 +152,7 @@ def 初始化任务记录(initAll=True):
 
 def tunner(k, v):
     print(k, v)
+
+# 调整悬浮窗位置
+from ascript.android.ui import FloatWindow
+FloatWindow.show(0.99,0.99)

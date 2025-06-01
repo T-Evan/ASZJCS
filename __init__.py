@@ -204,6 +204,17 @@ def main():
 
         runThreadNotice()
 
+        # 处理休息时间
+        need_run_minute = safe_int(功能开关.get("定时运行", 0))  # 分钟
+        if need_run_minute == '':
+            need_run_minute = 0
+        need_wait_minute = safe_int(功能开关.get("定时休息", 0))  # 分钟
+        if need_wait_minute == '':
+            need_wait_minute = 0
+        total_wait = need_run_minute * 60
+        任务记录["定时休息-倒计时"] = time.time()
+        任务记录["任务重置-倒计时"] = time.time()
+
         # dailyTask.地图探索()
         # system.exit()
 
@@ -224,6 +235,26 @@ def main():
                 # 公会
                 gongHuiTask.gongHuiTask()
 
+                # 定时休息
+                current_time = int(time.time())
+
+                # 将时间戳转换为 datetime 对象
+                # 判断执行时间超过4小时（重置每日任务）
+                if current_time - 任务记录["任务重置-倒计时"] > 60 * 60 * 2:
+                    Toast(f"执行时间超过2小时，重置每日任务")
+                    sleep(1.5)
+                    初始化任务记录(False)
+                    任务记录["任务重置-倒计时"] = int(time.time())
+
+                if total_wait != 0 and current_time - 任务记录["定时休息-倒计时"] >= total_wait:
+                    Toast(f"休息 {need_wait_minute} 分钟")
+                    sleep(1.5)
+                    功能开关["fighting"] = 0
+                    功能开关["needHome"] = 0
+                    action.Key.home()
+                    初始化任务记录(False)
+                    sleep(need_wait_minute * 60)
+                    任务记录["定时休息-倒计时"] = int(time.time())
 
             except Exception as e:
                 # 处理异常
