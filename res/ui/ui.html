@@ -515,12 +515,45 @@
                 <fieldset>
                     <legend>副本功能</legend>
                     <input id="副本总开关" name="vehicle" type="checkbox" value="Bike">副本总开关<br>
+                    <fieldset>
+                        <legend>日常副本</legend>
+                        <div class="checkbox-item">
+                            <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本<br>
+                        </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input id="无次数继续" name="vehicle" type="checkbox" value="Bike">无次数继续<br>
+                            </div>
+                            <div class="flex-container">
+                                <label for="日常副本补充次数">补充次数:</label>
+                                <div class="layui-form" style="width: 80px">
+                                    <div class="layui-input-inline">
+                                        <select name="日常副本补充次数" id="日常副本补充次数"
+                                                lay-filter="mijing1-filter">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="不开宝箱" name="vehicle" type="checkbox" value="Bike">不开宝箱<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="日常副本创建房间" name="vehicle" type="checkbox" value="Bike">创建房间(施工中)<br>
+                            </div>
+                        </div>
+                        <div class="flex-container">
+                            <label for="挑战次数">挑战次数：</label>
+                            <input type="text" id="日常副本重复挑战次数" name="日常副本重复挑战次数" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="重复挑战次数" class="layui-input" style="width: 120px">
+                        </div>
+                    </fieldset>
                     <div class="checkbox-group">
                         <div class="checkbox-item">
                             <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本<br>
                         </div>
                         <div class="checkbox-item">
                             <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
@@ -532,7 +565,7 @@
                             <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
                         </div>
                         <div class="checkbox-item">
-                            <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭(施工中)<br>
+                            <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭<br>
                         </div>
                     </div>
                     <div class="checkbox-item">
@@ -615,7 +648,8 @@
                                 <input id="月卡领取" name="vehicle" type="checkbox" value="Bike">月卡领取<br>
                             </div>
                             <div class="checkbox-item">
-                                <input id="秘宝大作战" name="vehicle" type="checkbox" value="Bike">秘宝大作战(施工中)<br>
+                                <input id="秘宝大作战" name="vehicle" type="checkbox"
+                                       value="Bike">秘宝大作战(施工中)<br>
                             </div>
                             <div class="checkbox-item">
                                 <input id="其他签到活动" name="vehicle" type="checkbox"
@@ -889,6 +923,20 @@
         setSwitchStatus("副本总开关");
         setSwitchStatus("幻想阶梯");
         setSwitchStatus("日常副本");
+        setSwitchStatus("无次数继续");
+        setSwitchStatus("不开宝箱");
+        setSwitchStatus("日常副本创建房间");
+        var defaultValue = localStorage.getItem('日常副本补充次数');
+        var selectElement = document.getElementById('日常副本补充次数');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+        var 日常副本重复挑战次数 = localStorage.getItem("日常副本重复挑战次数");
+        document.getElementById("日常副本重复挑战次数").value = 日常副本重复挑战次数;
+
         setSwitchStatus("地图探索");
         setSwitchStatus("金币探索");
         setSwitchStatus("粗炼石探索");
@@ -994,6 +1042,14 @@
         副本总开关 = saveSwitchStatus("副本总开关");
         幻想阶梯 = saveSwitchStatus("幻想阶梯");
         日常副本 = saveSwitchStatus("日常副本");
+        无次数继续 = saveSwitchStatus("无次数继续");
+        不开宝箱 = saveSwitchStatus("不开宝箱");
+        日常副本创建房间 = saveSwitchStatus("日常副本创建房间");
+        var 日常副本补充次数 = document.getElementById("日常副本补充次数").value;
+        localStorage.setItem("日常副本补充次数", 日常副本补充次数);
+        var 日常副本重复挑战次数 = document.getElementById("日常副本重复挑战次数").value;
+        localStorage.setItem("日常副本重复挑战次数", 日常副本重复挑战次数);
+        
         地图探索 = saveSwitchStatus("地图探索");
         金币探索 = saveSwitchStatus("金币探索");
         粗炼石探索 = saveSwitchStatus("粗炼石探索");
@@ -1003,6 +1059,7 @@
         localStorage.setItem("探索次数", 探索次数);
         
         素材秘境 = saveSwitchStatus("素材秘境");
+        混沌侵袭 = saveSwitchStatus("混沌侵袭");
 
         日常任务领取 = saveSwitchStatus("日常任务领取");
         自动更换装备 = saveSwitchStatus("自动更换装备");
@@ -1047,6 +1104,12 @@
             副本总开关: 副本总开关,
             幻想阶梯: 幻想阶梯,
             日常副本: 日常副本,
+            无次数继续: 无次数继续,
+            不开宝箱: 不开宝箱,
+            日常副本创建房间: 日常副本创建房间,
+            日常副本补充次数: 日常副本补充次数,
+            日常副本重复挑战次数: 日常副本重复挑战次数,
+
             地图探索: 地图探索,
             金币探索: 金币探索,
             粗炼石探索: 粗炼石探索,
@@ -1055,6 +1118,7 @@
             探索次数: 探索次数,
 
             素材秘境: 素材秘境,
+            混沌侵袭: 混沌侵袭,
 
             日常任务领取: 日常任务领取,
             自动更换装备: 自动更换装备,

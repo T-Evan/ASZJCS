@@ -63,6 +63,7 @@ class DailyTask:
             功能开关["needHome"] = 1
             Toast('正在返回首页')
             tapSleepV2(52, 1229)
+            TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
             # tapSleepV2(52, 1229)
             sleep(0.5)
 
@@ -123,6 +124,9 @@ class DailyTask:
         # 地图探索
         self.地图探索()
 
+        # 混沌侵袭
+        self.混沌侵袭()
+
         # 素材秘境
         self.素材秘境()
 
@@ -147,12 +151,37 @@ class DailyTask:
     def 每日副本(self):
         if 功能开关["日常副本"] == 0:
             return
+        re = self.进入日常副本()
+        if not re:
+            return
+
+        needFightCt = safe_int_v2(功能开关['日常副本重复挑战次数'])
+        for k in range(needFightCt):
+            Toast(f'日常副本-第{k + 1}/{needFightCt}次挑战')
+            re = TomatoOcrTap(472, 243, 516, 291, '树', sleep1=2)
+            if not re:
+                re = self.进入日常副本()
+                if not re:
+                    return
+            if re:
+                Toast(f'第{k + 1}/{needFightCt}次挑战')
+                self.副本匹配()
+
+    def 进入日常副本(self):
         self.homePage()
         Toast('日常-每日副本挑战')
 
         re = self.进入笔记()
         if not re:
-            return
+            return False
+
+        # 检测剩余次数
+        re, count = TomatoOcrText(125, 173, 173, 198, '剩余次数')
+        count = safe_int(count.replace('/2', ''))
+        if count == 0 and 功能开关["无次数继续"] == 0:
+            Toast('每日副本次数已用完')
+            return False
+
         re = CompareColors.compare("153,244,#324C6C|198,236,#2C4540|225,344,#FEFFFF|216,358,#83B2D1|235,353,#EBF6FB")
         if re:
             tapSleep(192, 274, 1.5)  # 点击日常副本
@@ -160,15 +189,10 @@ class DailyTask:
             re = TomatoOcrTap(14, 124, 159, 170, '日常', match_mode='fuzzy')
         if not re:
             Toast('日常副本未开启')
-            return
+            return False
 
         Toast('日常-进入日常副本')
-
-        for k in range(2):
-            re = TomatoOcrTap(472, 243, 516, 291, '树', 2)
-            if re:
-                Toast(f'日常副本-世界之树{k + 1}/2')
-                self.副本匹配()
+        return True
 
     def 副本匹配(self):
         re = TomatoOcrTap(502, 1077, 572, 1114, '匹配')
@@ -177,13 +201,13 @@ class DailyTask:
 
         Toast('开始匹配')
         failTimes = 0
-        totalWait = 120  # 30000 毫秒 = 30 秒
+        totalWait = 200  # 30000 毫秒 = 30 秒
         start_time = int(time.time())
         while True:
             re, _ = TomatoOcrText(477, 1074, 600, 1114, '取消匹配')
             if not re:
                 failTimes = failTimes + 1
-                Toast(f'匹配失败{failTimes}/5')
+                Toast(f'匹配失败{failTimes}/10')
             if failTimes > 10:
                 Toast('匹配失败，返回')
                 break
@@ -191,11 +215,11 @@ class DailyTask:
             current_time = int(time.time())
             elapsed = current_time - start_time
             if elapsed > totalWait:
-                re = TomatoOcrTap(477, 1074, 600, 1114, '取消匹配')
+                re = TomatoOcrTap(477, 1074, 600, 1114, '取消', match_mode='fuzzy')
                 Toast('匹配超时，取消匹配')
                 break
 
-            Toast(f'匹配中{elapsed}/120s')
+            Toast(f'匹配中{elapsed}/200s')
             re = TomatoOcrTap(486, 1083, 554, 1121, '接受')
             if re:
                 self.副本战斗()
@@ -217,14 +241,15 @@ class DailyTask:
 
         for l in range(15):
             startFight, _ = TomatoOcrText(277, 932, 446, 980, '取消准备')
-            Toast('等待队友准备')
+            Toast(f'等待队友准备{l}/15')
             if not startFight:
                 break
             sleep(1)
 
         Toast('开始战斗')
         failTimes = 0
-        for k in range(300):
+        start_time = int(time.time())
+        while True:
             re = CompareColors.compare("39,926,#DFDEDA|39,915,#DFDEDA|52,915,#DFDEDA|60,920,#E0DFDB")
             if not re:
                 re = CompareColors.compare("39,920,#B7B7B7|47,920,#B7B7B7|47,924,#B7B7B7|60,923,#B7B7B7")
@@ -232,6 +257,11 @@ class DailyTask:
                 re, _ = TomatoOcrText(263, 296, 456, 342, '房间', match_mode='fuzzy')  # 副本房间地图-等待页
                 if re:
                     Toast('等待选择房间')
+                    re = FindColors.find("496,654,#CCCF68|496,661,#CCCF68|495,672,#CCCF68", rect=[131, 252, 633, 1052],
+                                         diff=0.9)
+                    if re:
+                        Toast('自动选择房间')
+                        tapSleep(re.x + 5, re.y + 5)
                 if not re:
                     Toast(f'战斗状态识别失败{failTimes}/10')
                     sleep(1)
@@ -244,14 +274,35 @@ class DailyTask:
                 tapSleep(337, 1231)
                 break
 
-            re, _ = TomatoOcrText(494, 1196, 611, 1232, '领取', match_mode='fuzzy')
-            if re:
+            re1, _ = TomatoOcrText(494, 1196, 611, 1232, '领取', match_mode='fuzzy')
+            re2 = False
+            if not re1:
+                re2, _ = TomatoOcrText(22, 801, 146, 842, '掉落', match_mode='fuzzy')
+            if re1 or re2:
                 re, tili = TomatoOcrText(587, 1142, 634, 1169, '领奖次数')
                 if tili == "0/2":
-                    Toast('战斗结束-奖励次数用尽-返回房间')
-                    tapSleep(64, 1220)  # 返回
-                    TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
-                    break
+                    # 判断是否可购买体力
+                    needCt = safe_int_v2(功能开关["日常副本补充次数"])
+                    if re1 and needCt > 0:
+                        re = TomatoOcrTap(494, 1196, 611, 1232, '领取', match_mode='fuzzy', sleep1=1.5)
+                        if re:
+                            re, buyCt = TomatoOcrText(524, 683, 565, 708, '限购次数')
+                            buyCt = safe_int_v2(buyCt.replace('/2', ''))
+                            if buyCt >= needCt:
+                                Toast(f'已购买{buyCt}/needCt次-跳过购买')
+                                Toast('战斗结束-购买次数用尽-返回房间')
+                                tapSleep(235, 1204, 1.2)  # 返回
+                                tapSleep(64, 1220, 1.2)  # 返回
+                                TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
+                                break
+                            else:
+                                Toast(f'购买次数-{buyCt}/{needCt}次')
+                                TomatoOcrTap(461, 724, 522, 763, '购买', sleep1=1.5)
+                    else:
+                        Toast('战斗结束-奖励次数用尽-返回房间')
+                        tapSleep(64, 1220, 1.2)  # 返回
+                        TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
+                        break
                 re = TomatoOcrTap(494, 1196, 611, 1232, '领取', match_mode='fuzzy', sleep1=1.5)
                 Toast('战斗结束-领取奖励')
                 TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
@@ -264,9 +315,13 @@ class DailyTask:
                 Toast('战斗中-准备')
                 failTimes = 0
 
-            Toast('战斗中')
+            current_time = int(time.time())
+            elapsed = current_time - start_time
+            if elapsed > 450:
+                Toast('战斗超时-退出')
+                break
             sleep(0.5)
-        Toast('战斗超时-退出')
+            Toast(f'战斗中{elapsed}/450s')
         return
 
     def 幻想阶梯(self):
@@ -300,21 +355,35 @@ class DailyTask:
         Toast('日常-进入幻想阶梯')
         tapSleep(355, 277, 1.5)  # 进入幻想阶梯
 
+        re = CompareColors.compare("685,1199,#E15151|690,1196,#F5E7E7|694,1196,#E35454")  # 匹配馈赠红点
+        if re:
+            Toast('幻想阶梯-馈赠领取')
+            tapSleep(614, 1220)  # 点击馈赠
+            Toast('幻想阶梯-领取个人馈赠')
+            re = TomatoOcrTap(562, 205, 614, 233, '领取', sleep1=1.5)
+            tapSleep(620, 1130)  # 点击空白
 
+            re = CompareColors.compare("473,1100,#E35353|480,1100,#FFFFFF|486,1100,#E25252")  # 匹配全服馈赠
+            if re:
+                tapSleep(443, 1119)  # 点击全服馈赠
+                Toast('幻想阶梯-领取全服馈赠')
+                re = TomatoOcrTap(562, 205, 614, 233, '领取', sleep1=1.5)
+                tapSleep(620, 1130)  # 点击空白
+        tapSleep(246, 1221)  # 点击阶梯
 
         re = FindColors.find("561,176,#D44545|564,176,#FFFFFF|567,176,#CA4949", rect=[6, 113, 704, 1150],
                              diff=0.95)
         if not re:
             Toast('幻想阶梯-未达到推荐战力-尝试挑战')
+            re = TomatoOcrTap(582, 896, 652, 931, '挑战', sleep1=3)
         else:
             Toast('日常-幻想阶梯-开始挑战')
-
-        tapSleep(re.x, re.y, 3)
-        re = imageFindClick('幻想阶梯-自动挑战.png', x1=11, y1=711, x2=183, y2=1046)
-        if re:
-            Toast('幻想阶梯-已开启后台挑战')
+            tapSleep(re.x, re.y, 3)
         if not re:
-            self.战斗检查()
+            Toast('幻想阶梯-无法挑战')
+            return
+
+        self.战斗检查()
         tapSleep(77, 1212)
         tapSleep(77, 1212)
         tapSleep(77, 1212)
@@ -386,11 +455,11 @@ class DailyTask:
                 break
             if k < 4:
                 Toast('寻找每日商店')
-                swipe(487, 729, 197, 759)
+                swipe(197, 759, 487, 729)
                 sleep(1.6)
             else:
                 Toast('寻找每日商店')
-                swipe(197, 759, 487, 729)
+                swipe(487, 729, 197, 759)
                 sleep(1.6)
 
     def 其他签到活动(self):
@@ -953,6 +1022,13 @@ class DailyTask:
             Toast('进入探索地图失败-返回')
         return ifFind
 
+    def 混沌侵袭(self):
+        if 功能开关["混沌侵袭"] == 0 or 任务记录["混沌侵袭"] == 1:
+            return
+        self.homePage()
+
+
+
     def 素材秘境(self):
         if 功能开关["素材秘境"] == 0 or 任务记录["素材秘境"] == 1:
             return
@@ -1268,6 +1344,11 @@ class DailyTask:
         Toast('开始战斗')
         failTimes = 0
         for k in range(90):
+            re = imageFindClick('幻想阶梯-自动挑战', x1=11, y1=711, x2=183, y2=1046)
+            if re:
+                Toast('幻想阶梯-已开启后台挑战')
+                return
+
             re = CompareColors.compare("39,920,#DFDEDA|47,918,#DFDEDA|50,935,#222121|58,934,#222121")
             if not re:
                 Toast(f'战斗状态识别失败{failTimes}/5')
