@@ -27,6 +27,12 @@ class GongHuiTask:
 
         # 公会捐赠
         self.公会捐赠()
+
+        # 鸡舍打扫
+        self.鸡舍打扫()
+
+        # 公会讨伐
+        self.公会讨伐()
         #
         # 清理背包
         # self.deleteEquip()
@@ -36,15 +42,8 @@ class GongHuiTask:
             return
 
         Toast('领取公会挂机奖励')
-        self.dailyTask.homePage()
-        isFind = False
-        for k in range(3):
-            tapSleep(494, 1231, 1.5)
-            isFind, _ = TomatoOcrText(469, 1249, 529, 1277, '公会')
-            if isFind:
-                break
+        isFind = self.进入公会()
         if not isFind:
-            Toast('未找到公会入口')
             return
 
         任务记录["公会挂机奖励"] = 1
@@ -52,27 +51,152 @@ class GongHuiTask:
         tapSleep(609, 964)  # 领取挂机奖励
         tapSleep(495, 1226)  # 点击空白
 
+    def 公会讨伐(self):
+        if 功能开关["公会讨伐"] == 0 or 任务记录["公会讨伐"] == 1:
+            return
+
+        Toast('公会-公会讨伐-开始')
+        isFind = self.进入公会()
+        if not isFind:
+            return
+
+        isFind = False
+        for k in range(6):
+            re = TomatoOcrFindRangeClick(
+                keywords=[{'keyword': '远', 'match_mode': 'fuzzy'}, {'keyword': '征', 'match_mode': 'fuzzy'},
+                          {'keyword': '之门', 'match_mode': 'fuzzy'}],
+                sleep1=2,
+                x1=6,
+                y1=885, x2=711, y2=930)
+            if re:
+                Toast('公会-进入远征之门')
+                isFind = True
+                break
+            if not re:
+                Toast('寻找远征之门')
+                if k < 2:
+                    swipe(527, 735, 352, 723)
+                    sleep(2)
+                else:
+                    swipe(352, 723, 527, 735)
+                    sleep(2)
+        if not isFind:
+            Toast('公会讨伐-未找到远征入口')
+            return
+
+        re = TomatoOcrTap(31, 607, 223, 670, '讨伐', match_mode='fuzzy')
+        if not re:
+            Toast('公会讨伐-未找到讨伐入口')
+            任务记录["公会讨伐"] = 1
+            return
+
+        # 领取讨伐奖励
+        re = CompareColors.compare("386,702,#E15353|402,699,#E05252")
+        if re:
+            Toast('公会讨伐-领取讨伐奖励')
+            tapSleep(351, 738)  # 领取奖励
+            tapSleep(59, 981)  # 点击空白
+
+        # 领取馈赠奖励
+        re = CompareColors.compare("684,1191,#E15252|693,1191,#D84747")  # 匹配馈赠红点
+        if re:
+            Toast('公会讨伐-馈赠领取')
+            self.dailyTask.馈赠领取()
+
+        # 开始讨伐
+        re = TomatoOcrTap(214, 1201, 275, 1235, '讨伐')
+        if re:
+            Toast('公会讨伐-开始讨伐')
+
+        tapSleep(67, 1215)  # 点击返回
+        tapSleep(67, 1215)
+        任务记录["公会讨伐"] = 1
+
+    def 鸡舍打扫(self):
+        if 功能开关["鸡舍打扫"] == 0 or 任务记录["鸡舍打扫"] == 1:
+            return
+
+        Toast('公会-鸡舍打扫-开始')
+        isFind = self.进入公会()
+        if not isFind:
+            return
+
+        isFind = False
+        for k in range(6):
+            re = TomatoOcrFindRangeClick(
+                keywords=[{'keyword': '鸡', 'match_mode': 'fuzzy'}, {'keyword': '舍', 'match_mode': 'fuzzy'}], sleep1=2,
+                x1=6,
+                y1=885, x2=711, y2=930)
+            if re:
+                Toast('公会-进入鸡舍')
+                isFind = True
+                break
+            if not re:
+                Toast('寻找公会鸡舍')
+                if k < 2:
+                    swipe(527, 735, 352, 723)
+                    sleep(2)
+                else:
+                    swipe(352, 723, 527, 735)
+                    sleep(2)
+
+        if not isFind:
+            Toast('公会鸡舍-未找到活动入口')
+            任务记录["鸡舍打扫"] = 1
+            return
+
+        if 功能开关['鸡舍打扫'] == 1:
+            re = FindColors.find("285,204,#EDAB5B|288,206,#F09B43|287,201,#F0A949", rect=[80, 148, 648, 939], diff=0.9)
+            if re:
+                Toast('公会-鸡舍打扫')
+                tapSleep(re.x, re.y, 1.5)
+                tapSleep(365, 1144)  # 点击空白
+        任务记录["鸡舍打扫"] = 1
+        if 功能开关['饲养鸡仔'] == 1:
+            re = TomatoOcrTap(302, 1065, 421, 1100, '开始饲养', sleep1=1.2)
+            if re:
+                Toast('公会-饲养鸡仔')
+                noCt, _ = TomatoOcrText(298, 754, 424, 787, '前往获取')
+                if noCt:
+                    if 功能开关['购买鸡仔'] == 0:
+                        Toast('无可饲养鸡仔')
+                    else:
+                        Toast('准备购买鸡仔')
+                        re = TomatoOcrTap(298, 754, 424, 787, '前往获取', sleep1=2)  # 进入商店
+                        if re:
+                            re = FindColors.find("129,869,#969298|124,881,#969298|112,897,#928D95|118,883,#E4C094",
+                                                 rect=[20, 181, 692, 1160], diff=0.95)  # 鸡仔
+                            if re:
+                                Toast('公会-购买鸡仔')
+                                tapSleep(re.x, re.y + 130)  # 购买按钮
+                            else:
+                                Toast('公会-无可购买鸡仔')
+                            tapSleep(75, 1215)  # 返回
+                noCt, _ = TomatoOcrText(298, 754, 424, 787, '前往获取')
+                if not noCt:
+                    Toast('公会-开始饲养鸡仔')
+                    TomatoOcrTap(328, 1065, 389, 1098, '饲养')
+                else:
+                    Toast('公会-无可饲养鸡仔')
+        tapSleep(75, 1215)  # 返回
+        tapSleep(75, 1215)  # 返回
+
     def 公会捐赠(self):
         if 功能开关["公会捐赠"] == 0 or 任务记录["公会捐赠"] == 1:
             return
 
         Toast('开始公会捐赠')
-        self.dailyTask.homePage()
 
-        isFind = False
-        for k in range(3):
-            tapSleep(494, 1231, 1.5)
-            isFind, _ = TomatoOcrText(469, 1249, 529, 1277, '公会')
-            if isFind:
-                break
+        isFind = self.进入公会()
         if not isFind:
-            Toast('未找到公会入口')
             return
 
+        isFind = False
         for k in range(6):
             re = TomatoOcrFindRangeClick(keywords=[{'keyword': '大厅', 'match_mode': 'fuzzy'}], sleep1=2, x1=9,
                                          y1=577, x2=711, y2=716)
             if re:
+                isFind = True
                 TomatoOcrTap(189, 1084, 282, 1114, '公会捐赠', offsetX=20, offsetY=-10, sleep1=1)
                 TomatoOcrTap(302, 920, 418, 954, '免费', match_mode='fuzzy')
                 任务记录["公会捐赠"] = 1
@@ -81,6 +205,26 @@ class GongHuiTask:
                 Toast('寻找公会大厅')
                 if k < 2:
                     swipe(527, 735, 352, 723)
+                    sleep(2)
                 else:
                     swipe(352, 723, 527, 735)
+                    sleep(2)
+        if not isFind:
+            Toast('公会鸡舍-未找到活动入口')
+            任务记录["公会捐赠"] = 1
+            return
         tapSleep(75, 1215)  # 返回
+        tapSleep(75, 1215)  # 返回
+
+    def 进入公会(self):
+        isFind, _ = TomatoOcrText(469, 1249, 529, 1277, '公会')
+        if not isFind:
+            self.dailyTask.homePage()
+            for k in range(3):
+                tapSleep(494, 1231, 1.5)
+                isFind, _ = TomatoOcrText(469, 1249, 529, 1277, '公会')
+                if isFind:
+                    break
+        if not isFind:
+            Toast('未找到公会入口')
+        return isFind

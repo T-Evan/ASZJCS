@@ -9,6 +9,7 @@ from .res.ui.ui import 功能开关
 from .res.ui.ui import 任务记录
 from .startUp import StartUp
 from .daily import DailyTask
+from .fuBen import FuBenTask
 from .jueSe import JueSeTask
 from .gongHui import GongHuiTask
 from .res.ui.ui import 初始化任务记录
@@ -22,6 +23,7 @@ from ascript.android.ui import Loger
 from ascript.android import system
 from ascript.android.action import Path
 from .thread import *
+from ascript.android.system import ShellListener
 
 # ldE.set_log_level(10)  # Debug
 # ldE.set_log_level(20)  # Info
@@ -182,13 +184,6 @@ print('卡密联网激活开始')
 # kamiActive()
 print('卡密联网激活完成')
 
-display = Device.display()
-# 屏幕宽度
-if display.widthPixels != 720 or display.heightPixels != 1280:
-    Dialog.confirm("屏幕分辨率不为 720 * 1280，请重新设置", "分辨率错误")
-    Dialog.confirm("屏幕分辨率不为 720 * 1280，请重新设置", "分辨率错误")
-
-
 # debug
 # action.Touch.down(127,1000, 1500)  # 长按
 # action.Touch.up(127,1000, 1500)
@@ -199,6 +194,7 @@ def main():
     try:
         start_up = StartUp(f'{功能开关["游戏包名"]}')
         dailyTask = DailyTask()
+        fuBenTask = FuBenTask()
         jueSeTask = JueSeTask()
         gongHuiTask = GongHuiTask()
 
@@ -215,19 +211,22 @@ def main():
         任务记录["定时休息-倒计时"] = time.time()
         任务记录["任务重置-倒计时"] = time.time()
 
-        # dailyTask.地图探索()
+        # dailyTask.主线探索()
         # system.exit()
 
         while True:
             try:
                 # 启动app
                 start_up.start_app()
-                if 功能开关["日常总开关"] == 0 and 功能开关["公会总开关"] == 0:
-                    Toast('未开启功能，请检查功能配置')
+                if 功能开关["日常总开关"] == 0 and 功能开关["副本总开关"] == 0 and 功能开关["公会总开关"] == 0:
+                    Toast('未开启总开关，请检查功能配置')
                     sleep(3)
 
                 # 日常（优先领取）
                 dailyTask.dailyTask()
+
+                # 日常（优先领取）
+                fuBenTask.fuBenTask()
 
                 # 角色
                 jueSeTask.jueSeTask()
@@ -256,6 +255,7 @@ def main():
                     sleep(need_wait_minute * 60)
                     任务记录["定时休息-倒计时"] = int(time.time())
 
+                sleep(0.5)
             except Exception as e:
                 # 处理异常
                 # 获取异常信息

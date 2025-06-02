@@ -407,6 +407,7 @@
                                 <select name="选择游戏版本" id="选择游戏版本" lay-filter="mijing1-filter">
                                     <option value="雷霆官服(公测)">雷霆官服(公测)</option>
                                     <option value="哔哩哔哩服(公测)">哔哩哔哩服(公测)</option>
+                                    <option value="渠道服A(公测)">渠道服A(公测)</option>
                                     <option value="雷霆官服(内测)">雷霆官服(内测)</option>
                                 </select>
                             </div>
@@ -521,10 +522,10 @@
                             <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本<br>
                         </div>
                         <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input id="无次数继续" name="vehicle" type="checkbox" value="Bike">无次数继续<br>
-                            </div>
                             <div class="flex-container">
+                                <div class="checkbox-item" style="margin-right:10px">
+                                    <input id="无次数继续" name="vehicle" type="checkbox" value="Bike">无次数继续<br>
+                                </div>
                                 <label for="日常副本补充次数">补充次数:</label>
                                 <div class="layui-form" style="width: 80px">
                                     <div class="layui-input-inline">
@@ -545,55 +546,60 @@
                             </div>
                         </div>
                         <div class="flex-container">
-                            <label for="挑战次数">挑战次数：</label>
+                            <label for="挑战次数">重复挑战次数：</label>
                             <input type="text" id="日常副本重复挑战次数" name="日常副本重复挑战次数" lay-verify="title"
                                    autocomplete="off"
-                                   placeholder="重复挑战次数" class="layui-input" style="width: 120px">
+                                   placeholder="默认2次" class="layui-input" style="width: 120px">
                         </div>
                     </fieldset>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
-                        </div>
-                        <div class="checkbox-item">
-                            <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭<br>
-                        </div>
-                    </div>
-                    <div class="checkbox-item">
-                        <input id="地图探索" name="vehicle" type="checkbox" value="Bike">地图探索<br>
-                    </div>
-                    <label for="地图探索配置">地图探索配置:</label><br>
-                    <div class="flex-container">
+                    <fieldset>
+                        <legend>常驻副本</legend>
                         <div class="checkbox-group">
                             <div class="checkbox-item">
-                                <input id="金币探索" name="vehicle" type="checkbox" value="Bike">金币探索<br>
+                                <input id="幻想阶梯" name="vehicle" type="checkbox" value="Bike">幻想阶梯<br>
                             </div>
                             <div class="checkbox-item">
-                                <input id="粗炼石探索" name="vehicle" type="checkbox"
-                                       value="Bike">粗炼石探索<br>
+                                <input id="圣兽试炼" name="vehicle" type="checkbox" value="Bike">圣兽试炼<br>
                             </div>
                             <div class="checkbox-item">
-                                <input id="时之砂探索" name="vehicle" type="checkbox"
-                                       value="Bike">时之砂探索<br>
+                                <input id="素材秘境" name="vehicle" type="checkbox" value="Bike">素材秘境<br>
                             </div>
                             <div class="checkbox-item">
-                                <input id="历战精华探索" name="vehicle" type="checkbox"
-                                       value="Bike">历战精华探索<br>
+                                <input id="虚空裂隙" name="vehicle" type="checkbox" value="Bike">虚空裂隙(施工中)<br>
                             </div>
-                            <input type="text" id="探索次数" name="探索次数" lay-verify="title"
-                                   autocomplete="off"
-                                   placeholder="探索次数（默认选中物品各采集15次）" class="layui-input">
+                            <div class="checkbox-item">
+                                <input id="混沌侵袭" name="vehicle" type="checkbox" value="Bike">混沌侵袭<br>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>地图探索</legend>
+                        <div class="checkbox-item">
+                            <input id="地图探索" name="vehicle" type="checkbox" value="Bike">地图探索<br>
+                        </div>
+                        <div class="flex-container">
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input id="金币探索" name="vehicle" type="checkbox" value="Bike">金币探索<br>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input id="粗炼石探索" name="vehicle" type="checkbox"
+                                           value="Bike">粗炼石探索<br>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input id="时之砂探索" name="vehicle" type="checkbox"
+                                           value="Bike">时之砂探索<br>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input id="历战精华探索" name="vehicle" type="checkbox"
+                                           value="Bike">历战精华探索<br>
+                                </div>
+                                <input type="text" id="探索次数" name="探索次数" lay-verify="title"
+                                       autocomplete="off"
+                                       placeholder="探索次数（默认选中物品各采集15次）" class="layui-input">
+                            </div>
+                        </div>
+                    </fieldset>
                 </fieldset>
             </form>
         </li>
@@ -602,14 +608,34 @@
                 <fieldset>
                     <input id="公会总开关" name="vehicle" type="checkbox" value="Bike">公会总开关<br>
                     <legend>公会功能</legend>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input id="公会捐赠" name="vehicle" type="checkbox" value="Bike">公会捐赠<br>
+                    <fieldset>
+                        <legend>捐赠</legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input id="公会捐赠" name="vehicle" type="checkbox" value="Bike">公会捐赠<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="公会挂机奖励" name="vehicle" type="checkbox" value="Bike">挂机奖励<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="公会讨伐" name="vehicle" type="checkbox" value="Bike">公会讨伐<br>
+                            </div>
                         </div>
-                        <div class="checkbox-item">
-                            <input id="公会挂机奖励" name="vehicle" type="checkbox" value="Bike">挂机奖励<br>
+                    </fieldset>
+                    <fieldset>
+                        <legend>鸡舍</legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input id="鸡舍打扫" name="vehicle" type="checkbox" value="Bike">鸡舍打扫<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="购买鸡仔" name="vehicle" type="checkbox" value="Bike">购买鸡仔<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="饲养鸡仔" name="vehicle" type="checkbox" value="Bike">饲养鸡仔<br>
+                            </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </fieldset>
             </form>
         </li>
@@ -664,6 +690,23 @@
                 </fieldset>
                 <fieldset>
                     <legend>喊话相关</legend>
+                    <div class="checkbox-item">
+                        <input id="世界喊话开关" name="vehicle" type="checkbox" value="Bike">世界喊话开关<br>
+                    </div>
+                    <label for="世界喊话">世界喊话:</label><label class="gray-text">(配置多组时随机发送)</label><br>
+                    <input type="text" id="世界喊话" name="世界喊话" lay-verify="title" autocomplete="off"
+                           placeholder="输入喊话内容（同时发送多条用 | 分隔）" class="layui-input">
+                    <input type="text" id="世界喊话2" name="世界喊话2" lay-verify="title" autocomplete="off"
+                           placeholder="输入喊话内容（eg. 关注|点赞|转发）" class="layui-input">
+                    <input type="text" id="世界喊话3" name="世界喊话3" lay-verify="title" autocomplete="off"
+                           placeholder="输入喊话内容" class="layui-input">
+                    <input type="text" id="世界喊话4" name="世界喊话4" lay-verify="title" autocomplete="off"
+                           placeholder="输入喊话内容" class="layui-input">
+                    <div class="flex-container">
+                        <label for="世界喊话间隔">世界喊话间隔:</label>
+                        <input type="text" id="世界喊话间隔" name="世界喊话间隔" lay-verify="title" autocomplete="off"
+                               placeholder="世界喊话间隔（分钟）(留空无间隔)" class="layui-input">
+                    </div>
                 </fieldset>
             </form>
         </li>
@@ -752,7 +795,32 @@
     }
 
     function shuaZanAllItems() {
-        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"公会挂机奖励":false}'
+        const jsonString = '{"圣兽试炼":"false","混沌侵袭":"false","无次数继续":"true","日常副本重复挑战次数":"10","日常副本补充次数":"0","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会挂机奖励":false}'
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载默认配置成功，请继续调整')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    function dailyAllItems() {
+        const jsonString = '{"圣兽试炼":"true","混沌侵袭":"true","无次数继续":"true","日常副本重复挑战次数":"4","日常副本补充次数":"2","顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"金币探索":true,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"鸡舍打扫":true,"购买鸡仔":true,"饲养鸡仔":true,"公会讨伐":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -778,31 +846,6 @@
 
     function daiDuiAllItems() {
         const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":false,"金币探索":true,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
-        if (jsonString) {
-            try {
-<!--                console.log('读取的配置:', jsonString);-->
-                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
-
-                // 遍历 configData 对象的每个键值对
-                for (const key in configData) {
-                    if (configData.hasOwnProperty(key)) {
-                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
-                            localStorage.setItem(key, configData[key]);
-                        }
-                    }
-                }
-                setAllItems()
-                showToast('加载默认配置成功，请继续调整')
-            } catch (error) {
-                console.error('解析 JSON 失败:', error);
-            }
-        } else {
-            console.log('没有找到配置');
-        }
-    }
-
-    function dailyAllItems() {
-        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"金币探索":true,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -922,6 +965,7 @@
         setSwitchStatus("自动主线");
         setSwitchStatus("副本总开关");
         setSwitchStatus("幻想阶梯");
+        setSwitchStatus("圣兽试炼");
         setSwitchStatus("日常副本");
         setSwitchStatus("无次数继续");
         setSwitchStatus("不开宝箱");
@@ -974,7 +1018,27 @@
 
         setSwitchStatus("公会总开关");
         setSwitchStatus("公会捐赠");
+        setSwitchStatus("公会讨伐");
+        setSwitchStatus("鸡舍打扫");
+        setSwitchStatus("购买鸡仔");
+        setSwitchStatus("饲养鸡仔");
         setSwitchStatus("公会挂机奖励");
+
+        setSwitchStatus("世界喊话开关");
+        var 世界喊话 = localStorage.getItem("世界喊话");
+        document.getElementById("世界喊话").value = 世界喊话;
+
+        var 世界喊话2 = localStorage.getItem("世界喊话2");
+        document.getElementById("世界喊话2").value = 世界喊话2;
+
+        var 世界喊话3 = localStorage.getItem("世界喊话3");
+        document.getElementById("世界喊话3").value = 世界喊话3;
+
+        var 世界喊话4 = localStorage.getItem("世界喊话4");
+        document.getElementById("世界喊话4").value = 世界喊话4;
+
+        var 世界喊话间隔 = localStorage.getItem("世界喊话间隔");
+        document.getElementById("世界喊话间隔").value = 世界喊话间隔;
 
         var defaultValue = localStorage.getItem('选择游戏版本');
         var selectElement = document.getElementById('选择游戏版本');
@@ -1041,6 +1105,7 @@
         自动主线 = saveSwitchStatus("自动主线");
         副本总开关 = saveSwitchStatus("副本总开关");
         幻想阶梯 = saveSwitchStatus("幻想阶梯");
+        圣兽试炼 = saveSwitchStatus("圣兽试炼");
         日常副本 = saveSwitchStatus("日常副本");
         无次数继续 = saveSwitchStatus("无次数继续");
         不开宝箱 = saveSwitchStatus("不开宝箱");
@@ -1083,8 +1148,23 @@
 
         公会总开关 = saveSwitchStatus("公会总开关");
         公会捐赠 = saveSwitchStatus("公会捐赠");
+        公会讨伐 = saveSwitchStatus("公会讨伐");
+        鸡舍打扫 = saveSwitchStatus("鸡舍打扫");
+        购买鸡仔 = saveSwitchStatus("购买鸡仔");
+        饲养鸡仔 = saveSwitchStatus("饲养鸡仔");
         公会挂机奖励 = saveSwitchStatus("公会挂机奖励");
 
+        世界喊话开关 = saveSwitchStatus("世界喊话开关");
+        var 世界喊话 = document.getElementById("世界喊话").value;
+        localStorage.setItem("世界喊话", 世界喊话);
+        var 世界喊话2 = document.getElementById("世界喊话2").value;
+        localStorage.setItem("世界喊话2", 世界喊话2);
+        var 世界喊话3 = document.getElementById("世界喊话3").value;
+        localStorage.setItem("世界喊话3", 世界喊话3);
+        var 世界喊话4 = document.getElementById("世界喊话4").value;
+        localStorage.setItem("世界喊话4", 世界喊话4);
+        var 世界喊话间隔 = document.getElementById("世界喊话间隔").value;
+        localStorage.setItem("世界喊话间隔", 世界喊话间隔);
 
         var 选择游戏版本 = document.getElementById("选择游戏版本").value;
         localStorage.setItem("选择游戏版本", 选择游戏版本);
@@ -1103,6 +1183,7 @@
 
             副本总开关: 副本总开关,
             幻想阶梯: 幻想阶梯,
+            圣兽试炼: 圣兽试炼,
             日常副本: 日常副本,
             无次数继续: 无次数继续,
             不开宝箱: 不开宝箱,
@@ -1143,7 +1224,18 @@
 
             公会总开关: 公会总开关,
             公会捐赠: 公会捐赠,
+            公会讨伐: 公会讨伐,
+            鸡舍打扫: 鸡舍打扫,
+            购买鸡仔: 购买鸡仔,
+            饲养鸡仔: 饲养鸡仔,
             公会挂机奖励: 公会挂机奖励,
+
+            世界喊话开关: 世界喊话开关,
+            世界喊话: 世界喊话,
+            世界喊话2: 世界喊话2,
+            世界喊话3: 世界喊话3,
+            世界喊话4: 世界喊话4,
+            世界喊话间隔: 世界喊话间隔,
         };
 
         return data

@@ -67,11 +67,11 @@ class JueSeTask:
                         if re:
                             Toast('更换装备成功')
                             tapSleep(re.x, re.y, 1.5)
-                            TomatoOcrFindRangeClick('更换', x1=14, y1=340, x2=702, y2=943)
+                            TomatoOcrFindRangeClick('更换', x1=416, y1=285, x2=659, y2=1101)
                     else:
                         re = CompareColors.compare("595,860,#E35353|607,861,#E25252")
                         if re:
-                            Toast('领取馈赠')
+                            Toast('领取强化馈赠')
                             TomatoOcrTap(456, 863, 525, 902, '培养')
                             if re:
                                 TomatoOcrTap(579, 1204, 641, 1235, '馈赠')

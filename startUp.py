@@ -16,6 +16,7 @@ from ascript.android import system
 from ascript.android.screen import FindColors
 import sys
 import traceback
+from ascript.android.system import Device
 
 
 class StartUp:
@@ -30,6 +31,18 @@ class StartUp:
         tryTimes = 0
 
         max_attempt = 30
+
+        display = Device.display()
+        # 屏幕宽度
+        if display.widthPixels != 720 or display.heightPixels != 1280:
+            Toast(f'分辨率为 {display.widthPixels} * {display.heightPixels}，请检查分辨率是否正确')
+            Dialog.confirm("屏幕分辨率不为 720 * 1280，请重新设置", "分辨率错误")
+            r = system.shell(f"wm size 720x1280", L())
+            r = system.shell(f"wm density 320", L())
+            display = Device.display()
+            if display.widthPixels != 720 or display.heightPixels != 1280:
+                Dialog.confirm("屏幕分辨率已设置为 720 * 1280", "分辨率已调整")
+
         for attempt in range(max_attempt):
             tryTimes = tryTimes + 1
 
