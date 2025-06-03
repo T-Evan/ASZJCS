@@ -30,7 +30,7 @@ class StartUp:
         # r = system.shell(f"start -n com.xd.cfbmf")
         tryTimes = 0
 
-        max_attempt = 30
+        max_attempt = 35
 
         display = Device.display()
         # 屏幕宽度

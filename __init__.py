@@ -184,6 +184,7 @@ print('卡密联网激活开始')
 # kamiActive()
 print('卡密联网激活完成')
 
+
 # debug
 # action.Touch.down(127,1000, 1500)  # 长按
 # action.Touch.up(127,1000, 1500)
@@ -262,16 +263,22 @@ def main():
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 # 输出异常信息和行号
                 file_name, line_number, _, _ = traceback.extract_tb(exc_traceback)[-1]
-                error_message = f"发生错误: {e} 在文件 {file_name} 第 {line_number} 行"
+                error_message = f"发生错误1: {e} 在文件 {file_name} 第 {line_number} 行"
                 # 显示对话框
                 print(error_message)
+                if '没有找到' in error_message:
+                    print('尝试切换游戏版本')
+                    功能开关['游戏包名'] = random.choice(
+                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j"])
+                    start_up = StartUp(f'{功能开关["游戏包名"]}')
+
     except Exception as e:
         # 处理异常
         # 获取异常信息
         exc_type, exc_value, exc_traceback = sys.exc_info()
         # 输出异常信息和行号
         file_name, line_number, _, _ = traceback.extract_tb(exc_traceback)[-1]
-        error_message = f"发生错误: {e} 在文件 {file_name} 第 {line_number} 行"
+        error_message = f"发生错误2: {e} 在文件 {file_name} 第 {line_number} 行"
         # 显示对话框
         print(error_message)
         if error_message != '':

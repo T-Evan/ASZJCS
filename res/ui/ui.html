@@ -521,6 +521,26 @@
                         <div class="checkbox-item">
                             <input id="日常副本" name="vehicle" type="checkbox" value="Bike">日常副本<br>
                         </div>
+                        <div class="flex-container">
+                            <div class="layui-form">
+                                <div class="layui-input-inline" style="width: 160px">
+                                    <select name="副本地图" id="副本地图" lay-filter="mijing1-filter">
+                                        <option value="默认副本">默认副本</option>
+                                        <option value="世界之树">世界之树</option>
+                                        <option value="机神山">机神山</option>
+                                        <option value="海之宫遗迹">海之宫遗迹</option>
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline" style="width: 120px">
+                                    <select name="副本难度" id="副本难度" lay-filter="mijing2-filter"
+                                            lay-depend="mijing1-filter">
+                                        <option value="默认难度">默认难度</option>
+                                        <option value="普通">普通</option>
+                                        <option value="困难">困难</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="checkbox-group">
                             <div class="flex-container">
                                 <div class="checkbox-item" style="margin-right:10px">
@@ -978,6 +998,22 @@
                 break;
             }
         }
+        var defaultValue = localStorage.getItem('副本地图');
+        var selectElement = document.getElementById('副本地图');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+        var defaultValue = localStorage.getItem('副本难度');
+        var selectElement = document.getElementById('副本难度');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
         var 日常副本重复挑战次数 = localStorage.getItem("日常副本重复挑战次数");
         document.getElementById("日常副本重复挑战次数").value = 日常副本重复挑战次数;
 
@@ -1114,6 +1150,10 @@
         localStorage.setItem("日常副本补充次数", 日常副本补充次数);
         var 日常副本重复挑战次数 = document.getElementById("日常副本重复挑战次数").value;
         localStorage.setItem("日常副本重复挑战次数", 日常副本重复挑战次数);
+        var 副本地图 = document.getElementById("副本地图").value;
+        localStorage.setItem("副本地图", 副本地图);
+        var 副本难度 = document.getElementById("副本难度").value;
+        localStorage.setItem("副本难度", 副本难度);
         
         地图探索 = saveSwitchStatus("地图探索");
         金币探索 = saveSwitchStatus("金币探索");
@@ -1189,6 +1229,8 @@
             不开宝箱: 不开宝箱,
             日常副本创建房间: 日常副本创建房间,
             日常副本补充次数: 日常副本补充次数,
+            副本地图: 副本地图,
+            副本难度: 副本难度,
             日常副本重复挑战次数: 日常副本重复挑战次数,
 
             地图探索: 地图探索,

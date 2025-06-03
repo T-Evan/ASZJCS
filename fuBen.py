@@ -220,13 +220,33 @@ class FuBenTask:
         if needFightCt == 0:
             needFightCt = 2
         for k in range(needFightCt):
-            Toast(f'日常副本-第{k + 1}/{needFightCt}次挑战')
-            re = TomatoOcrTap(472, 243, 516, 291, '树', sleep1=2)
+            Toast(f'日常副本-选择副本')
+            if 功能开关['副本地图'] == "世界之树":
+                re = TomatoOcrTap(472, 243, 516, 291, '树', sleep1=2)
+            elif 功能开关['副本地图'] == "机神山":
+                re = TomatoOcrTap(221, 551, 486, 617, '机', sleep1=2, match_mode='fuzzy')
+            elif 功能开关['副本地图'] == "海之宫遗迹":
+                re = TomatoOcrTap(152, 914, 212, 968, '海', sleep1=2)
+            elif 功能开关['副本地图'] == "默认副本":
+                Toast(f'日常副本-选择默认副本')
+                re = FindColors.find("640,501,#A2B776|639,509,#A2B776|672,504,#A1B978|670,510,#A2B778|658,483,#323232",
+                                     ori=6)
+                if re:
+                    tapSleep(re.x, re.y, 2)
             if not re:
                 re = self.进入日常副本()
                 if not re:
                     return
             if re:
+                if 功能开关['副本难度'] == "默认难度":
+                    Toast(f'日常副本-选择默认难度')
+                elif 功能开关['副本难度'] == "困难":
+                    Toast(f'日常副本-困难难度')
+                    re = TomatoOcrTap(528, 1199, 592, 1238, '困难')
+                elif 功能开关['副本难度'] == "普通":
+                    Toast(f'日常副本-普通难度')
+                    re = TomatoOcrTap(261, 1196, 323, 1237, '普通')
+
                 Toast(f'第{k + 1}/{needFightCt}次挑战')
                 self.副本匹配()
 
