@@ -181,13 +181,14 @@ def kamiActive():
 
 
 print('卡密联网激活开始')
-# kamiActive()
+kamiActive()
 print('卡密联网激活完成')
 
 
 # debug
 # action.Touch.down(127,1000, 1500)  # 长按
 # action.Touch.up(127,1000, 1500)
+# from ascript.android.screen import FindColors
 # system.exit()
 
 
@@ -226,7 +227,7 @@ def main():
                 # 日常（优先领取）
                 dailyTask.dailyTask()
 
-                # 日常（优先领取）
+                # 副本
                 fuBenTask.fuBenTask()
 
                 # 角色
@@ -234,6 +235,9 @@ def main():
 
                 # 公会
                 gongHuiTask.gongHuiTask()
+
+                # 日常（最后领取）
+                dailyTask.dailyTaskEnd()
 
                 # 定时休息
                 current_time = int(time.time())

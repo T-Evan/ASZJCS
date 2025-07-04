@@ -52,10 +52,11 @@ class GongHuiTask:
         tapSleep(495, 1226)  # 点击空白
 
     def 公会讨伐(self):
-        if 功能开关["公会讨伐"] == 0 or 任务记录["公会讨伐"] == 1:
+        if (功能开关["公会讨伐"] == 0 or 任务记录["公会讨伐"] == 1) and (
+                功能开关["公会战"] == 0 or 任务记录["公会战"] == 1):
             return
 
-        Toast('公会-公会讨伐-开始')
+        Toast('公会-远征之门-开始')
         isFind = self.进入公会()
         if not isFind:
             return
@@ -66,8 +67,8 @@ class GongHuiTask:
                 keywords=[{'keyword': '远', 'match_mode': 'fuzzy'}, {'keyword': '征', 'match_mode': 'fuzzy'},
                           {'keyword': '之门', 'match_mode': 'fuzzy'}],
                 sleep1=2,
-                x1=6,
-                y1=885, x2=711, y2=930)
+                x1=1,
+                y1=877, x2=700, y2=962)
             if re:
                 Toast('公会-进入远征之门')
                 isFind = True
@@ -81,34 +82,60 @@ class GongHuiTask:
                     swipe(352, 723, 527, 735)
                     sleep(2)
         if not isFind:
-            Toast('公会讨伐-未找到远征入口')
+            Toast('公会-未找到远征入口')
             return
 
-        re = TomatoOcrTap(31, 607, 223, 670, '讨伐', match_mode='fuzzy')
-        if not re:
-            Toast('公会讨伐-未找到讨伐入口')
-            任务记录["公会讨伐"] = 1
-            return
+        if 功能开关["公会战"] == 1:
+            re = TomatoOcrTap(31, 326, 179, 391, '公会战', match_mode='fuzzy', offsetX=10, offsetY=10, sleep1=1.2)
+            if not re:
+                Toast('公会战-未找到讨伐入口')
+                任务记录["公会战"] = 1
+            if re:
+                tmp = TomatoOcrTap(329, 971, 391, 1006, '领取')
+                任务记录["公会战"] = 1
 
-        # 领取讨伐奖励
-        re = CompareColors.compare("386,702,#E15353|402,699,#E05252")
-        if re:
-            Toast('公会讨伐-领取讨伐奖励')
-            tapSleep(351, 738)  # 领取奖励
-            tapSleep(59, 981)  # 点击空白
+            # 领取馈赠奖励
+            re = CompareColors.compare("684,1191,#E15252|693,1191,#D84747")  # 匹配馈赠红点
+            if re:
+                Toast('公会讨伐-馈赠领取')
+                self.dailyTask.馈赠领取()
 
-        # 领取馈赠奖励
-        re = CompareColors.compare("684,1191,#E15252|693,1191,#D84747")  # 匹配馈赠红点
-        if re:
-            Toast('公会讨伐-馈赠领取')
-            self.dailyTask.馈赠领取()
+        if 功能开关["公会讨伐"] == 1:
+            re = TomatoOcrTap(31, 607, 223, 670, '讨伐', match_mode='fuzzy')
+            if not re:
+                Toast('公会讨伐-未找到讨伐入口')
+                任务记录["公会讨伐"] = 1
 
-        # 开始讨伐
-        re = TomatoOcrTap(214, 1201, 275, 1235, '讨伐')
-        if re:
-            Toast('公会讨伐-开始讨伐')
+            if re:
+                # 领取讨伐奖励
+                re = CompareColors.compare("386,702,#E15353|402,699,#E05252")
+                if re:
+                    Toast('公会讨伐-领取讨伐奖励')
+                    tapSleep(351, 738)  # 领取奖励
+                    tapSleep(59, 981)  # 点击空白
+
+                # 领取馈赠奖励
+                re = CompareColors.compare("684,1191,#E15252|693,1191,#D84747")  # 匹配馈赠红点
+                if re:
+                    Toast('公会讨伐-馈赠领取')
+                    self.dailyTask.馈赠领取()
+
+                # 开始讨伐
+                re = TomatoOcrTap(214, 1201, 275, 1235, '讨伐')
+                if re:
+                    for k in range(2):
+                        re = CompareColors.compare(
+                            "421,44,#CBCF60|418,49,#CBCF5F|422,58,#CCD060|426,51,#CBD05F|416,45,#212121")
+                        if re:
+                            Toast('公会讨伐-讨伐次数用尽')
+                            break
+                        re = TomatoOcrTap(330, 966, 389, 1001, '挑战', sleep1=3)
+                        if re:
+                            Toast('公会讨伐-开始讨伐')
+                            self.dailyTask.战斗检查()
 
         tapSleep(67, 1215)  # 点击返回
+        tapSleep(67, 1215)
         tapSleep(67, 1215)
         任务记录["公会讨伐"] = 1
 

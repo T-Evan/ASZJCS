@@ -341,7 +341,7 @@ def TomatoOcrFindRangeClick(keyword='T^&*', sleep1=0.7, confidence1=0.9, x1=0, y
                         license="DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO", remark="仗剑挂机助手",
                         rec_type="ch-3.0", box_type="rect", ratio=1.9, threshold=0.3, return_type='json', ocr_type=3,
                         run_mode='fast', bitmap=bitmap)
-            print(ocrRe)
+            # print(ocrRe)
         except RuntimeError as e:
             print(f"TomatoOcrFindRangeClick获取锁超时-{keyword}")
             return False

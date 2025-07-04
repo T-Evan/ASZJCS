@@ -34,8 +34,60 @@ class FuBenTask:
         # 素材秘境
         self.素材秘境()
 
+        # 地图探索
+        self.dailyTask.地图探索()
+
+        # 魔物讨伐
+        self.魔物讨伐()
+
         # 每日副本
         self.每日副本()
+
+    def 魔物讨伐(self):
+        if 功能开关["魔物讨伐"] == 0:
+            return
+        Toast('副本-魔物讨伐')
+        isFind = False
+        for k in range(2):
+            self.dailyTask.homePage()
+            Toast('魔物讨伐-寻找聊天入口')
+            tapSleep(67, 1093)  # 点击聊天框
+            isFind, _ = TomatoOcrText(23, 789, 74, 820, '界', match_mode='fuzzy')
+            if not isFind:
+                isFind, _ = TomatoOcrText(22, 686, 77, 711, '界', match_mode='fuzzy')
+            if isFind:
+                break
+        if not isFind:
+            Toast('魔物讨伐-寻找聊天入口失败')
+            return
+        Toast('魔物讨伐-已进入界域聊天')
+
+        start_time = int(time.time())
+        if 功能开关["寻找讨伐等待时长"] == "":
+            功能开关["寻找讨伐等待时长"] = 5  # 默认5分钟
+        totalWait = 功能开关["寻找讨伐等待时长"] * 60
+        while 1:
+            current_time = int(time.time())
+            elapsed = current_time - start_time
+            if elapsed > totalWait:
+                Toast('魔物讨伐-等待队伍超时')
+                break
+
+            isFind, _ = TomatoOcrText(23, 789, 74, 820, '界', match_mode='fuzzy')
+            if not isFind:
+                isFind, _ = TomatoOcrText(22, 686, 77, 711, '界', match_mode='fuzzy')
+            if not isFind:
+                Toast('魔物讨伐-已退出聊天频道')
+                break
+
+            Toast(f'魔物讨伐-等待讨伐队伍{elapsed}/{totalWait}')
+            re = FindColors.find("390,573,#B3DE65|423,574,#AED962|441,578,#B7E467|510,574,#B7E368",
+                                 rect=[110, 132, 690, 1169], diff=0.93)
+            if re:
+                Toast('魔物讨伐-加入讨伐队伍')
+                tapSleep(re.x, re.y)
+
+            sleep(1)
 
     def 圣兽试炼(self):
         if 功能开关["圣兽试炼"] == 0 or 任务记录["圣兽试炼"] == 1:
@@ -51,14 +103,14 @@ class FuBenTask:
         if re:
             tapSleep(567, 629, 1.2)
         if not re:
-            re = TomatoOcrTap(433, 741, 577, 784, '每日活动', match_mode='fuzzy')
+            re = TomatoOcrTap(433, 741, 577, 784, '每日活动', match_mode='fuzzy', sleep1=1.3)
         if not re:
             Toast('日常-每日活动未开启')
             sleep(0.5)
             return
 
         Toast('日常-进入每日活动')
-        re = TomatoOcrTap(14, 329, 205, 381, '圣兽试炼')
+        re = TomatoOcrTap(14, 329, 205, 381, '圣兽试炼', sleep1=1.3)
         if re:
             Toast('进入圣兽试炼')
         if not re:
@@ -71,6 +123,24 @@ class FuBenTask:
             Toast('圣兽试炼-领取每日奖励')
             tapSleep(re.x - 5, re.y + 5)
             tapSleep(355, 1144)  # 点击空白
+
+        # 领取击破记录奖励
+        re = CompareColors.compare("503,1197,#E15353|509,1196,#FEFDFD|512,1196,#DD4D4D")
+        if re:
+            tapSleep(422, 1213)  # 点击排行榜
+        re = CompareColors.compare("681,44,#DD5555|687,42,#F9F0F0|690,42,#E14F4F", diff=0.95)
+        if re:
+            Toast('圣兽试炼-领取击破奖励')
+            tapSleep(656, 67)
+            re = FindColors.find("339,721,#DF5454|347,721,#D14545|351,721,#E55353", diff=0.95)
+            if re:
+                tapSleep(re.x - 30, re.y + 40)
+                TomatoOcrTap(293, 978, 422, 1018, '通关', match_mode='fuzzy')
+            for k in range(5):
+                re = TomatoOcrTap(212, 1201, 279, 1235, '试炼')
+                if re:
+                    break
+                tapSleep(67, 1213)  # 返回
 
         # 识别是否完成匹配
         # re = CompareColors.compare("571,929,#CCD168|582,928,#CFD268|586,926,#D0D168") # 识别金币宝箱
@@ -119,12 +189,14 @@ class FuBenTask:
             sleep(0.5)
             return
 
-        re = TomatoOcrTap(271, 160, 449, 211, '月影之森')
-        if re:
-            Toast('幻想阶梯-进入月影之森')
-        if not re:
-            Toast('幻想阶梯-未找到关卡入口')
-            return
+        # re = TomatoOcrTap(271, 160, 449, 211, '月影之森')
+        # if re:
+        #     Toast('幻想阶梯-进入月影之森')
+        # if not re:
+        #     Toast('幻想阶梯-未找到关卡入口')
+        #     return
+
+        tapSleep(343, 280)  # 进入默认关卡
 
         re = CompareColors.compare("685,1199,#E15151|690,1196,#F5E7E7|694,1196,#E35454")  # 匹配馈赠红点
         if re:
@@ -136,7 +208,10 @@ class FuBenTask:
                              diff=0.95)
         if not re:
             Toast('幻想阶梯-未达到推荐战力-尝试挑战')
-            re = TomatoOcrTap(582, 896, 652, 931, '挑战', sleep1=3)
+            re = FindColors.find("569,442,#CDD067|579,447,#D0D368|665,435,#D2D569|666,459,#D2D568",
+                                 rect=[520, 142, 692, 1144], diff=0.93)
+            if re:
+                tapSleep(re.x, re.y, 3)
         else:
             Toast('日常-幻想阶梯-开始挑战')
             tapSleep(re.x, re.y, 3)
@@ -188,18 +263,30 @@ class FuBenTask:
         tapSleep(189, 1008, 1.5)
         for k in range(10):
             re = FindColors.find("337,195,#58B4E1|335,173,#41A4D5", rect=[37, 116, 713, 720], diff=0.9)
+            if not re:
+                re = FindColors.find("328,176,#E35353|329,186,#DF5454|336,183,#FFFFFF", rect=[14, 112, 700, 1114],
+                                     diff=0.9)
+
             if re:
                 Toast('素材秘境-开始采集')
-                tapSleep(re.x, re.y)
+                tapSleep(re.x - 30, re.y + 50)
+                re = CompareColors.compare("685,1194,#DC5151|689,1196,#FFFFFF|693,1194,#DC4C4C")
+                if re:
+                    Toast('素材秘境-馈赠领取')
+                    self.dailyTask.馈赠领取()
+                tapSleep(244, 1212)
+                failTimes = 0
                 for m in range(30):
                     re, count = TomatoOcrText(381, 959, 416, 983, '剩余次数')
                     count = safe_int_v2(count)
                     if count == 0:
+                        failTimes = failTimes + 1
+                    if failTimes > 6:
                         Toast(f'素材秘境-采集完成')
-                        tapSleep(74, 1212, 1)  # 返回
                         break
                     Toast(f'素材秘境-采集中-剩余{count}次')
                     tapSleep(359, 928, 0.2)
+                tapSleep(80, 1207)  # 返回
             任务记录["素材秘境"] = 1
 
     def 每日副本(self):
@@ -220,32 +307,97 @@ class FuBenTask:
         if needFightCt == 0:
             needFightCt = 2
         for k in range(needFightCt):
-            Toast(f'日常副本-选择副本')
             if 功能开关['副本地图'] == "世界之树":
-                re = TomatoOcrTap(472, 243, 516, 291, '树', sleep1=2)
+                Toast(f'日常副本-世界之树')
+                re = TomatoOcrTap(472, 243, 516, 291, '树', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    re = TomatoOcrFindRangeClick('树', sleep1=2, match_mode='fuzzy', x1=91, y1=216, x2=596, y2=1071)
+                if not re:
+                    swipe(342, 265, 343, 1023, dur=600)
+                    sleep(1.5)
+                    re = TomatoOcrTap(472, 243, 516, 291, '树', sleep1=2, match_mode='fuzzy')
             elif 功能开关['副本地图'] == "机神山":
+                Toast(f'日常副本-机神山')
+                re = TomatoOcrTap(221, 551, 486, 617, '机', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    re = TomatoOcrFindRangeClick('机', sleep1=2, match_mode='fuzzy', x1=91, y1=216, x2=596, y2=1071)
+                if not re:
+                    swipe(342, 265, 343, 1023, dur=600)
+                    sleep(1.5)
                 re = TomatoOcrTap(221, 551, 486, 617, '机', sleep1=2, match_mode='fuzzy')
             elif 功能开关['副本地图'] == "海之宫遗迹":
-                re = TomatoOcrTap(152, 914, 212, 968, '海', sleep1=2)
+                Toast(f'日常副本-海之宫遗迹')
+                re = TomatoOcrTap(146, 203, 570, 265, '海', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    re = TomatoOcrTap(144, 195, 215, 268, '海', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    re = TomatoOcrFindRangeClick('海', sleep1=2, match_mode='fuzzy', x1=91, y1=216, x2=596, y2=1071)
+            elif 功能开关['副本地图'] == "源水大社":
+                Toast(f'日常副本-源水大社')
+                re = TomatoOcrTap(285, 558, 343, 618, '水', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    swipe(343, 923, 342, 365, dur=300)
+                    sleep(0.6)
+                re = TomatoOcrTap(288, 563, 342, 615, '水', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    re = TomatoOcrFindRangeClick('水', sleep1=2, match_mode='fuzzy', x1=91, y1=216, x2=596, y2=1071)
+            elif 功能开关['副本地图'] == "黄泉阁":
+                Toast(f'日常副本-黄泉阁')
+                re = TomatoOcrTap(332, 915, 384, 964, '泉', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    swipe(343, 923, 342, 365, dur=300)
+                    sleep(0.6)
+                re = TomatoOcrTap(332, 915, 384, 964, '泉', sleep1=2, match_mode='fuzzy')
+                if not re:
+                    re = TomatoOcrFindRangeClick('泉', sleep1=2, match_mode='fuzzy', x1=91, y1=216, x2=596, y2=1071)
             elif 功能开关['副本地图'] == "默认副本":
-                Toast(f'日常副本-选择默认副本')
+                Toast(f'日常副本-默认副本')
                 re = FindColors.find("640,501,#A2B776|639,509,#A2B776|672,504,#A1B978|670,510,#A2B778|658,483,#323232",
                                      ori=6)
                 if re:
                     tapSleep(re.x, re.y, 2)
+                    re = True
             if not re:
                 re = self.进入日常副本()
                 if not re:
                     return
             if re:
                 if 功能开关['副本难度'] == "默认难度":
-                    Toast(f'日常副本-选择默认难度')
+                    Toast(f'日常副本-默认难度')
                 elif 功能开关['副本难度'] == "困难":
                     Toast(f'日常副本-困难难度')
                     re = TomatoOcrTap(528, 1199, 592, 1238, '困难')
+                    if not re:
+                        re = TomatoOcrTap(394, 1199, 458, 1235, '困难')
+                    if not re:
+                        re = TomatoOcrTap(331, 1202, 386, 1237, '困难')
+                    if not re:
+                        re = TomatoOcrFindRangeClick('困难', sleep1=2, match_mode='fuzzy', x1=159, y1=1177, x2=682,
+                                                     y2=1250)
                 elif 功能开关['副本难度'] == "普通":
                     Toast(f'日常副本-普通难度')
                     re = TomatoOcrTap(261, 1196, 323, 1237, '普通')
+                    if not re:
+                        re = TomatoOcrTap(211, 1197, 282, 1237, '普通')
+                    if not re:
+                        re = TomatoOcrTap(188, 1196, 257, 1237, '普通')
+                    if not re:
+                        re = TomatoOcrFindRangeClick('普通', sleep1=2, match_mode='fuzzy', x1=159, y1=1177, x2=682,
+                                                     y2=1250)
+                elif 功能开关['副本难度'] == "噩梦":
+                    Toast(f'日常副本-噩梦难度')
+                    re = TomatoOcrTap(581, 1201, 637, 1235, '噩梦')
+                    if not re:
+                        re = TomatoOcrTap(461, 1201, 527, 1237, '噩梦')
+                    if not re:
+                        re = TomatoOcrFindRangeClick('噩梦', sleep1=2, match_mode='fuzzy', x1=159, y1=1177, x2=682,
+                                                     y2=1250)
+                elif 功能开关['副本难度'] == "炼狱":
+                    Toast(f'日常副本-炼狱难度')
+                    re = TomatoOcrTap(600, 1199, 664, 1240, '炼狱')
+                    if not re:
+                        re = TomatoOcrFindRangeClick('炼狱', sleep1=2, match_mode='fuzzy', x1=159, y1=1177, x2=682,
+                                                     y2=1250)
 
                 Toast(f'第{k + 1}/{needFightCt}次挑战')
                 self.副本匹配()
@@ -279,8 +431,10 @@ class FuBenTask:
     def 副本匹配(self):
         re = TomatoOcrTap(502, 1077, 572, 1114, '匹配')
         if not re:
-            Toast('当前状态不可匹配')
-            return
+            re = TomatoOcrTap(500, 1077, 574, 1114, '匹配')
+            if not re:
+                Toast('当前状态不可匹配')
+                return
 
         Toast('开始匹配')
         failTimes = 0
@@ -345,6 +499,7 @@ class FuBenTask:
         failTimes = 0
         start_time = int(time.time())
         while True:
+            self.战斗喊话()
             re = CompareColors.compare("39,926,#DFDEDA|39,915,#DFDEDA|52,915,#DFDEDA|60,920,#E0DFDB")
             if not re:
                 re = CompareColors.compare("39,920,#B7B7B7|47,920,#B7B7B7|47,924,#B7B7B7|60,923,#B7B7B7")
@@ -400,9 +555,14 @@ class FuBenTask:
                             tapSleep(64, 1220, 1.2)  # 返回
                             TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
                             break
-                    re = TomatoOcrTap(494, 1196, 611, 1232, '领取', match_mode='fuzzy', sleep1=1.5)
-                    Toast('战斗结束-开启宝箱')
-                    TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
+                    re = CompareColors.compare(
+                        "398,232,#CED168|387,205,#222222|364,187,#222222|337,214,#222222|387,277,#222222|359,312,#222222|320,280,#222222")  # S宝箱
+                    if 功能开关["仅S评开启"] == 1 and not re:
+                        Toast('非S评宝箱-跳过开启')
+                    else:
+                        re = TomatoOcrTap(494, 1196, 611, 1232, '领取', match_mode='fuzzy', sleep1=1.5)
+                        Toast('战斗结束-开启宝箱')
+                        TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
                 else:
                     Toast('战斗结束-不开宝箱')
                 tapSleep(64, 1220)  # 返回
@@ -430,11 +590,11 @@ class FuBenTask:
 
             current_time = int(time.time())
             elapsed = current_time - start_time
-            if elapsed > 450:
+            if elapsed > 650:
                 Toast('战斗超时-退出')
                 break
             sleep(0.5)
-            Toast(f'战斗中{elapsed}/450s')
+            Toast(f'战斗中{elapsed}/650s')
         return
 
     def 进入笔记(self):
@@ -496,3 +656,66 @@ class FuBenTask:
 
             Toast('战斗中')
             sleep(0.5)
+
+    def 战斗喊话(self):
+        if 功能开关['队伍喊话'] == "":
+            return
+
+        need_dur_minute = 1  # 默认2分钟
+        if 任务记录["队伍喊话-倒计时"] > 0:
+            diffTime = time.time() - 任务记录["队伍喊话-倒计时"]
+            if diffTime < need_dur_minute * 60:
+                Toast(f'队伍喊话-倒计时{round((need_dur_minute * 60 - diffTime) / 60, 2)}min')
+                sleep(1.5)
+                return
+
+        # 发送表情
+        tapSleep(673, 1010)  # 点击表情
+        tapSleep(264, 883)  # 嗨
+
+        tapSleep(58, 1112)  # 点击左下角喊话
+        re = TomatoOcrTap(22, 793, 74, 817, '战场')
+        if not re:
+            re = TomatoOcrTap(22, 686, 77, 711, '战场')
+        if not re:
+            Toast("未识别到战场喊话入口")
+            self.dailyTask.世界聊天检查()
+            return
+        Toast("开始队伍喊话")
+        任务记录["队伍喊话-倒计时"] = time.time()
+        contentArr = []
+        if 功能开关['队伍喊话'] != "":
+            contentArr.append(功能开关['队伍喊话'])
+        contents = random.choice(contentArr).split('|')
+        print(contents)
+        for content in contents:
+            # print(content)
+            res1 = TomatoOcrTap(99, 1210, 268, 1245, "聊天", 10, 10, match_mode='fuzzy')
+            if res1:
+                # 延迟 1 秒以便获取焦点，注意某些应用不获取焦点无法输入
+                sleep(0.3)
+                # 在输入框中输入字符串 "Welcome." 并回车；此函数在某些应用中无效，如支付宝、密码输入框等位置，甚至可能会导致目标应用闪退
+                action.input(content)
+                action.Key.back()  # 模拟返回键确认输入
+                sleep(0.3)
+                # 检查是否已输入
+                shuru = TomatoOcrTap(99, 1210, 268, 1245, "聊天", 10, 10, match_mode='fuzzy')
+                if shuru:
+                    Toast('队伍喊话-尝试重新输入')
+                    action.input(content)
+                    action.Key.back()  # 模拟返回键确认输入
+                    sleep(0.3)
+                isFaSong = False
+                for k in range(4):
+                    re, shuru = TomatoOcrText(99, 1210, 268, 1245, "聊天", match_mode='fuzzy')
+                    if shuru and isFaSong:
+                        Toast('队伍喊话-已发送')
+                        break
+                    isFaSong = TomatoOcrTap(610, 1210, 669, 1243, "发", 10, 10, match_mode='fuzzy')
+                    sleep(0.3)
+                任务记录["队伍喊话-倒计时"] = time.time()
+            else:
+                Toast('队伍喊话-尝试清空输入框')
+                res = TomatoOcrTap(610, 1210, 669, 1243, "发", 10, 10, match_mode='fuzzy')
+                sleep(0.3)
+        self.dailyTask.世界聊天检查()

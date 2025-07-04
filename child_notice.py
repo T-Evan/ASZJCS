@@ -22,7 +22,7 @@ def main():
     checkLoginTime = time.time()
     while True:
         sleep(4)  # 等待 5 秒
-        noticeCancel()
+        # noticeCancel()
 
 
 def noticeCancel():
