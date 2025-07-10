@@ -33,6 +33,11 @@ class DailyTask:
                 self.对话检查()
                 system.open(f"{功能开关['游戏包名']}")
 
+            # 避免战斗中直接退出
+            if tryTimes < 300 and 功能开关["fighting"] == 1:
+                sleep(1)
+                continue
+
             if tryTimes > 10:
                 login1, _ = TomatoOcrText(618, 77, 693, 108, "服务器")  # 首页服务器选择
                 if login1:
@@ -64,6 +69,7 @@ class DailyTask:
             Toast('正在返回首页')
             tapSleep(52, 1229)
             TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
+            TomatoOcrTap(175, 795, 285, 836, '返回', sleep1=1.5, match_mode='fuzzy')
             # tapSleepV2(52, 1229)
             sleep(0.5)
 
@@ -628,7 +634,7 @@ class DailyTask:
         if 任务记录["小木床-倒计时"] > 0:
             diffTime = time.time() - 任务记录["小木床-倒计时"]
             if diffTime < 3 * 60:
-                Toast(f'小木床-倒计时{round((3 * 60 - diffTime) / 60, 2)}min')
+                # Toast(f'小木床-倒计时{round((3 * 60 - diffTime) / 60, 2)}min')
                 sleep(1.5)
                 return
 
@@ -671,14 +677,14 @@ class DailyTask:
                 return
 
         Toast('检查命运之树领取')
-        re = FindColors.find("811,1351,#FFC8D0|804,1325,#FFD0D5|827,1348,#FFCCD5", rect=[86,413,709,935],
+        re = FindColors.find("811,1351,#FFC8D0|804,1325,#FFD0D5|827,1348,#FFCCD5", rect=[86, 413, 709, 935],
                              diff=0.95)
         if not re:
             re = FindColors.find("270,598,#FEEBEF|262,595,#FEEDF1|272,608,#FED3D6|270,587,#F7BDC2",
-                                 rect=[86,413,709,935], diff=0.95)
+                                 rect=[86, 413, 709, 935], diff=0.95)
         if not re:
             re = FindColors.find("495,602,#FFD0D8|503,601,#FFC7D1|492,609,#FFBDC5|499,609,#FFB8C1",
-                                 rect=[86,413,709,935], diff=0.93)
+                                 rect=[86, 413, 709, 935], diff=0.93)
         if re:
             任务记录["命运之树-倒计时"] = time.time()
             Toast('命运之树领取')
@@ -696,23 +702,20 @@ class DailyTask:
         if 任务记录["世界喊话-倒计时"] > 0:
             diffTime = time.time() - 任务记录["世界喊话-倒计时"]
             if diffTime < need_dur_minute * 60:
-                Toast(f'世界喊话-倒计时{round((need_dur_minute * 60 - diffTime) / 60, 2)}min')
+                # Toast(f'世界喊话-倒计时{round((need_dur_minute * 60 - diffTime) / 60, 2)}min')
                 sleep(1.5)
                 return
 
-        任务记录["世界喊话-倒计时"] = time.time()
-
         self.homePage()
         Toast('日常-世界喊话')
-        tapSleep(67, 1089)  # 点击聊天框
-        re, _ = TomatoOcrText(23, 789, 74, 820, '界', match_mode='fuzzy')
-        if not re:
-            re, _ = TomatoOcrText(22, 686, 77, 711, '界', match_mode='fuzzy')
+        tapSleep(67, 1089, 1.2)  # 点击聊天框
+        re = TomatoOcrFindRangeClick('界', x1=14, y1=511, x2=85, y2=1161, sleep1=1, match_mode='fuzzy')
         if not re:
             Toast('世界喊话-未找到界域聊天入口')
             return
-        Toast('世界喊话-已进入界域聊天')
+        # Toast('世界喊话-已进入界域聊天')
 
+        任务记录["世界喊话-倒计时"] = time.time()
         contentArr = []
         if 功能开关['世界喊话'] != "":
             contentArr.append(功能开关['世界喊话'])
@@ -764,7 +767,7 @@ class DailyTask:
         if 任务记录["小推车-倒计时"] > 0:
             diffTime = time.time() - 任务记录["小推车-倒计时"]
             if diffTime < 3 * 60:
-                Toast(f'小推车-倒计时{round((3 * 60 - diffTime) / 60, 2)}min')
+                # Toast(f'小推车-倒计时{round((3 * 60 - diffTime) / 60, 2)}min')
                 sleep(1.5)
                 return
 

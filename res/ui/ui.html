@@ -313,6 +313,11 @@
                             type="button">
                         一键刷币配置
                     </button>
+                    <button onclick="daiDuiAllItems()"
+                            style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                            type="button">
+                        一键带队配置
+                    </button>
                     <div class="flex-container">
                         <label class="gray-text">1</label><input type="text" id="配置1名称" name="配置1"
                                                                  lay-verify="title" autocomplete="off"
@@ -408,6 +413,8 @@
                                     <option value="雷霆官服(公测)">雷霆官服(公测)</option>
                                     <option value="哔哩哔哩服(公测)">哔哩哔哩服(公测)</option>
                                     <option value="渠道服A(公测)">渠道服A(公测)</option>
+                                    <option value="渠道服B(公测)">渠道服B(公测)</option>
+                                    <option value="渠道服C(公测)">渠道服C(公测)</option>
                                     <option value="雷霆官服(内测)">雷霆官服(内测)</option>
                                 </select>
                             </div>
@@ -583,6 +590,35 @@
                             <input type="text" id="队伍喊话" name="队伍喊话1" lay-verify="title" autocomplete="off"
                                    placeholder="多条喊话|分隔(留空不执行)" class="layui-input">
                         </div>
+                        <div class="flex-container">
+                            <label for="队伍喊话间隔">队伍喊话间隔:</label>
+                            <input type="text" id="队伍喊话间隔" name="队伍喊话间隔" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="默认1分钟" class="layui-input" style="width: 120px">
+                            <div class="checkbox-item">
+                                <input id="发送随机表情" name="vehicle" type="checkbox" value="Bike">发送随机表情<br>
+                            </div>
+                        </div>
+                        <legend>自动入队设置<label class="gray-text">(可与日常副本同时使用)</label></legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input id="副本自动接收邀请" name="vehicle" type="checkbox"
+                                       value="Bike" onclick="toggleInviteToast()">自动接收邀请<label class="gray-text">(等待邀请，不会自动匹配)</label><br>
+                            </div>
+                        </div>
+                        <div class="flex-container">
+                            <label for="自动离房等待时间">房间内等待时间:</label>
+                            <input type="text" id="自动离房等待时间" name="自动离房等待时间" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="默认50s离开，圣兽/混沌等也生效" class="layui-input">
+                        </div>
+                        <div class="flex-container">
+                            <label for="副本带队黑名单">黑名单:</label>
+                            <input type="text" id="副本带队黑名单" name="副本带队黑名单" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="不想带的玩家/副本名称，多个用|分隔" class="layui-input">
+                        </div>
+                        <label class="gray-text">(带队时不会自动开启宝箱)</label>
                     </fieldset>
                     <fieldset>
                         <legend>常驻副本</legend>
@@ -843,7 +879,7 @@
     }
 
     function shuaZanAllItems() {
-        const jsonString = '{"世界喊话开关":"false","仅S评开启":"false","不开宝箱":"true","圣兽试炼":"false","混沌侵袭":"false","无次数继续":"true","日常副本重复挑战次数":"10","日常副本补充次数":"0","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
+        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"false","不开宝箱":"true","圣兽试炼":"false","混沌侵袭":"false","无次数继续":"true","日常副本重复挑战次数":"10","日常副本补充次数":"0","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -868,7 +904,7 @@
     }
 
     function dailyAllItems() {
-        const jsonString = '{"世界喊话开关":"false","仅S评开启":"true","不开宝箱":"false","圣兽试炼":"true","混沌侵袭":"true","无次数继续":"true","日常副本重复挑战次数":"4","日常副本补充次数":"2","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"魔物讨伐":true,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":true,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"鸡舍打扫":true,"购买鸡仔":true,"饲养鸡仔":true,"公会讨伐":true,"公会战":true,"公会挂机奖励":true}'
+        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"true","不开宝箱":"false","圣兽试炼":"true","混沌侵袭":"true","无次数继续":"true","日常副本重复挑战次数":"4","日常副本补充次数":"2","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"魔物讨伐":true,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":true,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"鸡舍打扫":true,"购买鸡仔":true,"饲养鸡仔":true,"公会讨伐":true,"公会战":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -893,7 +929,7 @@
     }
 
     function daiDuiAllItems() {
-        const jsonString = '{"世界喊话开关":"false","仅S评开启":"false","不开宝箱":"true","顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
+        const jsonString = '{"副本自动接收邀请":"true","世界喊话开关":"false","仅S评开启":"true","不开宝箱":"true","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -918,7 +954,7 @@
     }
 
     function qiHaoAllItems() {
-        const jsonString = '{"顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
+        const jsonString = '{"副本自动接收邀请":"false","顶号等待":"20","日常总开关":true,"自动主线":true,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":false,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -1019,6 +1055,7 @@
         setSwitchStatus("不开宝箱");
         setSwitchStatus("仅S评开启");
         setSwitchStatus("日常副本创建房间");
+        setSwitchStatus("副本自动接收邀请");
         var defaultValue = localStorage.getItem('日常副本补充次数');
         var selectElement = document.getElementById('日常副本补充次数');
         for (var i = 0; i < selectElement.options.length; i++) {
@@ -1027,6 +1064,11 @@
                 break;
             }
         }
+        var 自动离房等待时间 = localStorage.getItem("自动离房等待时间");
+        document.getElementById("自动离房等待时间").value = 自动离房等待时间;
+        var 副本带队黑名单 = localStorage.getItem("副本带队黑名单");
+        document.getElementById("副本带队黑名单").value = 副本带队黑名单;
+
         var defaultValue = localStorage.getItem('副本地图');
         var selectElement = document.getElementById('副本地图');
         for (var i = 0; i < selectElement.options.length; i++) {
@@ -1047,7 +1089,10 @@
         document.getElementById("日常副本重复挑战次数").value = 日常副本重复挑战次数;
         var 队伍喊话 = localStorage.getItem("队伍喊话");
         document.getElementById("队伍喊话").value = 队伍喊话;
+        var 队伍喊话间隔 = localStorage.getItem("队伍喊话间隔");
+        document.getElementById("队伍喊话间隔").value = 队伍喊话间隔;
 
+        setSwitchStatus("发送随机表情");
         setSwitchStatus("地图探索");
         setSwitchStatus("金币探索");
         setSwitchStatus("粗炼石探索");
@@ -1182,12 +1227,20 @@
         不开宝箱 = saveSwitchStatus("不开宝箱");
         仅S评开启 = saveSwitchStatus("仅S评开启");
         日常副本创建房间 = saveSwitchStatus("日常副本创建房间");
+        副本自动接收邀请 = saveSwitchStatus("副本自动接收邀请");
+        发送随机表情 = saveSwitchStatus("发送随机表情");
         var 日常副本补充次数 = document.getElementById("日常副本补充次数").value;
         localStorage.setItem("日常副本补充次数", 日常副本补充次数);
+        var 自动离房等待时间 = document.getElementById("自动离房等待时间").value;
+        localStorage.setItem("自动离房等待时间", 自动离房等待时间);
+        var 副本带队黑名单 = document.getElementById("副本带队黑名单").value;
+        localStorage.setItem("副本带队黑名单", 副本带队黑名单);
         var 日常副本重复挑战次数 = document.getElementById("日常副本重复挑战次数").value;
         localStorage.setItem("日常副本重复挑战次数", 日常副本重复挑战次数);
         var 队伍喊话 = document.getElementById("队伍喊话").value;
         localStorage.setItem("队伍喊话", 队伍喊话);
+        var 队伍喊话间隔 = document.getElementById("队伍喊话间隔").value;
+        localStorage.setItem("队伍喊话间隔", 队伍喊话间隔);
         var 副本地图 = document.getElementById("副本地图").value;
         localStorage.setItem("副本地图", 副本地图);
         var 副本难度 = document.getElementById("副本难度").value;
@@ -1271,11 +1324,16 @@
             不开宝箱: 不开宝箱,
             仅S评开启: 仅S评开启,
             日常副本创建房间: 日常副本创建房间,
+            副本自动接收邀请: 副本自动接收邀请,
+            自动离房等待时间: 自动离房等待时间,
+            副本带队黑名单: 副本带队黑名单,
             日常副本补充次数: 日常副本补充次数,
             副本地图: 副本地图,
             副本难度: 副本难度,
             日常副本重复挑战次数: 日常副本重复挑战次数,
             队伍喊话: 队伍喊话,
+            发送随机表情: 发送随机表情,
+            队伍喊话间隔: 队伍喊话间隔,
 
             地图探索: 地图探索,
             金币探索: 金币探索,

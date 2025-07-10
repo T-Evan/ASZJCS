@@ -232,17 +232,17 @@ def TomatoOcrFindRange(keyword='T^&*', confidence1=0.9, x1=0, y1=0, x2=720, y2=1
         if keywords is None:
             keywords = []
         try:
-            with TimeoutLock(timeLock):
-                if bitmap == '':
-                    ocrRe = tomatoOcr.find_all(
-                        license="DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO", remark="仗剑挂机助手",
-                        rec_type="ch-3.0", box_type="rect", ratio=1.9, threshold=0.3, return_type='json', ocr_type=3,
-                        run_mode='fast', capture=[x1, y1, x2, y2])
-                else:
-                    ocrRe = tomatoOcr.find_all(
-                        license="DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO", remark="仗剑挂机助手",
-                        rec_type="ch-3.0", box_type="rect", ratio=1.9, threshold=0.3, return_type='json', ocr_type=3,
-                        run_mode='fast', bitmap=bitmap)
+            # with TimeoutLock(timeLock):
+            if bitmap == '':
+                ocrRe = tomatoOcr.find_all(
+                    license="DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO", remark="仗剑挂机助手",
+                    rec_type="ch-3.0", box_type="rect", ratio=1.9, threshold=0.3, return_type='json', ocr_type=3,
+                    run_mode='fast', capture=[x1, y1, x2, y2])
+            else:
+                ocrRe = tomatoOcr.find_all(
+                    license="DMR1H6IXOPL1RVESWHBDZT1MHBZEBFXX|4QCPZJ2CMS75C99YB0LGQANO", remark="仗剑挂机助手",
+                    rec_type="ch-3.0", box_type="rect", ratio=1.9, threshold=0.3, return_type='json', ocr_type=3,
+                    run_mode='fast', bitmap=bitmap)
             # print(ocrRe)
         except RuntimeError as e:
             print(f"TomatoOcrFindRange获取锁超时-{keyword}")

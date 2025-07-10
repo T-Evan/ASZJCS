@@ -30,7 +30,7 @@ class StartUp:
         # r = system.shell(f"start -n com.xd.cfbmf")
         tryTimes = 0
 
-        max_attempt = 35
+        max_attempt = 45
 
         display = Device.display()
         # 屏幕宽度
@@ -63,6 +63,9 @@ class StartUp:
                 if re:
                     Toast('关闭公告页')
                     tapSleep(334, 1237)  # 点击空白处，关闭登录页公告
+                    res1, _ = TomatoOcrText(231, 562, 485, 609, "登录", match_mode='fuzzy')
+                    if res1:
+                        return True
                     tapSleep(334, 1237)  # 点击空白处
 
             # 判断是否已在首页
@@ -86,6 +89,9 @@ class StartUp:
         return self.start_app()
 
     def 返回首页(self):
+        if 功能开关["fighting"] == 1:
+            return True
+
         # 判断是否已在首页
         shou_ye1 = CompareColors.compare(
             "320,1221,#DADE71|369,1218,#746661|356,1169,#FEDCE3|403,1223,#CDD068")  # 判断底部家园图标（已点亮）

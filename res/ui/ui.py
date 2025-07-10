@@ -104,13 +104,18 @@ elif 功能开关['选择游戏版本'] == "哔哩哔哩服(公测)":
     功能开关['游戏包名'] = "com.leiting.zjcs.bilibili"
 elif 功能开关['选择游戏版本'] == "渠道服A(公测)":
     功能开关['游戏包名'] = "com.m88.zjcs.j"
+elif 功能开关['选择游戏版本'] == "渠道服B(公测)":
+    功能开关['游戏包名'] = "com.m88.zjcs.h"
+elif 功能开关['选择游戏版本'] == "渠道服C(公测)":
+    功能开关['游戏包名'] = "com.m88.zjcs.g"
 elif 功能开关['选择游戏版本'] == "雷霆官服(内测)":
     功能开关['游戏包名'] = "com.leiting.zjcs.b"
 
 # thread_main_paused = False
 # thread_main_cond = threading.Condition()
-
+功能开关["fighting"] = 0
 任务记录 = {
+    "needHome": 0,
     "提示-并发锁": 0,
     "喊话-并发锁": 0,
     "启动时间": time.time(),
@@ -161,6 +166,9 @@ def 初始化任务记录(initAll=True):
         "公会讨伐": 0,
         "公会战": 0,
         "鸡舍打扫": 0,
+
+        "战斗-关卡名称": '',
+        "战斗-房主名称": '',
     })
 
 
@@ -169,4 +177,4 @@ def tunner(k, v):
 
 # 调整悬浮窗位置
 from ascript.android.ui import FloatWindow
-FloatWindow.show(0.01,0.01)
+FloatWindow.show(0.01,0.01,0.3)

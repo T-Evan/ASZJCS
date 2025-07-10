@@ -8,12 +8,13 @@ from ascript.android import screen
 from ascript.android import system
 from ascript.android.system import ShellListener
 from .daily import DailyTask
+from .startUp import StartUp
 
 checkSkipTime = 0
 checkLoginTime = 0
 
 dailyTask = DailyTask()
-
+startupTask = StartUp(f"{功能开关['游戏包名']}")
 
 # 实例方法
 def main():
@@ -23,6 +24,45 @@ def main():
     while True:
         sleep(4)  # 等待 5 秒
         # noticeCancel()
+        if 功能开关["顶号等待"] != "" and 功能开关["顶号等待"] != "0":
+            anotherLogin()
+
+
+def anotherLogin():
+    res1, _ = TomatoOcrText(313, 70, 403, 122, "公告")
+    if res1:
+        tapSleep(314, 1230)  # 关闭首页公告
+
+    res1, _ = TomatoOcrText(231, 562, 485, 609, "登录", match_mode='fuzzy')
+    if res1:
+        print("顶号等待，检查被顶号")
+        start_time = int(time.time())
+        need_another_minute = safe_int(功能开关.get("顶号等待", 0))  # 分钟
+        if need_another_minute == '':
+            need_another_minute = 0
+        total_another_minute = need_another_minute * 60
+        while True:
+            功能开关["needHome"] = 0
+            功能开关["fighting"] = 1
+            current_time = int(time.time())
+            if total_another_minute != 0 and current_time - start_time >= total_another_minute:
+                Toast("顶号等待，开始重新登录")
+                for i in range(3):
+                    res1 = TomatoOcrTap(231, 562, 485, 609, "登录", match_mode='fuzzy')
+                    startupTask.login()
+                    sleep(4)
+                    功能开关["fighting"] = 0
+                    sleep(5)
+                break
+            tmpMinute = (current_time - start_time)
+            tmpDiffMinute = (total_another_minute - (current_time - start_time))
+            Toast(f"顶号等待，已等待{tmpMinute}s/剩余等待{tmpDiffMinute}s")
+            sleep(2)  # 等待
+    else:
+        # login()
+        print("顶号等待，检查状态正常")
+
+    return
 
 
 def noticeCancel():
@@ -44,7 +84,7 @@ def noticeCancel():
         if re:
             Toast('点击教程4')
     if not re:
-        re = FindColors.find("523,197,#F9FC52|534,198,#FBFD52|561,198,#F9FB50|586,198,#FBFD4E",diff=0.9)
+        re = FindColors.find("523,197,#F9FC52|534,198,#FBFD52|561,198,#F9FB50|586,198,#FBFD4E", diff=0.9)
         if re:
             Toast('点击教程5')
     if re:

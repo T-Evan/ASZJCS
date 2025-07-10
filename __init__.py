@@ -201,6 +201,7 @@ def main():
         gongHuiTask = GongHuiTask()
 
         runThreadNotice()
+        runThreadMijingTeam()
 
         # 处理休息时间
         need_run_minute = safe_int(功能开关.get("定时运行", 0))  # 分钟
@@ -242,6 +243,9 @@ def main():
                 # 定时休息
                 current_time = int(time.time())
 
+                # 获取当前设备运行的APP信息
+                gc.collect()
+
                 # 将时间戳转换为 datetime 对象
                 # 判断执行时间超过4小时（重置每日任务）
                 if current_time - 任务记录["任务重置-倒计时"] > 60 * 60 * 2:
@@ -273,7 +277,7 @@ def main():
                 if '没有找到' in error_message:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
-                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j"])
+                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h","com.m88.zjcs.g"])
                     start_up = StartUp(f'{功能开关["游戏包名"]}')
 
     except Exception as e:
