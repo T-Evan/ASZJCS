@@ -415,6 +415,7 @@
                                     <option value="渠道服A(公测)">渠道服A(公测)</option>
                                     <option value="渠道服B(公测)">渠道服B(公测)</option>
                                     <option value="渠道服C(公测)">渠道服C(公测)</option>
+                                    <option value="国际服(公测)">国际服(公测)</option>
                                     <option value="雷霆官服(内测)">雷霆官服(内测)</option>
                                 </select>
                             </div>
@@ -457,9 +458,180 @@
                         </div>
                     </div>
                 </fieldset>
+                <fieldset>
+                    <legend>
+                        多账号配置（！请参考视频教程后再使用！单账号无需配置！非必要无需配置！请跳过下面内容！直接配置功能页！）
+                    </legend>
+                    <legend>第一步：登录页保存账号信息（勾选并启动，保存成功后取消勾选）</legend>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input id="账号1保存" name="vehicle" type="checkbox" value="Bike">账号1保存<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="账号2保存" name="vehicle" type="checkbox" value="Bike">账号2保存<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="账号3保存" name="vehicle" type="checkbox" value="Bike">账号3保存<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="账号4保存" name="vehicle" type="checkbox" value="Bike">账号4保存<br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input id="账号5保存" name="vehicle" type="checkbox" value="Bike">账号5保存<br>
+                        </div>
+                    </div>
+                    <legend>第二步：保存账号后再配置切换</legend>
+                    <div class="shouye_container">
+                        <div class="item">
+                            <label for="定时切账号">运行</label>
+                        </div>
+                        <div class="item" style="width: 50px">
+                            <input type="text" id="定时切账号" name="定时切账号" lay-verify="title" autocomplete="off"
+                                   placeholder="分钟" class="layui-input">
+                        </div>
+                        <div class="item">
+                            <label for="定时休息">分钟后切换下一账号</label>
+                        </div>
+                    </div>
+                    <div class="flex-container">
+                        <label for="选择启动账号">选择启动账号:</label>
+                        <div class="layui-form">
+                            <div class="layui-input-inline" style="width: 180px">
+                                <select name="选择启动账号" id="选择启动账号" lay-filter="mijing1-filter">
+                                    <option value="0">默认(不切换)</option>
+                                    <option value="1">账号1</option>
+                                    <option value="2">账号2</option>
+                                    <option value="3">账号3</option>
+                                    <option value="4">账号4</option>
+                                    <option value="5">账号5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input style="margin-right: 5px;" id="账号1开关" name="vehicle" type="checkbox"
+                                   value="Bike">
+                            <input type="text" id="账号1名称" name="账号1" lay-verify="title" autocomplete="off"
+                                   placeholder="账号1开关" class="layui-input"
+                                   style="height: 30px;width: 80px;margin-right:5px;">
+                            <input type="text" id="账号1启动区服" name="选择启动区服" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="区服(留空默认)" class="layui-input"
+                                   style="height: 30px;width: 110px;margin-right:5px;">
+                            <div class="layui-form">
+                                <div class="layui-input-inline" style="width: 110px;margin-right:5px;">
+                                    <select name="账号1配置" id="账号1配置" lay-filter="mijing1-filter">
+                                        <option value="0">配置(默认)</option>
+                                        <option value="1">配置1</option>
+                                        <option value="2">配置2</option>
+                                        <option value="3">配置3</option>
+                                        <option value="4">配置4</option>
+                                        <option value="5">配置5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input style="margin-right: 5px;" id="账号2开关" name="vehicle" type="checkbox"
+                                   value="Bike">
+                            <input type="text" id="账号2名称" name="账号2" lay-verify="title" autocomplete="off"
+                                   placeholder="账号2开关" class="layui-input"
+                                   style="height: 30px;width: 80px;margin-right:5px;">
+                            <input type="text" id="账号2启动区服" name="选择启动区服" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="区服(留空默认)" class="layui-input"
+                                   style="height: 30px;width: 110px;margin-right:5px;">
+                            <div class="layui-form">
+                                <div class="layui-input-inline" style="width: 110px;margin-right:5px;">
+                                    <select name="账号2配置" id="账号2配置" lay-filter="mijing1-filter">
+                                        <option value="0">配置(默认)</option>
+                                        <option value="1">配置1</option>
+                                        <option value="2">配置2</option>
+                                        <option value="3">配置3</option>
+                                        <option value="4">配置4</option>
+                                        <option value="5">配置5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input style="margin-right: 5px;" id="账号3开关" name="vehicle" type="checkbox"
+                                   value="Bike">
+                            <input type="text" id="账号3名称" name="账号3" lay-verify="title" autocomplete="off"
+                                   placeholder="账号3开关" class="layui-input"
+                                   style="height: 30px;width: 80px;margin-right:5px;">
+                            <input type="text" id="账号3启动区服" name="选择启动区服" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="区服(留空默认)" class="layui-input"
+                                   style="height: 30px;width: 110px;margin-right:5px;">
+                            <div class="layui-form">
+                                <div class="layui-input-inline" style="width: 110px;margin-right:5px;">
+                                    <select name="账号3配置" id="账号3配置" lay-filter="mijing1-filter">
+                                        <option value="0">配置(默认)</option>
+                                        <option value="1">配置1</option>
+                                        <option value="2">配置2</option>
+                                        <option value="3">配置3</option>
+                                        <option value="4">配置4</option>
+                                        <option value="5">配置5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input style="margin-right: 5px;" id="账号4开关" name="vehicle" type="checkbox"
+                                   value="Bike">
+                            <input type="text" id="账号4名称" name="账号4" lay-verify="title" autocomplete="off"
+                                   placeholder="账号4开关" class="layui-input"
+                                   style="height: 30px;width: 80px;margin-right:5px;">
+                            <input type="text" id="账号4启动区服" name="选择启动区服" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="区服(留空默认)" class="layui-input"
+                                   style="height: 30px;width: 110px;margin-right:5px;">
+                            <div class="layui-form">
+                                <div class="layui-input-inline" style="width: 110px;margin-right:5px;">
+                                    <select name="账号4配置" id="账号4配置" lay-filter="mijing1-filter">
+                                        <option value="0">配置(默认)</option>
+                                        <option value="1">配置1</option>
+                                        <option value="2">配置2</option>
+                                        <option value="3">配置3</option>
+                                        <option value="4">配置4</option>
+                                        <option value="5">配置5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="checkbox-item">
+                            <input style="margin-right: 5px;" id="账号5开关" name="vehicle" type="checkbox"
+                                   value="Bike">
+                            <input type="text" id="账号5名称" name="账号5" lay-verify="title" autocomplete="off"
+                                   placeholder="账号5开关" class="layui-input"
+                                   style="height: 30px;width: 80px;margin-right:5px;">
+                            <input type="text" id="账号5启动区服" name="选择启动区服" lay-verify="title"
+                                   autocomplete="off"
+                                   placeholder="区服(留空默认)" class="layui-input"
+                                   style="height: 30px;width: 110px;margin-right:5px;">
+                            <div class="layui-form">
+                                <div class="layui-input-inline" style="width: 110px;margin-right:5px;">
+                                    <select name="账号5配置" id="账号5配置" lay-filter="mijing1-filter">
+                                        <option value="0">配置(默认)</option>
+                                        <option value="1">配置1</option>
+                                        <option value="2">配置2</option>
+                                        <option value="3">配置3</option>
+                                        <option value="4">配置4</option>
+                                        <option value="5">配置5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                </fieldset>
             </form>
         </li>
-
         <li class="richang_content">
             <form action="">
                 <fieldset>
@@ -538,6 +710,7 @@
                                         <option value="海之宫遗迹">海之宫遗迹</option>
                                         <option value="源水大社">源水大社</option>
                                         <option value="黄泉阁">黄泉阁</option>
+                                        <option value="封魔峡">封魔峡</option>
                                     </select>
                                 </div>
                                 <div class="layui-input-inline" style="width: 120px">
@@ -642,8 +815,13 @@
                     </fieldset>
                     <fieldset>
                         <legend>魔物讨伐</legend>
-                        <div class="checkbox-item">
-                            <input id="魔物讨伐" name="vehicle" type="checkbox" value="Bike">魔物讨伐<br>
+                        <div class="flex-container">
+                            <div class="checkbox-item">
+                                <input id="魔物讨伐" name="vehicle" type="checkbox" value="Bike">魔物讨伐<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="魔物讨伐切换频道" name="vehicle" type="checkbox" value="Bike">自动切换频道<br>
+                            </div>
                         </div>
                         <div class="flex-container">
                             <label for="寻找讨伐等待时长">寻找讨伐等待时长：</label>
@@ -1043,6 +1221,101 @@
         var 顶号等待 = localStorage.getItem("顶号等待");
         document.getElementById("顶号等待").value = 顶号等待;
 
+        var 定时切账号 = localStorage.getItem("定时切账号");
+        document.getElementById("定时切账号").value = 定时切账号;
+
+        var defaultValue = localStorage.getItem('选择启动账号');
+        var selectElement = document.getElementById('选择启动账号');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
+        setSwitchStatus("账号1保存");
+        setSwitchStatus("账号2保存");
+        setSwitchStatus("账号3保存");
+        setSwitchStatus("账号4保存");
+        setSwitchStatus("账号5保存");
+
+        setSwitchStatus("账号1开关");
+        setSwitchStatus("账号2开关");
+        setSwitchStatus("账号3开关");
+        setSwitchStatus("账号4开关");
+        setSwitchStatus("账号5开关");
+
+        var 账号1启动区服 = localStorage.getItem("账号1启动区服");
+        document.getElementById("账号1启动区服").value = 账号1启动区服;
+        var 账号2启动区服 = localStorage.getItem("账号2启动区服");
+        document.getElementById("账号2启动区服").value = 账号2启动区服;
+        var 账号3启动区服 = localStorage.getItem("账号3启动区服");
+        document.getElementById("账号3启动区服").value = 账号3启动区服;
+        var 账号4启动区服 = localStorage.getItem("账号4启动区服");
+        document.getElementById("账号4启动区服").value = 账号4启动区服;
+        var 账号5启动区服 = localStorage.getItem("账号5启动区服");
+        document.getElementById("账号5启动区服").value = 账号5启动区服;
+
+        var 账号1名称 = localStorage.getItem("账号1名称");
+        document.getElementById("账号1名称").value = 账号1名称;
+
+        var 账号2名称 = localStorage.getItem("账号2名称");
+        document.getElementById("账号2名称").value = 账号2名称;
+
+        var 账号3名称 = localStorage.getItem("账号3名称");
+        document.getElementById("账号3名称").value = 账号3名称;
+
+        var 账号4名称 = localStorage.getItem("账号4名称");
+        document.getElementById("账号4名称").value = 账号4名称;
+
+        var 账号5名称 = localStorage.getItem("账号5名称");
+        document.getElementById("账号5名称").value = 账号5名称;
+
+        var defaultValue = localStorage.getItem('账号1配置');
+        var selectElement = document.getElementById('账号1配置');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
+        var defaultValue = localStorage.getItem('账号2配置');
+        var selectElement = document.getElementById('账号2配置');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
+        var defaultValue = localStorage.getItem('账号3配置');
+        var selectElement = document.getElementById('账号3配置');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
+        var defaultValue = localStorage.getItem('账号4配置');
+        var selectElement = document.getElementById('账号4配置');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
+        var defaultValue = localStorage.getItem('账号5配置');
+        var selectElement = document.getElementById('账号5配置');
+        for (var i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === defaultValue) {
+                selectElement.options[i].selected = true;
+                break;
+            }
+        }
+
         <!--日常-->
         setSwitchStatus("日常总开关");
 
@@ -1106,6 +1379,7 @@
         setSwitchStatus("虚空裂隙");
         setSwitchStatus("混沌侵袭");
         setSwitchStatus("魔物讨伐");
+        setSwitchStatus("魔物讨伐切换频道");
         var 寻找讨伐等待时长 = localStorage.getItem("寻找讨伐等待时长");
         document.getElementById("寻找讨伐等待时长").value = 寻找讨伐等待时长;
 
@@ -1216,6 +1490,65 @@
         var 顶号等待 = document.getElementById("顶号等待").value;
         localStorage.setItem("顶号等待", 顶号等待);
 
+        var 定时切账号 = document.getElementById("定时切账号").value;
+        localStorage.setItem("定时切账号", 定时切账号);
+
+        var 选择启动账号 = document.getElementById("选择启动账号").value;
+        localStorage.setItem("选择启动账号", 选择启动账号);
+
+        账号1保存 = saveSwitchStatus("账号1保存");
+        账号2保存 = saveSwitchStatus("账号2保存");
+        账号3保存 = saveSwitchStatus("账号3保存");
+        账号4保存 = saveSwitchStatus("账号4保存");
+        账号5保存 = saveSwitchStatus("账号5保存");
+
+        账号1开关 = saveSwitchStatus("账号1开关");
+        账号2开关 = saveSwitchStatus("账号2开关");
+        账号3开关 = saveSwitchStatus("账号3开关");
+        账号4开关 = saveSwitchStatus("账号4开关");
+        账号5开关 = saveSwitchStatus("账号5开关");
+
+        var 账号1启动区服 = document.getElementById("账号1启动区服").value;
+        localStorage.setItem("账号1启动区服", 账号1启动区服);
+        var 账号2启动区服 = document.getElementById("账号2启动区服").value;
+        localStorage.setItem("账号2启动区服", 账号2启动区服);
+        var 账号3启动区服 = document.getElementById("账号3启动区服").value;
+        localStorage.setItem("账号3启动区服", 账号3启动区服);
+        var 账号4启动区服 = document.getElementById("账号4启动区服").value;
+        localStorage.setItem("账号4启动区服", 账号4启动区服);
+        var 账号5启动区服 = document.getElementById("账号5启动区服").value;
+        localStorage.setItem("账号5启动区服", 账号5启动区服);
+
+        var 账号1名称 = document.getElementById("账号1名称").value;
+        localStorage.setItem("账号1名称", 账号1名称);
+
+        var 账号2名称 = document.getElementById("账号2名称").value;
+        localStorage.setItem("账号2名称", 账号2名称);
+
+        var 账号3名称 = document.getElementById("账号3名称").value;
+        localStorage.setItem("账号3名称", 账号3名称);
+
+        var 账号4名称 = document.getElementById("账号4名称").value;
+        localStorage.setItem("账号4名称", 账号4名称);
+
+        var 账号5名称 = document.getElementById("账号5名称").value;
+        localStorage.setItem("账号5名称", 账号5名称);
+
+        var 账号1配置 = document.getElementById("账号1配置").value;
+        localStorage.setItem("账号1配置", 账号1配置);
+
+        var 账号2配置 = document.getElementById("账号2配置").value;
+        localStorage.setItem("账号2配置", 账号2配置);
+
+        var 账号3配置 = document.getElementById("账号3配置").value;
+        localStorage.setItem("账号3配置", 账号3配置);
+
+        var 账号4配置 = document.getElementById("账号4配置").value;
+        localStorage.setItem("账号4配置", 账号4配置);
+
+        var 账号5配置 = document.getElementById("账号5配置").value;
+        localStorage.setItem("账号5配置", 账号5配置);
+
         <!--日常-->
         日常总开关 = saveSwitchStatus("日常总开关");
         自动主线 = saveSwitchStatus("自动主线");
@@ -1257,6 +1590,7 @@
         素材秘境 = saveSwitchStatus("素材秘境");
         混沌侵袭 = saveSwitchStatus("混沌侵袭");
         魔物讨伐 = saveSwitchStatus("魔物讨伐");
+        魔物讨伐切换频道 = saveSwitchStatus("魔物讨伐切换频道");
         var 寻找讨伐等待时长 = document.getElementById("寻找讨伐等待时长").value;
         localStorage.setItem("寻找讨伐等待时长", 寻找讨伐等待时长);
 
@@ -1312,6 +1646,32 @@
             定时休息: 定时休息,
             顶号等待: 顶号等待,
 
+            定时切账号: 定时切账号,
+
+            选择启动账号: 选择启动账号,
+            账号1保存: 账号1保存,
+            账号2保存: 账号2保存,
+            账号3保存: 账号3保存,
+            账号4保存: 账号4保存,
+            账号5保存: 账号5保存,
+
+
+            账号1开关: 账号1开关,
+            账号2开关: 账号2开关,
+            账号3开关: 账号3开关,
+            账号4开关: 账号4开关,
+            账号5开关: 账号5开关,
+            账号1启动区服: 账号1启动区服,
+            账号2启动区服: 账号2启动区服,
+            账号3启动区服: 账号3启动区服,
+            账号4启动区服: 账号4启动区服,
+            账号5启动区服: 账号5启动区服,
+            账号1配置: 账号1配置,
+            账号2配置: 账号2配置,
+            账号3配置: 账号3配置,
+            账号4配置: 账号4配置,
+            账号5配置: 账号5配置,
+
             <!--日常-->
             日常总开关: 日常总开关,
             自动主线: 自动主线,
@@ -1345,6 +1705,7 @@
             素材秘境: 素材秘境,
             混沌侵袭: 混沌侵袭,
             魔物讨伐: 魔物讨伐,
+            魔物讨伐切换频道: 魔物讨伐切换频道,
             寻找讨伐等待时长: 寻找讨伐等待时长,
 
             日常任务领取: 日常任务领取,

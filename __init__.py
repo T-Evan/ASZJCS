@@ -210,13 +210,19 @@ def main():
         need_wait_minute = safe_int(功能开关.get("定时休息", 0))  # 分钟
         if need_wait_minute == '':
             need_wait_minute = 0
+        need_switch_account_minute = safe_int(功能开关.get("定时切账号", 0))  # 分钟
+        if need_switch_account_minute == '':
+            need_switch_account_minute = 0
         total_wait = need_run_minute * 60
+        total_switch_account_minute = need_switch_account_minute * 60
         任务记录["定时休息-倒计时"] = time.time()
         任务记录["任务重置-倒计时"] = time.time()
+        任务记录["切换账号-倒计时"] = time.time()
 
         # dailyTask.主线探索()
         # system.exit()
 
+        start_up.multiAccount()
         while True:
             try:
                 # 启动app
@@ -264,6 +270,23 @@ def main():
                     sleep(need_wait_minute * 60)
                     任务记录["定时休息-倒计时"] = int(time.time())
 
+                # 定时切账号
+                current_time = int(time.time())
+                if total_switch_account_minute != 0:
+                    if current_time - 任务记录["切换账号-倒计时"] >= total_switch_account_minute:
+                        Toast(f"运行 {need_switch_account_minute} 分钟，准备切换账号")
+                        sleep(1.5)
+                        初始化任务记录(False)
+                        start_up.switchAccount()
+                        print(功能开关)
+                        任务记录["切换账号-倒计时"] = int(time.time())
+                    else:
+                        tmpMinute = round((current_time - 任务记录["切换账号-倒计时"]) / 60, 2)
+                        tmpDiffMinute = round(
+                            need_switch_account_minute - ((current_time - 任务记录["切换账号-倒计时"]) / 60), 2)
+                        Toast(f"运行 {tmpMinute} 分钟，{tmpDiffMinute} 分后切换账号")
+                        sleep(1.5)
+
                 sleep(0.5)
             except Exception as e:
                 # 处理异常
@@ -277,7 +300,7 @@ def main():
                 if '没有找到' in error_message:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
-                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h","com.m88.zjcs.g"])
+                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h","com.m88.zjcs.g","com.m88.idleXX"])
                     start_up = StartUp(f'{功能开关["游戏包名"]}')
 
     except Exception as e:

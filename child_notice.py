@@ -10,22 +10,36 @@ from ascript.android.system import ShellListener
 from .daily import DailyTask
 from .startUp import StartUp
 
-checkSkipTime = 0
+checkSkipTime = 0  # 检查游戏操作卡死，退回首页再返回游戏
 checkLoginTime = 0
 
 dailyTask = DailyTask()
 startupTask = StartUp(f"{功能开关['游戏包名']}")
 
+
 # 实例方法
 def main():
     global checkSkipTime
     checkSkipTime = time.time()
-    checkLoginTime = time.time()
+    checkOpenTime = time.time()  # 检测悬浮窗打开
     while True:
         sleep(4)  # 等待 5 秒
         # noticeCancel()
         if 功能开关["顶号等待"] != "" and 功能开关["顶号等待"] != "0":
             anotherLogin()
+
+        if time.time() - checkOpenTime > 10:
+            checkOpenTime = time.time()
+            re = FindColors.find("236,222,#EA2D5E|233,236,#ECEFF1|217,233,#EA2D5E|255,236,#EA2D5E|238,258,#EA2D5E",
+                                 rect=[1, 110, 88, 348], diff=0.95)
+            if re:
+                tapSleep(12, 56)
+
+        if time.time() - checkSkipTime > 900:
+            checkSkipTime = time.time()
+            action.Key.home()
+            sleep(2)
+            system.open(startupTask.app_name)
 
 
 def anotherLogin():

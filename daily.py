@@ -84,15 +84,15 @@ class DailyTask:
 
     # 日常任务聚合
     def dailyTask(self):
+        # 世界喊话
+        self.世界喊话()
+
         if 功能开关["日常总开关"] == 0:
             return
 
         self.homePage()
 
         # 日常相关
-
-        # 世界喊话
-        self.世界喊话()
 
         # 小推车领取
         self.小推车领取()
@@ -877,26 +877,27 @@ class DailyTask:
                 sleep(1)
                 break
 
-            re = imageFindClick('探索-定位未开启', x1=25, y1=858, x2=301, y2=1047, rgb=True, confidence1=0.6)
+            re = imageFindClick('探索-定位未开启', x1=16, y1=894, x2=329, y2=1059, rgb=True, confidence1=0.7)
             if re:
                 Toast('开启探索定位1')
-            re = FindColors.find(
-                "295,1006,#343434|289,1008,#4A4A4A|286,1014,#4E4E4E|294,1024,#4B4B4B|303,1014,#4F4F4F|295,1013,#4F4F4F",
-                rect=[272, 853, 320, 1049], diff=0.95)
+            re = imageFindClick('探索-定位未开启2', x1=16, y1=894, x2=329, y2=1059, rgb=True, confidence1=0.7)
             if re:
                 Toast('开启探索定位2')
-                tapSleep(re.x, re.y)
 
             isFind = False
+            findPointRight = False  # 定位到朝下指向的准确坐标
             if not isFind:
                 isFind = FindColors.find("431,503,#E35353|436,499,#FEFEFE|438,499,#D27272|434,508,#D96161",
                                          rect=[4, 115, 705, 973], diff=0.93)  # 任务红点
                 if not isFind:
                     isFind = FindColors.find("499,389,#E35353|509,389,#E35353|504,392,#FEFBFB",
                                              rect=[4, 115, 705, 973], diff=0.93)
+                if not isFind:
+                    isFind = FindColors.find("462,503,#E18686|468,503,#FCFCFC|473,503,#E58585|473,508,#E38686",
+                                             rect=[4, 115, 705, 973], diff=0.93)
                 if isFind:
-                    findX = isFind.x
-                    findY = isFind.y
+                    findX = isFind.x - 10
+                    findY = isFind.y + 10
                     Toast('寻路主线任务提交')
             if not isFind:
                 isFind, findX, findY = imageFind('寻路-战力之门', confidence1=0.7)  # 匹配地图的战力之门标记
@@ -909,13 +910,52 @@ class DailyTask:
             if not isFind:
                 isFind, findX, findY = imageFind('寻路-失落女神像', confidence1=0.7)
                 if isFind:
-                    Toast('寻路失落女神像')
+                    Toast('寻路失落女神像1')
+            if not isFind:
+                isFind, findX, findY = imageFind('寻路-失落女神像2', confidence1=0.7)
+                if isFind:
+                    Toast('寻路失落女神像2')
+            if not isFind:
+                isFind, findX, findY = imageFind('寻路-失落女神像3', confidence1=0.7)
+                if isFind:
+                    Toast('寻路失落女神像3')
             if not isFind:
                 isFind, findX, findY = imageFind('寻路-远航之碑', confidence1=0.7)
                 if isFind:
                     Toast('寻路远航之碑')
             if not isFind:
+                isFind = FindColors.find(
+                    "585,623,#CBCF60|585,637,#CCD05F|585,645,#222222|585,653,#FFFFFE|584,659,#F9FBF2|585,664,#989A58",
+                    diff=0.94)
+                if not isFind:
+                    isFind = FindColors.find(
+                        "359,639,#CBD060|360,650,#9DA04C|360,661,#212121|360,667,#FCFCF1|360,673,#FCFEF3|360,680,#C6C99F",
+                        diff=0.94)
+                if not isFind:
+                    isFind = FindColors.find(
+                        "360,640,#CCD060|361,653,#C3C75D|361,659,#222222|360,669,#FDFCF2|360,673,#FFFFF3|360,680,#B1AC68",
+                        diff=0.94)
+                if not isFind:
+                    isFind = FindColors.find(
+                        "361,640,#CBCF60|360,650,#9DA04C|360,656,#222222|360,662,#393327|360,667,#FBFBF1|360,675,#F1F4E0",
+                        diff=0.94)
+                if isFind:
+                    findPointRight = True
+                    findX, findY = isFind.x, isFind.y
+                    if findY > 1220:  # 避免底部无法直接点击
+                        isFind = False
+                    findY = findY + 80
+                    if 14 < findX < 716 and 986 < findY < 1161:  # 避免点击聊天框
+                        isFind = False
+                    print(f'精准寻路{findX},{findY}')
+            if not isFind:
                 isFind, findX, findY = imageFind('寻路-定位', confidence1=0.7, rgb=True)  # 匹配地图的定位标记
+                if 14 < findX < 716 and 986 < findY < 1161:
+                    isFind = False
+            if not isFind:
+                isFind, findX, findY = imageFind('寻路-定位2', confidence1=0.7, rgb=True)  # 匹配地图的定位标记
+                if 14 < findX < 716 and 986 < findY < 1161:
+                    isFind = False
             if not isFind:
                 lastPointTimes = lastPointTimes + 1
 
@@ -949,31 +989,35 @@ class DailyTask:
 
                 lastPoint = [findX, findY]
                 print(lastPoint)
-                tapSleep(findX, findY, 0.5)  # 切换探索标记的地图视角
                 re = self.判断是否在探索地图()
                 if re:
                     self.角色信息检查()
-                    # tapSleep(re.x, re.y + 150)  # 点击探索标记下方一格寻路
-                    tapSleep(findX, findY + 90, 1.2)  # 点击探索标记下方一格寻路
+                    if findPointRight:
+                        print('精准寻路1')
+                        tapSleep(findX, findY, 0.5)  # 切换探索标记的地图视角
+                    else:
+                        print('模糊寻路1')
+                        tapSleep(findX, findY, 0.5)  # 切换探索标记的地图视角
+                        self.角色信息检查()
+                        print('模糊寻路2')
+                        tapSleep(findX, findY + 90, 1.2)  # 点击探索标记下方一格寻路
                     self.对话检查()
-                    # tapSleep(re.x, re.y + 50)  # 点击探索标记下方一格寻路
-                    # tapSleep(re.x - 150, re.y + 140)  # 点击探索标记下方一格寻路
                     tapSleep(findX + 150, findY + 90, 1.2)  # 点击探索标记下方一格寻路
                 else:
                     self.角色信息检查()
                     isFind = False
 
-            self.角色信息检查()
             self.战斗检查()
             self.对话检查()
             self.奖励检查()
             self.其他检查()
+            self.角色信息检查()
 
             if not isFind:
                 re = self.判断是否在探索地图()
                 if not re:
                     Toast('返回探索地图')
-                    tapSleep(337, 36)
+                    tapSleep(303, 17)
                 if re:
                     Toast('移动地图寻路')
                     swipe(511, 551, 531, 819)
@@ -1090,9 +1134,9 @@ class DailyTask:
                 break
 
             if not isStart:
-                re = imageFindClick('探索-托管', x1=6, y1=782, x2=326, y2=1055, rgb=True, confidence1=0.7)
+                re = imageFindClick('探索-托管', x1=6, y1=782, x2=326, y2=1055, rgb=True, confidence1=0.6)
                 if not re:
-                    re = imageFindClick('探索-托管2', x1=6, y1=782, x2=326, y2=1055, rgb=True, confidence1=0.7)
+                    re = imageFindClick('探索-托管2', x1=6, y1=782, x2=326, y2=1055, rgb=True, confidence1=0.6)
                 if re:
                     Toast('探索-配置托管')
                     for i in range(40):
@@ -1147,8 +1191,10 @@ class DailyTask:
 
         re = FindColors.find("89,468,#E25353|94,470,#FEFEFE|100,472,#E65555", rect=[9, 240, 708, 968], diff=0.95)
         if re:
-            Toast('寻路主线任务')
-            tapSleep(re.x - 10, re.y + 10, 2)
+            tmp, _ = TomatoOcrText(180, 1044, 247, 1080, '料理')
+            if not tmp:
+                Toast('寻路主线任务')
+                tapSleep(re.x - 10, re.y + 10, 2)
 
         re = CompareColors.compare("675,950,#E1E1E1|680,956,#A7A7A7|683,956,#A7A7A7|686,959,#E2E2E2")
         if re:
@@ -1248,6 +1294,40 @@ class DailyTask:
                             tapSleep(481, 1065)
                     tapSleep(333, 1216)  # 返回
 
+        sleep(0.3)
+        re, _ = TomatoOcrText(180, 1044, 247, 1080, '料理')
+        if re:
+            re = FindColors.find("264,872,#D44D4D|269,873,#F4DFDF|274,873,#E15151", rect=[54, 687, 661, 941], diff=0.9)
+            if re:
+                Toast('尝试更换装备/技能')
+                tapSleep(re.x - 3, re.y + 3, 1)
+
+                re, _ = TomatoOcrText(126, 785, 177, 812, '战技')
+                if re:
+                    for k in range(2):
+                        re = FindColors.find("135,862,#E35353|142,862,#FFFFFF|148,861,#E45252",
+                                             rect=[22, 831, 701, 1139])
+                        if re:
+                            Toast('尝试更换技能1')
+                            tapSleep(re.x - 3, re.y + 3, 1.3)
+                        re = FindColors.find("463,878,#DF5454|468,876,#FFFFFF|474,878,#E25151",
+                                             rect=[33, 828, 692, 1125], diff=0.92)
+                        if re:
+                            Toast('尝试更换技能2')
+                            tapSleep(re.x - 3, re.y + 3, 1.3)
+                        TomatoOcrTap(324, 879, 396, 917, '装备', sleep1=1)
+                        re = FindColors.find("73,501,#535552|93,505,#D7D8D9|116,502,#505450", rect=[27, 164, 691, 688],
+                                             diff=0.96)
+                        if re:
+                            Toast('尝试更换技能3')
+                            tapSleep(re.x - 3, re.y + 3, 1.3)
+
+                re = FindColors.find("264,872,#D44D4D|269,873,#F4DFDF|274,873,#E15151", rect=[54, 687, 661, 941],
+                                     diff=0.9)
+                if re:
+                    tapSleep(re.x - 3, re.y + 3, 1)
+                tapSleep(64, 1234)  # 返回
+                tapSleep(64, 1234)  # 返回
         re, _ = TomatoOcrText(323, 880, 396, 916, '替换')
         if not re:
             re, _ = TomatoOcrText(325, 863, 393, 901, '替换')
@@ -1523,6 +1603,6 @@ class DailyTask:
 
     def 判断是否在探索地图(self):
         re, name = TomatoOcrText(493, 262, 710, 290, '地图名称')
-        if '(' not in name and ')' not in name:
+        if '(' not in name and ')' not in name and '之国' not in name and '岛' not in name and '峡' not in name:
             return False
         return True
