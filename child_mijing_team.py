@@ -81,7 +81,7 @@ def waitInvite():
     if 功能开关["自动离房等待时间"] != "":
         totalWait = safe_int_v2(功能开关["自动离房等待时间"])
     start_time = int(time.time())
-    for i in range(100):
+    for i in range(200):
         current_time = int(time.time())
         elapsed = current_time - start_time
         if elapsed >= totalWait:
@@ -131,12 +131,18 @@ def waitInvite():
                 功能开关["fighting"] = 1
                 功能开关["needHome"] = 0
                 start_time = int(time.time())
+
+        # 判断队伍已解散
+        re = CompareColors.compare(
+            "42,156,#CCCF6E|55,157,#222222|58,145,#D3D585|78,157,#C9CE67|55,181,#303842|58,168,#CED072")
+        if re:
+            Toast("战斗结束 - 队伍已解散")
             break
         sleep(0.5)
 
     for p in range(2):
+        quitTeamRe = dailyTask.homePage(needQuitTeam=True)
         功能开关["fighting"] = 0
-        quitTeamRe = dailyTask.homePage()
     功能开关["不开宝箱"] = tmpBx
 
     return

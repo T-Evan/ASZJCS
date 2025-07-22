@@ -60,9 +60,10 @@ class JueSeTask:
                 for wait in waitAll:
                     Toast('开始替换装备')
                     tapSleep(wait.x, wait.y)
-                    re = CompareColors.compare("347,861,#E25252|336,860,#E35353")  # 替换 红点
+                    re = FindColors.find("335,902,#E35353|336,901,#E05252|342,902,#F6E5E5|345,906,#DC4C4C",
+                                         rect=[117, 485, 357, 1103], diff=0.94)  # 替换 红点
                     if re:
-                        TomatoOcrTap(191, 861, 268, 901, '替换')
+                        TomatoOcrFindRangeClick('替换', x1=101, y1=560, x2=615, y2=1145)
                         re = FindColors.find("197,303,#F2FF79|197,311,#EEFF77", diff=0.95)
                         if re:
                             Toast('更换装备成功')
@@ -72,7 +73,7 @@ class JueSeTask:
                         re = CompareColors.compare("595,860,#E35353|607,861,#E25252")
                         if re:
                             Toast('领取强化馈赠')
-                            TomatoOcrTap(456, 863, 525, 902, '培养')
+                            TomatoOcrFindRangeClick('培养', x1=101, y1=560, x2=615, y2=1145)
                             if re:
                                 TomatoOcrTap(579, 1204, 641, 1235, '馈赠')
                                 TomatoOcrTap(562, 206, 612, 233, '领取', sleep1=2)
@@ -91,7 +92,8 @@ class JueSeTask:
                 for wait in waitAll:
                     Toast('开始强化装备')
                     tapSleep(wait.x, wait.y)
-                    re = CompareColors.compare("593,858,#43A1D7|606,860,#4DA6D6")  # 培养 蓝点
+                    re = FindColors.find("594,909,#40A3D4|601,907,#FFFFFF|606,904,#92C9E6|605,910,#41A4D2",
+                                         rect=[360, 492, 622, 1147], diff=0.94)  # 培养 蓝点
                     if re:
                         TomatoOcrTap(456, 863, 525, 902, '培养')
                         for k in range(5):

@@ -172,7 +172,7 @@ class StartUp:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
-                         "com.m88.zjcs.g", "com.m88.idleXX"])
+                         "com.m88.zjcs.g", "com.m88.idleXX","com.leiting.zjcs.b","com.m88.zjcs.b"])
                     self.app_name = f'{功能开关["游戏包名"]}'
 
         if 功能开关['账号1保存']:
@@ -248,7 +248,7 @@ class StartUp:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
-                         "com.m88.zjcs.g", "com.m88.idleXX"])
+                         "com.m88.zjcs.g", "com.m88.idleXX","com.leiting.zjcs.b","com.m88.zjcs.b"])
                     self.app_name = f'{功能开关["游戏包名"]}'
 
         try:

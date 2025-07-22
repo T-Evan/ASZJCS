@@ -300,7 +300,7 @@ def main():
                 if '没有找到' in error_message:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
-                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h","com.m88.zjcs.g","com.m88.idleXX"])
+                        ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h","com.m88.zjcs.g","com.m88.idleXX","com.leiting.zjcs.b","com.m88.zjcs.b"])
                     start_up = StartUp(f'{功能开关["游戏包名"]}')
 
     except Exception as e:

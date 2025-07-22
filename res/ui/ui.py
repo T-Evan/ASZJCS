@@ -112,6 +112,8 @@ elif 功能开关['选择游戏版本'] == "国际服(公测)":
     功能开关['游戏包名'] = "com.m88.idleXX"
 elif 功能开关['选择游戏版本'] == "雷霆官服(内测)":
     功能开关['游戏包名'] = "com.leiting.zjcs.b"
+elif 功能开关['选择游戏版本'] == "雷霆官服(内测2)":
+    功能开关['游戏包名'] = "com.m88.zjcs.b"
 
 # thread_main_paused = False
 # thread_main_cond = threading.Condition()

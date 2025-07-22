@@ -34,7 +34,7 @@ class DailyTask:
                 system.open(f"{功能开关['游戏包名']}")
 
             # 避免战斗中直接退出
-            if tryTimes < 300 and 功能开关["fighting"] == 1:
+            if tryTimes < 300 and 功能开关["fighting"] == 1 and needQuitTeam == False:
                 sleep(1)
                 continue
 
@@ -67,9 +67,15 @@ class DailyTask:
 
             功能开关["needHome"] = 1
             Toast('正在返回首页')
-            tapSleep(52, 1229)
             TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
             TomatoOcrTap(175, 795, 285, 836, '返回', sleep1=1.5, match_mode='fuzzy')
+            if needQuitTeam:
+                sleep(0.4)
+                re = TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
+                if not re:
+                    re = TomatoOcrFindRangeClick('确定', x1=56, y1=620, x2=648, y2=1073)
+                    re = TomatoOcrTap(175, 795, 285, 836, '返回', sleep1=1.5, match_mode='fuzzy')
+            tapSleep(52, 1229)
             # tapSleepV2(52, 1229)
             sleep(0.5)
 
@@ -1134,9 +1140,9 @@ class DailyTask:
                 break
 
             if not isStart:
-                re = imageFindClick('探索-托管', x1=6, y1=782, x2=326, y2=1055, rgb=True, confidence1=0.6)
+                re = imageFindClick('探索-托管', x1=9, y1=853, x2=307, y2=1054, rgb=True, confidence1=0.6)
                 if not re:
-                    re = imageFindClick('探索-托管2', x1=6, y1=782, x2=326, y2=1055, rgb=True, confidence1=0.6)
+                    re = imageFindClick('探索-托管2', x1=9, y1=853, x2=307, y2=1054, rgb=True, confidence1=0.6)
                 if re:
                     Toast('探索-配置托管')
                     for i in range(40):
@@ -1263,10 +1269,10 @@ class DailyTask:
                 tapSleep(re.x, re.y)
                 return
 
-    def 角色信息检查(self):
+    def 角色信息检查(self, notCheckLife=False):
         diffTime = time.time() - 任务记录["探索生命补充-倒计时"]
         re = CompareColors.compare("211,58,#38383A|227,59,#39393B|242,58,#39393C")  # 生命值过半
-        if re or diffTime > 30:
+        if not notCheckLife and (re or diffTime > 30):
             re = self.判断是否在探索地图()
             if not re:
                 Toast('角色检查-未处于探索地图')
