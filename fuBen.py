@@ -43,6 +43,67 @@ class FuBenTask:
         # 每日副本
         self.每日副本()
 
+        # 竞技场
+        self.竞技场()
+
+    def 竞技场(self):
+        if 功能开关["竞技场"] == 0 or 任务记录["竞技场"] == 1:
+            return
+
+        Toast('竞技场-任务开始')
+        re = self.进入笔记()
+        if not re:
+            return
+        re = CompareColors.compare("67,784,#5D4E51|138,773,#715C51|161,866,#D6C4AC|215,898,#EBE2C9|345,817,#DE7352",
+                                   diff=0.95)
+        if not re:
+            Toast('日常-竞技场未开启')
+            sleep(0.5)
+            return
+
+        Toast('日常-进入竞技页面')
+        tapSleep(188, 806, 1.5)
+        Toast('日常-进入竞技场')
+        tapSleep(296, 249, 1.5)
+        re = TomatoOcrTap(294, 849, 419, 890, '挑战', match_mode='fuzzy', sleep1=1.2)
+        if re:
+            Toast('竞技场结算-开启挑战')
+            tapSleep(336, 55)  # 空白
+        re, _ = TomatoOcrText(188, 1203, 261, 1234, '竞技场')
+        if not re:
+            Toast('竞技场-未进入竞技场')
+            return
+
+        self.dailyTask.馈赠领取()
+        re = TomatoOcrTap(188, 1203, 261, 1234, '竞技场')  # 返回竞技场
+
+        for m in range(5):
+            re, user1 = TomatoOcrText(281, 1000, 449, 1040, '玩家战力')
+            user1 = safe_int_v2(user1.replace('万', '').replace('%', ''))
+
+            re, user2 = TomatoOcrText(41, 809, 162, 846, '对手战力')
+            user2 = safe_int_v2(user2.replace('万', '').replace('%', ''))
+            if user1 < user2:
+                Toast(f'竞技场-玩家战力低于对手-{user1}万/{user2}万')
+                break
+
+            isClick = False
+            for k in range(3):
+                re = FindColors.find("91,892,#DF5E60|74,907,#DD5D5E|94,910,#FBDEDF|103,917,#FADEDF|119,910,#DF5E60",
+                                     rect=[26, 849, 669, 964], diff=0.93)  # 挑战图标
+                if re:
+                    Toast('竞技场-开始挑战')
+                    tapSleep(re.x, re.y)
+                isClick = TomatoOcrTap(304, 885, 358, 915, '挑战', sleep1=1.5)
+                if isClick:
+                    break
+            if not isClick:
+                Toast('竞技场-未进入挑战')
+                return
+            self.dailyTask.战斗检查()
+
+        任务记录["竞技场"] = 1
+
     def 魔物讨伐(self):
         if 功能开关["魔物讨伐"] == 0:
             return
@@ -101,7 +162,15 @@ class FuBenTask:
             isFind, _ = TomatoOcrText(609, 1208, 672, 1245, '发送', match_mode='fuzzy')
             if not isFind:
                 Toast('魔物讨伐-已退出聊天频道')
-                break
+                for k in range(2):
+                    Toast('魔物讨伐-寻找聊天入口')
+                    tapSleep(650, 1090, 0.4)  # 点击聊天框
+                    tapSleep(670, 1090, 0.4)  # 点击聊天框
+                    isFind, _ = TomatoOcrText(609, 1208, 672, 1245, '发送', match_mode='fuzzy')
+                    if isFind:
+                        break
+                if not isFind:
+                    break
 
             Toast(f'魔物讨伐-等待讨伐队伍{elapsed}/{totalWait}')
             all_points = []
@@ -154,19 +223,20 @@ class FuBenTask:
                     lastFind = []
                     Toast('前往讨伐地图')
                     failFindTimes = 0
+                    self.dailyTask.世界聊天检查()
                     for k in range(20):
                         re1 = TomatoOcrTap(478, 970, 544, 1011, '讨伐', offsetX=8, offsetY=8)
                         if not re1:
                             re1 = TomatoOcrFindRangeClick('讨伐', x1=39, y1=680, x2=686, y2=1111, offsetX=8, offsetY=8)
-                        re2 = TomatoOcrTap(293, 934, 424, 978, '战斗', match_mode='fuzzy')
-                        re3 = TomatoOcrTap(360, 937, 423, 972, '战斗', match_mode='fuzzy')
+                        re2 = TomatoOcrTap(293, 934, 424, 978, '战斗', match_mode='fuzzy', offsetX=8, offsetY=8)
+                        re3 = TomatoOcrTap(360, 937, 423, 972, '战斗', match_mode='fuzzy', offsetX=8, offsetY=8)
                         if re1 or re2 or re3:
                             Toast('开始讨伐')
                             failTimes = 0
                             fightDone = True
                             start_time = int(time.time())
                             for m in range(400):
-                                re3 = TomatoOcrTap(360, 937, 423, 972, '战斗', match_mode='fuzzy')
+                                re3 = TomatoOcrTap(360, 937, 423, 972, '战斗', match_mode='fuzzy', offsetX=8, offsetY=8)
                                 re = CompareColors.compare(
                                     "39,920,#DFDEDA|47,918,#DFDEDA|50,935,#222121|58,934,#222121")
                                 if not re:
@@ -231,18 +301,19 @@ class FuBenTask:
                                 if re1 or re2:
                                     break
 
-                        if not waitPoint:
-                            waitPoint = FindColors.find(
-                                "454,905,#303C2A|467,907,#36432C|481,904,#3D4C31|498,907,#3D4F32",
-                                diff=0.98)  # 魔王底部血条
-                            if waitPoint:
-                                if 12 < waitPoint.x < 484 and 1060 < waitPoint.y < 1149:
-                                    print(waitPoint.x, waitPoint.y)
-                                    print('点击魔王2-忽略')
-                                else:
-                                    print(waitPoint.x, waitPoint.y)
-                                    Toast('点击魔王2')
-                                    tapSleep(waitPoint.x - 40, waitPoint.y - 50, 1.2)
+                        # if not waitPoint:
+                        #     waitPoint = FindColors.find(
+                        #         "454,905,#303C2A|467,907,#36432C|481,904,#3D4C31|498,907,#3D4F32",
+                        #         diff=0.98)  # 魔王底部血条
+                        #     if waitPoint:
+                        #         if 12 < waitPoint.x < 484 and 1060 < waitPoint.y < 1149:
+                        #             print(waitPoint.x, waitPoint.y)
+                        #             print('点击魔王2-忽略')
+                        #             waitPoint = False
+                        #         else:
+                        #             print(waitPoint.x, waitPoint.y)
+                        #             Toast('点击魔王2')
+                        #             tapSleep(waitPoint.x + 40, waitPoint.y - 50, 1.2)
 
                         if not waitPoint:
                             waitPoint = FindColors.find(
@@ -258,9 +329,26 @@ class FuBenTask:
                                 "470,662,#CBCF5F|470,666,#CCD060|462,673,#CBCF5F|454,658,#000000|453,670,#000000|468,675,#272D17",
                                 diff=0.95)  # 魔王右上角
                             if waitPoint:
-                                print(waitPoint.x, waitPoint.y)
-                                Toast('点击魔王4')
-                                tapSleep(waitPoint.x - 100, waitPoint.y + 75, 1.2)
+                                if 18 < waitPoint.x - 100 < 268 and 981 < waitPoint.y + 75 < 1152:
+                                    print('点击魔王4-忽略')
+                                    waitPoint = False
+                                else:
+                                    print(waitPoint.x, waitPoint.y)
+                                    Toast('点击魔王4')
+                                    tapSleep(waitPoint.x - 100, waitPoint.y + 75, 1.2)
+
+                        if not waitPoint:
+                            waitPoint = FindColors.find(
+                                "626,593,#050202|634,601,#CBCF5F|644,595,#CBCF5F|642,606,#4A3E3E|647,599,#2E2928",
+                                diff=0.95)  # 魔王右上角
+                            if waitPoint:
+                                if 18 < waitPoint.x - 100 < 268 and 981 < waitPoint.y + 75 < 1152:
+                                    print('点击魔王5-忽略')
+                                    waitPoint = False
+                                else:
+                                    print(waitPoint.x, waitPoint.y)
+                                    Toast('点击魔王5')
+                                    tapSleep(waitPoint.x - 100, waitPoint.y + 75, 1.2)
 
                         # 二次检测是否已进入战斗
                         re1, _ = TomatoOcrText(474, 964, 542, 1005, '讨伐')
@@ -270,16 +358,71 @@ class FuBenTask:
 
                         # 未找到可点击魔王，点击头像寻路
                         if not waitPoint:
-                            waitFind = FindColors.find(
-                                "669,896,#1F1F1F|647,918,#1F1F1F|693,921,#212121|672,942,#1D1D1D|688,901,#FFFFEF|645,928,#FBFBF0",
-                                diff=0.92)  # 魔物图标
-                            if waitFind:
-                                if waitFind.x < 130 and waitFind.y < 138:
-                                    Toast('移动视角讨伐区域-1')
-                                    swipe(244, 456, 495, 784)
-                                else:
-                                    Toast('前往讨伐区域-1')
-                                    tapSleep(waitFind.x, waitFind.y + 4)
+                            waitFind = False
+                            isClick = CompareColors.compare(
+                                "675,954,#E1E1E1|682,956,#A7A7A7|690,954,#E1E1E1|683,975,#222222")  # 匹配地图缩放按钮
+                            # re2 = CompareColors.compare("472,59,#FCDDE2|476,63,#D87A82|481,53,#D3777C")
+                            isClick = False  # 是否进入小地图
+                            if not isClick:
+                                Toast('点击小地图')
+                                tapSleep(612, 173, 0.5)  # 点击地图
+                                for c in range(5):
+                                    isClick = CompareColors.compare(
+                                        "675,954,#E1E1E1|682,956,#A7A7A7|690,954,#E1E1E1|683,975,#222222")  # 匹配地图缩放按钮
+                                    if isClick:
+                                        break
+                                    sleep(0.2)
+                            else:
+                                Toast('已打开小地图')
+                            if isClick:
+                                for p in range(5):
+                                    re = FindColors.find(
+                                        "397,650,#F98D5E|401,661,#BD6D4B|405,666,#E68358|421,648,#F98E5F|407,645,#222222",
+                                        diff=0.92)
+                                    if not re:
+                                        re = FindColors.find(
+                                            "205,677,#F98F63|214,683,#F98E5E|227,678,#F98F60|214,667,#F98E5F|217,661,#222222",
+                                            diff=0.92)
+                                    if not re:
+                                        re = FindColors.find(
+                                            "285,405,#F98E5F|293,405,#F98E5E|287,396,#F98E5F|296,402,#C8734E|300,400,#39432F",
+                                            diff=0.92)
+                                    if not re:
+                                        re = FindColors.find(
+                                            "260,778,#F98E63|266,785,#F98D5E|277,784,#F0895C|270,771,#F98E5E|270,760,#222222|277,762,#222222",
+                                            diff=0.93)
+                                    if not re:
+                                        re = FindColors.find(
+                                            "83,617,#F98E5F|88,621,#F98E5E|91,618,#F88E5F|99,618,#394531",
+                                            diff=0.92)
+                                    if not re:
+                                        re = FindColors.find(
+                                            "510,621,#F48A5D|514,634,#FA8E5F|521,612,#222222|528,632,#CA724E",
+                                            diff=0.94)
+                                    if re and not (513 < re.x < 704 and 325 < re.y < 430):
+                                        Toast('前往讨伐区域-地图')
+                                        waitFind = True
+                                        tapSleep(re.x, re.y, 0.1)
+                                        tapSleep(re.x, re.y, 0.1)
+                                        break
+                                    sleep(0.1)
+                            isClick = CompareColors.compare(
+                                "675,954,#E1E1E1|682,956,#A7A7A7|690,954,#E1E1E1|683,975,#222222")
+                            if isClick:
+                                Toast('返回探索地图')
+                                tapSleep(67, 1208, 0.6)  # 返回探索
+
+                            if not waitFind:
+                                waitFind = FindColors.find(
+                                    "669,896,#1F1F1F|647,918,#1F1F1F|693,921,#212121|672,942,#1D1D1D|688,901,#FFFFEF|645,928,#FBFBF0",
+                                    diff=0.92)  # 魔物图标
+                                if waitFind:
+                                    if waitFind.x < 130 and waitFind.y < 138:
+                                        Toast('移动视角讨伐区域-1')
+                                        swipe(244, 456, 495, 784)
+                                    else:
+                                        Toast('前往讨伐区域-1')
+                                        tapSleep(waitFind.x, waitFind.y + 4)
 
                             if not waitFind:
                                 waitFind = FindColors.find(
@@ -336,21 +479,43 @@ class FuBenTask:
                                         tapSleep(waitPoint.x + 50, waitPoint.y - 50, 2.5)
                         if not waitPoint:
                             failFindTimes = failFindTimes + 1
-                            Toast(f'寻找魔王位置失败{failFindTimes}/10')
-                        if failFindTimes > 10:
+                            Toast(f'寻找魔王位置失败{failFindTimes}/6')
+                        if failFindTimes > 6:
+                            break
+
+                        re = CompareColors.compare(
+                            "41,1216,#E4E777|41,1231,#D2D56C|79,1212,#F0F0F0|81,1229,#F1F1F1|122,1227,#D2D56C",
+                            diff=0.95)  # 角色
+                        if not re:
+                            # 家园
+                            re = CompareColors.compare(
+                                "330,1185,#FEDCE5|315,1221,#D4D76E|363,1182,#FFCFD8|401,1188,#E7EB79|370,1218,#9C7D6E",
+                                diff=0.95)
+                        if re:
+                            Toast('寻路中断-已返回首页')
+                            sleep(2)
                             break
 
                         if waitPoint:
                             Toast('寻路魔王中')
 
-                        if failFindTimes > 2:
+                        if 2 < failFindTimes < 3:
                             self.dailyTask.角色信息检查(notCheckLife=True)
                             self.dailyTask.世界聊天检查()
                             re = self.dailyTask.判断是否在探索地图()
                             if re:
                                 Toast('移动视角1')
                                 swipe(386, 820, 378, 748)
+
                     Toast('魔王讨伐-结束')
+                    # 检查血量
+                    re = FindColors.find("134,59,#CCD05E|143,59,#CBD160|154,56,#CDD15F|172,56,#CDD15F|192,56,#CDD15F",
+                                         rect=[11, 1, 281, 200], diff=0.9)
+                    if re:
+                        Toast('剩余血量>50%，继续讨伐')
+                    else:
+                        Toast('剩余血量<50%，返回主城')
+                    self.dailyTask.homePage()
 
         sleep(0.2)
 
@@ -624,7 +789,11 @@ class FuBenTask:
                     sleep(0.6)
                     re = TomatoOcrTap(332, 915, 384, 964, '魔', sleep1=2, match_mode='fuzzy')
                 if not re:
-                    re = TomatoOcrFindRangeClick('峡', sleep1=2, match_mode='fuzzy', x1=91, y1=216, x2=596, y2=1071)
+                    re = TomatoOcrFindRangeClick(
+                        keywords=[{'keyword': '封', 'match_mode': 'fuzzy'}, {'keyword': '魔', 'match_mode': 'fuzzy'},
+                                  {'keyword': '峡',
+                                   'match_mode': 'fuzzy'}], sleep1=2, match_mode='fuzzy', x1=80, y1=153, x2=601,
+                        y2=1070)
             elif 功能开关['副本地图'] == "默认副本":
                 Toast(f'日常副本-默认副本')
                 re = FindColors.find("640,501,#A2B776|639,509,#A2B776|672,504,#A1B978|670,510,#A2B778|658,483,#323232",
@@ -732,7 +901,11 @@ class FuBenTask:
                 break
 
             Toast(f'匹配中{elapsed}/200s')
-            re = TomatoOcrTap(486, 1083, 554, 1121, '接受')
+            re, _ = TomatoOcrText(486, 1083, 554, 1121, '接受')
+            if re:
+                Toast(f'匹配成功，等待后接受')
+                sleep(2)
+                re = TomatoOcrTap(486, 1083, 554, 1121, '接受')
             if re:
                 self.副本战斗()
                 break
@@ -743,7 +916,11 @@ class FuBenTask:
         waitFightCt = 0
         while True:
             re = TomatoOcrTap(486, 1083, 554, 1121, '接受')
-            startFight = TomatoOcrTap(322, 934, 394, 975, '准备', sleep1=2)
+            startFight, _ = TomatoOcrText(322, 934, 394, 975, '准备')
+            if startFight:
+                Toast('等待加载，准备战斗')
+                sleep(2)
+                startFight = TomatoOcrTap(322, 934, 394, 975, '准备', sleep1=2)
             Toast('准备战斗')
             if startFight:
                 break

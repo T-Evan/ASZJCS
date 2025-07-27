@@ -167,6 +167,7 @@ def 初始化任务记录(initAll=True):
         "素材秘境": 0,
         "圣兽试炼": 0,
         "混沌侵袭": 0,
+        "竞技场": 0,
 
         "公会挂机奖励": 0,
         "公会捐赠": 0,
@@ -184,4 +185,4 @@ def tunner(k, v):
 
 # 调整悬浮窗位置
 from ascript.android.ui import FloatWindow
-FloatWindow.show(0.01,0.01,0.25)
+FloatWindow.show(0.01,0.01,0.45)

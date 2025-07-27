@@ -99,6 +99,7 @@ class GongHuiTask:
             if re:
                 Toast('公会讨伐-馈赠领取')
                 self.dailyTask.馈赠领取()
+            tapSleep(77, 1213, 1.5)  # 返回公会战首页
 
         if 功能开关["公会讨伐"] == 1:
             re = TomatoOcrTap(31, 607, 223, 670, '讨伐', match_mode='fuzzy')
@@ -173,38 +174,60 @@ class GongHuiTask:
             return
 
         if 功能开关['鸡舍打扫'] == 1:
-            re = FindColors.find("285,204,#EDAB5B|288,206,#F09B43|287,201,#F0A949", rect=[80, 148, 648, 939], diff=0.9)
-            if re:
-                Toast('公会-鸡舍打扫')
-                tapSleep(re.x, re.y, 1.5)
-                tapSleep(365, 1144)  # 点击空白
+            for k in range(20):
+                re = TomatoOcrTap(302, 1065, 421, 1100, '开始打扫', sleep1=2)
+                if re:
+                    Toast('公会-开始打扫鸡舍')
+                re = FindColors.find("285,204,#EDAB5B|288,206,#F09B43|287,201,#F0A949", rect=[80, 148, 648, 939],
+                                     diff=0.9)
+                if re:
+                    Toast('公会-鸡舍打扫')
+                    tapSleep(re.x, re.y, 1.5)
+                    tapSleep(365, 1144)  # 点击空白
+                    sleep(1)
         任务记录["鸡舍打扫"] = 1
         if 功能开关['饲养鸡仔'] == 1:
-            re = TomatoOcrTap(302, 1065, 421, 1100, '开始饲养', sleep1=1.2)
-            if re:
-                Toast('公会-饲养鸡仔')
-                noCt, _ = TomatoOcrText(298, 754, 424, 787, '前往获取')
-                if noCt:
-                    if 功能开关['购买鸡仔'] == 0:
-                        Toast('无可饲养鸡仔')
-                    else:
-                        Toast('准备购买鸡仔')
-                        re = TomatoOcrTap(298, 754, 424, 787, '前往获取', sleep1=2)  # 进入商店
-                        if re:
-                            re = FindColors.find("129,869,#969298|124,881,#969298|112,897,#928D95|118,883,#E4C094",
-                                                 rect=[20, 181, 692, 1160], diff=0.95)  # 鸡仔
-                            if re:
-                                Toast('公会-购买鸡仔')
-                                tapSleep(re.x, re.y + 130)  # 购买按钮
-                            else:
-                                Toast('公会-无可购买鸡仔')
-                            tapSleep(75, 1215)  # 返回
+            for k in range(5):
                 noCt, _ = TomatoOcrText(298, 754, 424, 787, '前往获取')
                 if not noCt:
-                    Toast('公会-开始饲养鸡仔')
                     TomatoOcrTap(328, 1065, 389, 1098, '饲养')
-                else:
-                    Toast('公会-无可饲养鸡仔')
+                re = TomatoOcrTap(302, 1065, 421, 1100, '开始饲养', sleep1=2)
+                if re or noCt:
+                    Toast('公会-饲养鸡仔')
+                    noCt, _ = TomatoOcrText(298, 754, 424, 787, '前往获取')
+                    if noCt:
+                        if 功能开关['购买鸡仔'] == 0:
+                            Toast('无可饲养鸡仔')
+                        else:
+                            Toast('准备购买鸡仔')
+                            re = TomatoOcrTap(298, 754, 424, 787, '前往获取', sleep1=2)  # 进入商店
+                            if re:
+                                isFind = False
+                                for m in range(2):
+                                    isFind = FindColors.find(
+                                        "129,869,#969298|124,881,#969298|112,897,#928D95|118,883,#E4C094",
+                                        rect=[20, 181, 692, 1160], diff=0.95)  # 鸡仔
+                                    if isFind and isFind.y + 130 < 1182:
+                                        Toast('公会-购买鸡仔')
+                                        tapSleep(isFind.x, isFind.y + 130)  # 购买按钮
+                                    isFind = FindColors.find(
+                                        "126,536,#B95C5C|134,530,#BD5D5D|120,598,#B99B74|129,593,#B89A74", diff=0.94)
+                                    if isFind and isFind.y + 150 < 1182:
+                                        Toast('公会-购买鸡仔')
+                                        tapSleep(isFind.x, isFind.y + 150)  # 购买按钮
+                                    swipe(355, 639, 334, 377)
+                                    swipe(355, 639, 355, 619)
+                                    sleep(2)
+
+                                if not isFind:
+                                    Toast('公会-无可购买鸡仔')
+                                tapSleep(75, 1215)  # 返回
+                    noCt, _ = TomatoOcrText(298, 754, 424, 787, '前往获取')
+                    if not noCt:
+                        Toast('公会-开始饲养鸡仔')
+                        TomatoOcrTap(328, 1065, 389, 1098, '饲养')
+                    else:
+                        Toast('公会-无可饲养鸡仔')
         tapSleep(75, 1215)  # 返回
         tapSleep(75, 1215)  # 返回
 
