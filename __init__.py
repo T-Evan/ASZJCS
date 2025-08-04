@@ -184,11 +184,9 @@ print('卡密联网激活开始')
 kamiActive()
 print('卡密联网激活完成')
 
-
 # debug
 # action.Touch.down(127,1000, 1500)  # 长按
 # action.Touch.up(127,1000, 1500)
-# from ascript.android.screen import FindColors
 # system.exit()
 
 
@@ -301,7 +299,7 @@ def main():
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
-                         "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b"])
+                         "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b", "com.m88.zjcs.f"])
                     start_up = StartUp(f'{功能开关["游戏包名"]}')
 
     except Exception as e:

@@ -105,6 +105,9 @@ def waitInvite():
             res1 = FindColors.find("56,277,#CDD068|63,278,#CCD068|50,284,#CED167|52,293,#B5B562",
                                    rect=[11, 116, 110, 726], diff=0.9)
             if not res1:
+                res1 = FindColors.find("52,340,#CED16A|50,346,#D0D06B|52,357,#CDCF6A|63,347,#CED168|69,354,#CDD068",
+                                       rect=[15, 110, 102, 503], diff=0.93)
+            if not res1:
                 re1, _ = TomatoOcrText(486, 1083, 554, 1121, '接受')
                 if not re1:
                     re1, _ = TomatoOcrText(322, 934, 394, 975, '准备')

@@ -3,7 +3,7 @@ from ascript.android import plug
 from ascript.android.ui import Dialog
 from ascript.android import system
 
-plug.load("TomatoOcr:1.1.1")
+plug.load("TomatoOcr:1.1.4")
 try:
     from TomatoOcr import TomatoOcr
 except Exception as e:

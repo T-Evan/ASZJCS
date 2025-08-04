@@ -308,15 +308,20 @@
                             type="button">
                         一键日常配置
                     </button>
-                    <button onclick="shuaZanAllItems()"
-                            style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
-                            type="button">
-                        一键刷币配置
-                    </button>
                     <button onclick="daiDuiAllItems()"
                             style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
                             type="button">
                         一键带队配置
+                    </button>
+                    <button onclick="shuaZanAllItems()"
+                            style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                            type="button">
+                        刷友情币配置(副本匹配)
+                    </button>
+                    <button onclick="shuaCoinAllItems()"
+                            style="margin-bottom:5px;color: white; background-color: #1E9FFF;border: 2px solid #1E9FFF; border-radius: 5px;font-size: 12px;"
+                            type="button">
+                        刷金币配置(魔王讨伐)
                     </button>
                     <div class="flex-container">
                         <label class="gray-text">1</label><input type="text" id="配置1名称" name="配置1"
@@ -712,6 +717,9 @@
                                         <option value="源水大社">源水大社</option>
                                         <option value="黄泉阁">黄泉阁</option>
                                         <option value="封魔峡">封魔峡</option>
+                                        <option value="将军陵">将军陵</option>
+                                        <option value="青云观">青云观</option>
+                                        <option value="古剑城">古剑城</option>
                                     </select>
                                 </div>
                                 <div class="layui-input-inline" style="width: 120px">
@@ -748,6 +756,9 @@
                             </div>
                             <div class="checkbox-item">
                                 <input id="仅S评开启" name="vehicle" type="checkbox" value="Bike">仅S评开启<br>
+                            </div>
+                            <div class="checkbox-item">
+                                <input id="自动治疗" name="vehicle" type="checkbox" value="Bike">自动治疗<br>
                             </div>
                             <div class="checkbox-item">
                                 <input id="日常副本创建房间" name="vehicle" type="checkbox" value="Bike">创建房间(施工中)<br>
@@ -821,7 +832,8 @@
                                 <input id="魔物讨伐" name="vehicle" type="checkbox" value="Bike">魔物讨伐<br>
                             </div>
                             <div class="checkbox-item">
-                                <input id="魔物讨伐切换频道" name="vehicle" type="checkbox" value="Bike">自动切换频道<br>
+                                <input id="魔物讨伐切换频道" name="vehicle" type="checkbox"
+                                       value="Bike">自动切换频道<br>
                             </div>
                         </div>
                         <div class="flex-container">
@@ -835,8 +847,9 @@
                     <fieldset>
                         <legend>竞技场</legend>
                         <div class="checkbox-item">
-                            <input id="竞技场" name="vehicle" type="checkbox" value="Bike">竞技场<br>
+                            <input id="竞技场" name="vehicle" type="checkbox" value="Bike">竞技场挑战<br>
                         </div>
+                        <label class="gray-text">(默认挑战5次)</label><br>
                     </fieldset>
                     <fieldset>
                         <legend>地图探索</legend>
@@ -1064,7 +1077,32 @@
     }
 
     function shuaZanAllItems() {
-        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"false","不开宝箱":"true","圣兽试炼":"false","混沌侵袭":"false","无次数继续":"true","日常副本重复挑战次数":"10","日常副本补充次数":"0","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,,"竞技场":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
+        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"false","自动治疗":"false","不开宝箱":"true","圣兽试炼":"false","混沌侵袭":"false","无次数继续":"true","日常副本重复挑战次数":"10","日常副本补充次数":"0","顶号等待":"20","日常总开关":false,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"竞技场":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":false,"小木床领取":false,"命运之树领取":false,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
+        if (jsonString) {
+            try {
+<!--                console.log('读取的配置:', jsonString);-->
+                const configData = JSON.parse(jsonString); // 将 JSON 字符串转换回对象
+
+                // 遍历 configData 对象的每个键值对
+                for (const key in configData) {
+                    if (configData.hasOwnProperty(key)) {
+                        if (!key.includes('config') && !key.includes('账号') && !key.includes('角色') && !key.includes('激活码') && !key.includes('配置')) {
+                            localStorage.setItem(key, configData[key]);
+                        }
+                    }
+                }
+                setAllItems()
+                showToast('加载默认配置成功，请继续调整')
+            } catch (error) {
+                console.error('解析 JSON 失败:', error);
+            }
+        } else {
+            console.log('没有找到配置');
+        }
+    }
+
+    function shuaCoinAllItems() {
+        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"false","自动治疗":"false","不开宝箱":"false","圣兽试炼":"false","混沌侵袭":"false","无次数继续":"false","日常副本重复挑战次数":"10","日常副本补充次数":"0","顶号等待":"20","日常总开关":false,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":false,"地图探索":false,"竞技场":false,"魔物讨伐":true,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":false,"小木床领取":false,"命运之树领取":false,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -1089,7 +1127,7 @@
     }
 
     function dailyAllItems() {
-        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"true","不开宝箱":"false","圣兽试炼":"true","混沌侵袭":"true","无次数继续":"true","日常副本重复挑战次数":"4","日常副本补充次数":"2","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"竞技场":true,"魔物讨伐":true,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":true,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"鸡舍打扫":true,"购买鸡仔":true,"饲养鸡仔":true,"公会讨伐":true,"公会战":true,"公会挂机奖励":true}'
+        const jsonString = '{"副本自动接收邀请":"false","世界喊话开关":"false","仅S评开启":"true","自动治疗":"false","不开宝箱":"false","圣兽试炼":"true","混沌侵袭":"true","无次数继续":"true","日常副本重复挑战次数":"4","日常副本补充次数":"2","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":true,"日常副本":true,"地图探索":true,"竞技场":true,"魔物讨伐":true,"金币探索":false,"粗炼石探索":true,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":true,"日常任务领取":true,"自动更换装备":true,"自动强化装备":true,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":true,"每日商店":true,"每日签到":true,"成长试炼":true,"启程签到":true,"菜就多躺":true,"巡礼之证":true,"每日特惠":true,"本周精选":true,"月卡领取":true,"秘宝大作战":true,"其他签到活动":true,"公会总开关":true,"公会捐赠":true,"鸡舍打扫":true,"购买鸡仔":true,"饲养鸡仔":true,"公会讨伐":true,"公会战":true,"公会挂机奖励":true}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -1114,7 +1152,7 @@
     }
 
     function daiDuiAllItems() {
-        const jsonString = '{"副本自动接收邀请":"true","世界喊话开关":"false","仅S评开启":"true","不开宝箱":"true","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"竞技场":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":true,"小木床领取":true,"命运之树领取":true,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
+        const jsonString = '{"副本自动接收邀请":"true","世界喊话开关":"false","仅S评开启":"true","自动治疗":"true","不开宝箱":"true","顶号等待":"20","日常总开关":true,"自动主线":false,"副本总开关":true,"幻想阶梯":false,"日常副本":true,"地图探索":false,"竞技场":false,"魔物讨伐":false,"金币探索":false,"粗炼石探索":false,"时之砂探索":false,"历战精华探索":false,"探索次数":"","素材秘境":false,"日常任务领取":false,"自动更换装备":false,"自动强化装备":false,"小推车领取":false,"小木床领取":false,"命运之树领取":false,"邮件领取":false,"每日商店":false,"每日签到":false,"成长试炼":false,"启程签到":false,"菜就多躺":false,"巡礼之证":false,"每日特惠":false,"本周精选":false,"月卡领取":false,"秘宝大作战":false,"其他签到活动":false,"公会总开关":false,"公会捐赠":false,"鸡舍打扫":false,"购买鸡仔":false,"饲养鸡仔":false,"公会讨伐":false,"公会战":false,"公会挂机奖励":false}'
         if (jsonString) {
             try {
 <!--                console.log('读取的配置:', jsonString);-->
@@ -1334,6 +1372,7 @@
         setSwitchStatus("无次数继续");
         setSwitchStatus("不开宝箱");
         setSwitchStatus("仅S评开启");
+        setSwitchStatus("自动治疗");
         setSwitchStatus("日常副本创建房间");
         setSwitchStatus("副本自动接收邀请");
         var defaultValue = localStorage.getItem('日常副本补充次数');
@@ -1567,6 +1606,7 @@
         无次数继续 = saveSwitchStatus("无次数继续");
         不开宝箱 = saveSwitchStatus("不开宝箱");
         仅S评开启 = saveSwitchStatus("仅S评开启");
+        自动治疗 = saveSwitchStatus("自动治疗");
         日常副本创建房间 = saveSwitchStatus("日常副本创建房间");
         副本自动接收邀请 = saveSwitchStatus("副本自动接收邀请");
         发送随机表情 = saveSwitchStatus("发送随机表情");
@@ -1692,6 +1732,7 @@
             无次数继续: 无次数继续,
             不开宝箱: 不开宝箱,
             仅S评开启: 仅S评开启,
+            自动治疗: 自动治疗,
             日常副本创建房间: 日常副本创建房间,
             副本自动接收邀请: 副本自动接收邀请,
             自动离房等待时间: 自动离房等待时间,

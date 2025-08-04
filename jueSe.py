@@ -91,11 +91,11 @@ class JueSeTask:
             if waitAll:
                 for wait in waitAll:
                     Toast('开始强化装备')
-                    tapSleep(wait.x, wait.y)
-                    re = FindColors.find("594,909,#40A3D4|601,907,#FFFFFF|606,904,#92C9E6|605,910,#41A4D2",
-                                         rect=[360, 492, 622, 1147], diff=0.94)  # 培养 蓝点
+                    tapSleep(wait.x, wait.y, 1.2)
+                    re = FindColors.find("593,927,#43A1D7|597,925,#F8FAFD|605,929,#3FA3D6", rect=[358, 585, 612, 1125],
+                                         diff=0.85)  # 培养 蓝点
                     if re:
-                        TomatoOcrTap(456, 863, 525, 902, '培养')
+                        TomatoOcrFindRangeClick(keyword='培养', x1=374, y1=703, x2=581, y2=1171, match_mode='fuzzy')
                         for k in range(5):
                             Toast('强化装备成功')
                             TomatoOcrTap(324, 1065, 393, 1103, '强化')
@@ -105,3 +105,4 @@ class JueSeTask:
                                 tapSleep(72, 1226)
                                 tapSleep(72, 1226)
                                 break
+                    tapSleep(355, 160)  # 点击空白

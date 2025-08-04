@@ -68,6 +68,12 @@ class StartUp:
                         return True
                     tapSleep(334, 1237)  # 点击空白处
 
+            # 识别是否在更新中
+            re, _, _ = TomatoOcrFindRange("正在", match_mode='fuzzy', x1=180, y1=976, x2=311, y2=1008)
+            if re:
+                Toast(f'启动游戏，等待更新中')
+                sleep(15)
+
             # 判断是否已在首页
             shou_ye1 = self.返回首页()
             if not shou_ye1:
@@ -155,6 +161,7 @@ class StartUp:
                 return None
             return None
         return None
+
     def multiAccount(self):
         for k in range(20):
             try:
@@ -172,7 +179,7 @@ class StartUp:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
-                         "com.m88.zjcs.g", "com.m88.idleXX","com.leiting.zjcs.b","com.m88.zjcs.b"])
+                         "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b", "com.m88.zjcs.f"])
                     self.app_name = f'{功能开关["游戏包名"]}'
 
         if 功能开关['账号1保存']:
@@ -248,7 +255,7 @@ class StartUp:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
-                         "com.m88.zjcs.g", "com.m88.idleXX","com.leiting.zjcs.b","com.m88.zjcs.b"])
+                         "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b", "com.m88.zjcs.f"])
                     self.app_name = f'{功能开关["游戏包名"]}'
 
         try:
