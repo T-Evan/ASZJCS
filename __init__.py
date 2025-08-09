@@ -184,6 +184,7 @@ print('卡密联网激活开始')
 kamiActive()
 print('卡密联网激活完成')
 
+
 # debug
 # action.Touch.down(127,1000, 1500)  # 长按
 # action.Touch.up(127,1000, 1500)
@@ -264,9 +265,26 @@ def main():
                     功能开关["fighting"] = 0
                     功能开关["needHome"] = 0
                     action.Key.home()
-                    初始化任务记录(False)
-                    sleep(need_wait_minute * 60)
+
+                    total_sleep_time = need_wait_minute * 60  # 总休息时间（秒）
+                    sleep_interval = min(5, total_sleep_time)  # 每次睡眠间隔（最多60秒）
+
+                    remaining_time = total_sleep_time
+                    while remaining_time > 0:
+                        # 计算剩余分钟和秒数
+                        mins, secs = divmod(remaining_time, 60)
+                        Toast(f"休息中...还剩 {mins:02d}:{secs:02d}")
+
+                        # 睡眠指定间隔或剩余时间（取较小值）
+                        actual_sleep_time = min(sleep_interval, remaining_time)
+                        sleep(actual_sleep_time)
+
+                        # 更新剩余时间
+                        remaining_time -= actual_sleep_time
+
                     任务记录["定时休息-倒计时"] = int(time.time())
+                    # sleep(need_wait_minute * 60)
+                    # 任务记录["定时休息-倒计时"] = int(time.time())
 
                 # 定时切账号
                 current_time = int(time.time())

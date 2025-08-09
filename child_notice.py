@@ -28,6 +28,7 @@ def main():
         if 功能开关["顶号等待"] != "" and 功能开关["顶号等待"] != "0":
             anotherLogin()
 
+        # 检查辅助点开，游戏操作卡死
         if time.time() - checkOpenTime > 10:
             checkOpenTime = time.time()
             re = FindColors.find("236,222,#EA2D5E|233,236,#ECEFF1|217,233,#EA2D5E|255,236,#EA2D5E|238,258,#EA2D5E",

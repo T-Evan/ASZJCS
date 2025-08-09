@@ -74,6 +74,9 @@ class StartUp:
                 Toast(f'启动游戏，等待更新中')
                 sleep(15)
 
+            if tryTimes > 2:
+                self.世界聊天检查()
+
             # 判断是否已在首页
             shou_ye1 = self.返回首页()
             if not shou_ye1:
@@ -94,6 +97,20 @@ class StartUp:
         # 重启游戏
         return self.start_app()
 
+    def 世界聊天检查(self):
+        for k in range(2):
+            re = FindColors.find(
+                "34,1224,#020202|42,1233,#020202|51,1224,#020202|31,1235,#E2E2E2|51,1234,#E2E2E2",
+                rect=[14, 735, 82, 1264], diff=0.95)
+            if re:
+                Toast('世界聊天关闭1')
+                tapSleep(re.x, re.y)
+            re = FindColors.find("33,828,#000000|43,839,#070707|51,834,#0A0A0A|30,841,#E1E1E1|51,841,#E2E2E2",
+                                 rect=[4, 616, 98, 1208], diff=0.95)
+            if re:
+                Toast('世界聊天关闭2')
+                tapSleep(re.x, re.y)
+
     def 返回首页(self):
         if 功能开关["fighting"] == 1:
             return True
@@ -108,6 +125,8 @@ class StartUp:
                 tapSleep(358, 1223, 1)
                 shou_ye1 = CompareColors.compare(
                     "320,1221,#DADE71|369,1218,#746661|356,1169,#FEDCE3|403,1223,#CDD068")  # 判断底部家园图标（已点亮）
+                if not shou_ye1:
+                    shou_ye1, _ = TomatoOcrText(329, 1248, 390, 1278, '家园')  # 判断底部家园图标（已点亮）
         if shou_ye1:
             Toast('已进入游戏')
             功能开关["needHome"] = 0

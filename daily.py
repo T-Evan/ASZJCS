@@ -1442,17 +1442,22 @@ class DailyTask:
             tapSleep(476, 516, 2)  # 移开视角
 
     def 世界聊天检查(self):
-        for k in range(2):
-            re = CompareColors.compare("603,1226,#CCD068|681,1229,#CED168")
+        # re = CompareColors.compare("603,1226,#CCD068|681,1229,#CED168")
+        # if re:
+        #     Toast('世界聊天关闭')
+        #     tapSleep(37, 1221)
+        re = FindColors.find(
+            "34,1224,#020202|42,1233,#020202|51,1224,#020202|31,1235,#E2E2E2|51,1234,#E2E2E2",
+            rect=[14, 735, 82, 1264], diff=0.95)
+        if re:
+            Toast('世界聊天关闭1')
+            tapSleep(re.x, re.y)
+        if not re:
+            re = FindColors.find("33,828,#000000|43,839,#070707|51,834,#0A0A0A|30,841,#E1E1E1|51,841,#E2E2E2",
+                                 rect=[4, 616, 98, 1208], diff=0.95)
             if re:
-                Toast('世界聊天关闭')
-                tapSleep(37, 1221)
-            re = FindColors.find(
-                "34,1224,#020202|42,1233,#020202|51,1224,#020202|31,1235,#E2E2E2|51,1234,#E2E2E2",
-                rect=[14, 735, 82, 1264], diff=0.95)
-            if re:
-                Toast('世界聊天关闭')
-                tapSleep(re.x, re.x)
+                Toast('世界聊天关闭2')
+                tapSleep(re.x, re.y)
 
     def 小游戏检查(self):
         re, _ = TomatoOcrText(265, 284, 435, 334, '能量回路')

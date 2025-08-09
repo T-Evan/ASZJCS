@@ -1,4 +1,5 @@
 # 导包
+import random
 import time
 
 from .特征库 import *
@@ -126,6 +127,9 @@ class FuBenTask:
 
         start_time = int(time.time())
         change_time = int(time.time())  # 切换频道检查
+        flash_time = int(time.time())  # 清空点击时间
+        liaoTian_time = int(time.time())  # 发送随机表情
+        random_action_time = int(time.time())  # 执行随机动作
         功能开关["寻找讨伐等待时长"] = safe_int_v2(功能开关["寻找讨伐等待时长"])
         if 功能开关["寻找讨伐等待时长"] == 0:
             功能开关["寻找讨伐等待时长"] = 5  # 默认5分钟
@@ -138,9 +142,53 @@ class FuBenTask:
                 Toast('魔物讨伐-等待队伍超时')
                 break
 
+            if 功能开关['魔物随机操作'] == 1:
+                # if current_time - random_action_time >= random.randint(10, 30):
+                if current_time - random_action_time >= random.randint(280, 720):
+                    # if current_time - random_action_time >= 10:
+                    random_action_time = int(time.time())  # 随机动作
+                    Toast('魔物讨伐-执行随机动作')
+                    # 点开个人信息
+                    re = FindColors.find("183,831,#42D2AA|187,834,#FFFFFF|189,828,#FFFFFF", rect=[113, 94, 206, 1161])
+                    if re:
+                        Toast('查询玩家信息')
+                        tapSleep(re.x - random.randint(10, 20), re.y + random.randint(10, 20), 1)
+                        random_x = random.randint(97, 691)
+                        random_y = random.randint(14, 72)
+                        tapSleep(random_x, random_y, random.uniform(0.5, 2.0))  # 随机延迟0.5-2秒
+
+                    self.dailyTask.homePage()
+                    swipe(154 + random.randint(5, 20), 607 + random.randint(5, 20), 593 + random.randint(5, 20),
+                          626 + random.randint(5, 20))
+                    sleep(2)
+                    swipe(593 + random.randint(5, 20), 626 + random.randint(5, 20), 154 + random.randint(5, 20),
+                          607 + random.randint(5, 20))
+                    sleep(2)
+                    random_x = random.randint(7, 577)
+                    random_y = random.randint(116, 692)
+                    tapSleep(random_x, random_y, random.uniform(0.5, 2.0))  # 随机延迟0.5-2秒
+
+                    随机页面 = [[83, 1237], [224, 1231], [505, 1227], [647, 1227]]
+                    tapSleep(*random.choice(随机页面))
+                    for k in range(2):
+                        self.dailyTask.homePage()
+                        Toast('魔物讨伐-寻找聊天入口')
+                        tapSleep(650, 1090, 0.4)  # 点击聊天框
+                        tapSleep(670, 1090, 0.4)  # 点击聊天框
+                        isFind, _ = TomatoOcrText(609, 1208, 672, 1245, '发送', match_mode='fuzzy')
+                        if isFind:
+                            break
+                        if not isFind:
+                            Toast('魔物讨伐-寻找聊天入口失败')
+                            sleep(0.5)
+                            return
+                        Toast('魔物讨伐-已进入界域聊天')
+
+            if current_time - flash_time > random.randint(90, 180):
+                flash_time = int(time.time())  # 清空点击记录
+                lastFind = []
             if current_time - change_time > 5:
                 change_time = int(time.time())  # 切换频道检查
-                lastFind = []
                 if 功能开关['魔物讨伐切换频道'] == 1:
                     Toast('魔物讨伐-切换频道')
                     if nowCheck == '位面':
@@ -202,12 +250,14 @@ class FuBenTask:
             all_points.extend(tmpPoints)
             all_points = sorted(all_points, key=lambda x: x["center_y"], reverse=True)
             for p in all_points:
-                if p['center_y'] in lastFind:
+                _, userName = TomatoOcrText(201, p['center_y'] - 65, 505, p['center_y'] - 25, '玩家名称')
+                if userName != '' and userName in lastFind:
+                    print(lastFind)
                     continue
-                tapSleep(p['center_x'], p['center_y'], 0.1)
-                tapSleep(p['center_x'], p['center_y'], 0.1)
+                tapSleep(p['center_x'] + random.randint(2, 10), p['center_y'] + random.randint(2, 10), 0.1)
+                tapSleep(p['center_x'] + random.randint(2, 10), p['center_y'] + random.randint(2, 10), 0.1)
                 Toast('魔物讨伐-加入讨伐队伍')
-                lastFind.append(p['center_y'])
+                lastFind.append(userName)
                 isClick = False
                 for k in range(5):
                     isClick, _ = TomatoOcrText(457, 719, 526, 754, '确定')
@@ -582,6 +632,26 @@ class FuBenTask:
                                 swipe(386, 820, 378, 748)
 
                     Toast('魔王讨伐-结束')
+
+                    if 功能开关['魔物发送随机表情'] == 1:
+                        if current_time - liaoTian_time > random.randint(10, 30):
+                            # if current_time - liaoTian_time > random.randint(360, 720):
+                            tapSleep(634, 1114)  # 点击聊天
+                            tapSleep(650, 1081)  # 点击聊天
+                            # if current_time - liaoTian_time > random.randint(10, 20):
+                            re = TomatoOcrFindRangeClick('国', match_mode='fuzzy', x1=9, y1=484, x2=88, y2=1166,
+                                                         sleep1=1.5)
+                            if re:
+                                Toast('魔物讨伐-发送随机表情')
+                                liaoTian_time = int(time.time())  # 清空点击记录
+                                tapSleep(476, 1224)
+                                表情 = [[60, 1021], [157, 1024], [252, 1016], [366, 1029], [448, 1025], [547, 1018],
+                                        [656, 1024]]
+                                tapSleep(*random.choice(表情))
+                                TomatoOcrTap(606, 817, 671, 850, '发送')
+                                self.dailyTask.世界聊天检查()
+                                self.dailyTask.世界聊天检查()
+
                     # 检查血量
                     re = FindColors.find("134,59,#CCD05E|143,59,#CBD160|154,56,#CDD15F|172,56,#CDD15F|192,56,#CDD15F",
                                          rect=[11, 1, 281, 200], diff=0.9)
@@ -1118,6 +1188,7 @@ class FuBenTask:
             if not re:
                 Toast(f'战斗状态识别失败{failTimes}/10')
                 sleep(1)
+                self.dailyTask.世界聊天检查()
                 failTimes = failTimes + 1
             else:
                 failTimes = 0
@@ -1174,6 +1245,7 @@ class FuBenTask:
                     Toast('战斗结束-不开宝箱')
                 tapSleep(64, 1220)  # 返回
                 TomatoOcrTap(457, 721, 525, 754, '确定', sleep1=1.5)
+                startFight = True
                 break
 
             # 圣兽战斗结束

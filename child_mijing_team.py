@@ -101,7 +101,12 @@ def waitInvite():
 
         # 返回房间
         failTeam = 0
-        for j in range(8):
+        for j in range(18):
+            # 战斗结束治疗
+            re = TomatoOcrTap(400, 800, 511, 832, '治疗', match_mode='fuzzy')
+            if re:
+                Toast("战斗结束 - 一键治疗")
+
             res1 = FindColors.find("56,277,#CDD068|63,278,#CCD068|50,284,#CED167|52,293,#B5B562",
                                    rect=[11, 116, 110, 726], diff=0.9)
             if not res1:
@@ -114,10 +119,12 @@ def waitInvite():
                 if re1:
                     break
                 if not re1:
-                    Toast(f'未进入房间{j}/ 8')
+                    Toast(f'未进入房间{j}/ 15')
                     failTeam = failTeam + 1
+            if res1:
+                break
             sleep(1)
-        if failTeam >= 5:
+        if failTeam >= 15:
             re, _ = TomatoOcrText(322, 934, 394, 975, '准备')
             if not re:
                 re, _ = TomatoOcrText(486, 1083, 554, 1121, '接受')
