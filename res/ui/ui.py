@@ -128,6 +128,8 @@ elif 功能开关['选择游戏版本'] == "雷霆官服(内测2)":
 
     "当前任务账号": 功能开关["选择启动账号"],
     "切换账号-倒计时": 0,
+    "启动时间": time.time(),
+    "玩家名称": 0,
 }
 
 
@@ -189,4 +191,102 @@ def tunner(k, v):
 # 调整悬浮窗位置
 from ascript.android.ui import FloatWindow
 
-FloatWindow.show(0.01, 0.01, 0.25)
+FloatWindow.show(0.01, 0.01, 0.4)
+
+
+def a():
+    totalTime = time.time() - 任务记录['启动时间']
+    # 计算小时和分钟
+    hours = int(totalTime // 3600)
+    minutes = int((totalTime % 3600) // 60)
+
+    # 任务记录['玩家名称'] = '咸鱼搜麦乐芬'
+
+    if 任务记录['玩家名称'] == "":
+        Dialog.toast(
+            f"数据加载中，请稍后再来查看吧~\nps:多次加载失败可尝试重启脚本",
+            3000, 3 | 48, 0, 0, "#666666", "#FFFFFF")
+        return
+
+    任务记录['提示-并发锁'] = 1
+    userTotalMoWangCount, userTodayMoWangCount, TodayMoWangPaiHang, UserMoWangPaiHang = moWangCount()
+
+    Dialog.toast(
+        f"已运行{hours}小时{minutes}分\n玩家：{任务记录['玩家名称']}\n总魔王{userTotalMoWangCount}次，今日魔王{userTodayMoWangCount}次\n今天魔王排行:\n{TodayMoWangPaiHang}\n总魔王排行:\n{UserMoWangPaiHang}",
+        5000, 3 | 48, 0, 0, "#666666", "#FFFFFF")
+    sleep(5)
+    任务记录['提示-并发锁'] = 0
+
+
+FloatWindow.add_menu("10001", R.img("ico_rank.png"), a)
+
+
+def moWangCount():
+    db = pymysql.connect(
+        host="8.140.162.237",  # 开发者后台,创建的数据库 “主机地址”
+        port=3307,  # 开发者后台,创建的数据库 “端口”
+        user='yiwan233',  # 开发者后台,创建的数据库 “用户名”
+        password='233233',  # 开发者后台,创建的数据库 “初始密码”
+        database='db_dev_12886',  # 开发者后台 ,创建的 "数据库"
+        charset='utf8mb4'  ""
+    )  # 连接数据库
+
+    # 获取当前时间
+    today_start_timestamp = int(
+        (datetime.utcnow() + timedelta(hours=8)).replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+
+    userTotalMoWangCount = 0
+    cursor = db.cursor()
+    sql = "SELECT count FROM mowang WHERE user_name = %s"
+    # 使用参数化查询
+    cursor.execute(sql, (任务记录['玩家名称']))
+    results = cursor.fetchall()
+    print(results)
+    for row in results:
+        userTotalMoWangCount = row[0]
+
+    userTodayMoWangCount = 0
+    sql = f"SELECT count FROM mowang WHERE user_name = %s and today_time = {today_start_timestamp}"
+    # 使用参数化查询
+    cursor.execute(sql, (任务记录['玩家名称']))
+    results = cursor.fetchall()
+    print(results)
+    for row in results:
+        userTodayMoWangCount = row[0]
+
+    TodayMoWangPaiHang = ""
+    sql = f"SELECT user_name,count as ct FROM mowang WHERE user_name not in ('','0','（','）') and today_time >= {today_start_timestamp} group by user_name order by ct desc limit 10"
+    # 使用参数化查询
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    # print(sql)
+    # print(results)
+    player_index = 1
+    for row in results:
+        # userName = row[0][:-1] + '*'
+        userName = row[0]
+        hiddenName = f"玩家{chr(64 + player_index)}"
+        player_index += 1
+        TodayMoWangPaiHang += f"{hiddenName}:{row[1]}次\n"
+
+    UserMoWangPaiHang = ""
+    sql = f"SELECT user_name,count as ct FROM mowang WHERE user_name not in ('','0','（','）') group by user_name order by ct desc limit 100"
+    # 使用参数化查询
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    # print(sql)
+    # print(results)
+    player_index = 1
+    for row in results:
+        userName = row[0]
+        hiddenName = f"玩家{chr(64 + player_index)}"
+        player_index += 1
+        UserMoWangPaiHang += f"{hiddenName}:{row[1]}次\n"
+    UserMoWangPaiHang = UserMoWangPaiHang.rstrip('\n')
+
+    # 执行完之后要记得关闭游标和数据库连接
+    cursor.close()
+    # 执行完毕后记得关闭db,不然会并发连接失败哦
+    db.close()
+
+    return userTotalMoWangCount, userTodayMoWangCount, TodayMoWangPaiHang, UserMoWangPaiHang

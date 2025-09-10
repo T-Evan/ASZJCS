@@ -53,6 +53,10 @@ class StartUp:
             if shou_ye1:
                 return True
 
+            res1, _ = TomatoOcrText(231, 562, 485, 609, "登录", match_mode='fuzzy')
+            if res1:
+                return True
+
             # 识别是否进入登录页
             login1, _ = TomatoOcrText(618, 77, 693, 108, "服务器")  # 首页服务器选择
             if login1:
@@ -91,6 +95,7 @@ class StartUp:
             Toast(f'启动游戏，等待加载中，{attempt}/{max_attempt}')
 
             sleep(1)  # 等待游戏启动
+
         print('启动游戏失败，尝试重启游戏')
         # 结束应用
         r = system.shell(f"am force-stop {功能开关['游戏包名']}", L())
@@ -113,14 +118,16 @@ class StartUp:
 
     def 返回首页(self):
         if 功能开关["fighting"] == 1:
+            sleep(2)
             return True
 
         # 判断是否已在首页
         shou_ye1 = CompareColors.compare(
             "320,1221,#DADE71|369,1218,#746661|356,1169,#FEDCE3|403,1223,#CDD068")  # 判断底部家园图标（已点亮）
         if not shou_ye1:
-            re = CompareColors.compare("353,1186,#FFD1DA|361,1204,#AC8B7B|358,1251,#756361")  # 匹配底部家园图标(未点亮)
-            if re:
+            re1 = CompareColors.compare("353,1186,#FFD1DA|361,1204,#AC8B7B|358,1251,#756361")  # 匹配底部家园图标(未点亮)
+            re2 = CompareColors.compare("395,1175,#D44444|400,1173,#FAF3F3|403,1173,#DF5050")  # 匹配底部家园图标(未点亮-红点)
+            if re1 or re2:
                 Toast('返回首页')
                 tapSleep(358, 1223, 1)
                 shou_ye1 = CompareColors.compare(
@@ -128,6 +135,8 @@ class StartUp:
                 if not shou_ye1:
                     shou_ye1, _ = TomatoOcrText(329, 1248, 390, 1278, '家园')  # 判断底部家园图标（已点亮）
         if shou_ye1:
+            if 任务记录['玩家名称'] == '' or 任务记录['玩家名称'] == 0:
+                _, 任务记录['玩家名称'] = TomatoOcrText(105, 17, 268, 48, '登录玩家名称')
             Toast('已进入游戏')
             功能开关["needHome"] = 0
             return True
@@ -182,7 +191,7 @@ class StartUp:
         return None
 
     def multiAccount(self):
-        for k in range(20):
+        for k in range(25):
             try:
                 system.open(self.app_name)
             except Exception as e:
@@ -198,6 +207,8 @@ class StartUp:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
+                         "com.zjcs.android.jp",
+                         "com.m88.zjcs.n",
                          "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b", "com.m88.zjcs.f"])
                     self.app_name = f'{功能开关["游戏包名"]}'
 
@@ -258,7 +269,7 @@ class StartUp:
 
     def loadAccount(self, account_name):
         global 功能开关
-        for k in range(20):
+        for k in range(25):
             try:
                 system.open(self.app_name)
             except Exception as e:
@@ -274,6 +285,8 @@ class StartUp:
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
+                         "com.zjcs.android.jp",
+                         "com.m88.zjcs.n",
                          "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b", "com.m88.zjcs.f"])
                     self.app_name = f'{功能开关["游戏包名"]}'
 

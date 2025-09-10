@@ -29,13 +29,18 @@ class DailyTask:
         while True:
             tryTimes = tryTimes + 1
 
+            res1, _ = TomatoOcrText(231, 562, 485, 609, "登录", match_mode='fuzzy')
+            if res1:
+                sleep(3)
+                continue
+
             if tryTimes > 5:
                 self.对话检查()
                 system.open(f"{功能开关['游戏包名']}")
 
             # 避免战斗中直接退出
-            if tryTimes < 300 and 功能开关["fighting"] == 1 and needQuitTeam == False:
-                sleep(1)
+            if 功能开关["fighting"] == 1 and needQuitTeam == False:
+                sleep(3)
                 continue
 
             if tryTimes > 10:
@@ -62,6 +67,8 @@ class DailyTask:
                         "320,1221,#DADE71|369,1218,#746661|356,1169,#FEDCE3|403,1223,#CDD068")  # 判断底部家园图标（已点亮）
             if shou_ye1:
                 功能开关["needHome"] = 0
+                if 任务记录['玩家名称'] == '' or 任务记录['玩家名称'] == 0:
+                    _, 任务记录['玩家名称'] = TomatoOcrText(105, 17, 268, 48, '登录玩家名称')
                 Toast('日常 - 已返回首页')
                 return True
 
@@ -842,6 +849,9 @@ class DailyTask:
             if not re:
                 re = FindColors.find("200,770,#CFD268|197,757,#CED168|191,779,#CED168|200,771,#CDD068",
                                      rect=[9, 719, 701, 834], diff=0.94)
+            if not re:
+                re = FindColors.find("328,849,#FEFE99|335,865,#B5A474|359,840,#EFE9AE|360,865,#C5B380",
+                                     rect=[0, 722, 689, 976], diff=0.93)
 
             if re:
                 Toast('日常-领取小推车')
@@ -1177,12 +1187,12 @@ class DailyTask:
             tapSleep(67, 1212)
             return
 
-        if 功能开关['金币探索'] == 1:
-            Toast('日常-金币探索')
-            tapSleep(61, 307)
-        elif 功能开关['粗炼石探索'] == 1:
+        if 功能开关['粗炼石探索'] == 1:
             Toast('日常-粗炼石探索')
             tapSleep(131, 314)
+        elif 功能开关['金币探索'] == 1:
+            Toast('日常-金币探索')
+            tapSleep(61, 307)
         elif 功能开关['时之砂探索'] == 1:
             Toast('日常-时之砂探索')
             tapSleep(214, 315)

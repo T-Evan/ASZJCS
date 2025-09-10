@@ -9,6 +9,8 @@ from .res.ui.ui import 任务记录
 from .baseUtils import *
 from .daily import DailyTask
 from ascript.android.screen import FindColors
+import pymysql
+from datetime import datetime, timedelta
 
 
 class FuBenTask:
@@ -57,6 +59,8 @@ class FuBenTask:
             return
         re = CompareColors.compare("67,784,#5D4E51|138,773,#715C51|161,866,#D6C4AC|215,898,#EBE2C9|345,817,#DE7352",
                                    diff=0.95)
+        if not re:
+            re = CompareColors.compare("115,795,#544B4C|136,834,#A0948C|199,816,#EFD7B1|245,849,#B1A090")
         if not re:
             Toast('日常-竞技场未开启')
             sleep(0.5)
@@ -170,6 +174,22 @@ class FuBenTask:
 
                     随机页面 = [[83, 1237], [224, 1231], [505, 1227], [647, 1227]]
                     tapSleep(*random.choice(随机页面))
+
+                    if random.choice([True, False]):
+                        # 打开精彩活动
+                        tmp = 功能开关["本周精选"]
+                        功能开关["本周精选"] = 1
+                        任务记录["本周精选"] = 0
+                        self.dailyTask.本周精选()
+                        功能开关["本周精选"] = tmp
+                    else:
+                        tmp = 功能开关["巡礼之证"]
+                        功能开关["巡礼之证"] = 1
+                        任务记录["巡礼之证"] = 0
+                        self.dailyTask.巡礼之证()
+                        功能开关["巡礼之证"] = tmp
+
+                    # 领取
                     for k in range(2):
                         self.dailyTask.homePage()
                         Toast('魔物讨伐-寻找聊天入口')
@@ -187,7 +207,7 @@ class FuBenTask:
             if current_time - flash_time > random.randint(90, 180):
                 flash_time = int(time.time())  # 清空点击记录
                 lastFind = []
-            if current_time - change_time > 5:
+            if current_time - change_time > 15:
                 change_time = int(time.time())  # 切换频道检查
                 if 功能开关['魔物讨伐切换频道'] == 1:
                     Toast('魔物讨伐-切换频道')
@@ -196,7 +216,8 @@ class FuBenTask:
                             keywords=[{'keyword': '界', 'match_mode': 'fuzzy'},
                                       {'keyword': '域', 'match_mode': 'fuzzy'}],
                             x1=14,
-                            y1=511, x2=85, y2=1161, sleep1=0.5)
+                            y1=511, x2=85, y2=1161, sleep1=0.5, offsetX=random.randint(10, 30),
+                            offsetY=random.randint(10, 20))
                         nowCheck = '界域'
 
                     else:
@@ -204,30 +225,29 @@ class FuBenTask:
                             keywords=[{'keyword': '位', 'match_mode': 'fuzzy'},
                                       {'keyword': '面', 'match_mode': 'fuzzy'}],
                             x1=14,
-                            y1=511, x2=85, y2=1161, sleep1=0.5)
+                            y1=511, x2=85, y2=1161, sleep1=0.5, offsetX=random.randint(10, 30),
+                            offsetY=random.randint(10, 20))
                         nowCheck = '位面'
                 else:
                     # 匹配是否在界域
-                    re = FindColors.find(
-                        "23,863,#CED168|37,869,#222222|48,872,#CFD268|56,875,#202020|64,871,#202020|47,883,#222222",
-                        rect=[6, 558, 83, 1172])
+                    re = TomatoOcrText(352, 20, 464, 59, '界域', match_mode='fuzzy')
                     if not re:
                         # 匹配是否在位面
-                        re = FindColors.find(
-                            "48,779,#202020|26,759,#CDD068|36,767,#202020|44,765,#CDD068|55,759,#222222|71,781,#CCD168|48,765,#CDD068",
-                            rect=[6, 558, 83, 1172])
+                        re = TomatoOcrText(352, 20, 464, 59, '位面', match_mode='fuzzy')
                     if not re:
                         isFind = TomatoOcrFindRangeClick(
                             keywords=[{'keyword': '界', 'match_mode': 'fuzzy'},
                                       {'keyword': '域', 'match_mode': 'fuzzy'}],
                             x1=14,
-                            y1=511, x2=85, y2=1161, sleep1=0.5)
+                            y1=511, x2=85, y2=1161, sleep1=0.5, offsetX=random.randint(10, 30),
+                            offsetY=random.randint(10, 20))
                         if not isFind:
                             TomatoOcrFindRangeClick(
                                 keywords=[{'keyword': '位', 'match_mode': 'fuzzy'},
                                           {'keyword': '面', 'match_mode': 'fuzzy'}],
                                 x1=14,
-                                y1=511, x2=85, y2=1161, sleep1=0.5)
+                                y1=511, x2=85, y2=1161, sleep1=0.5, offsetX=random.randint(10, 30),
+                                offsetY=random.randint(10, 20))
 
             isFind, _ = TomatoOcrText(609, 1208, 672, 1245, '发送', match_mode='fuzzy')
             if not isFind:
@@ -320,6 +340,7 @@ class FuBenTask:
                                 re3 = TomatoOcrTap(360, 937, 423, 972, '战斗', match_mode='fuzzy', offsetX=8, offsetY=8)
                         if re1 or re2 or re3:
                             Toast('开始讨伐')
+                            self.moWangCount()
                             failTimes = 0
                             fightDone = True
                             start_time = int(time.time())
@@ -645,6 +666,8 @@ class FuBenTask:
                                 Toast('魔物讨伐-发送随机表情')
                                 liaoTian_time = int(time.time())  # 清空点击记录
                                 tapSleep(476, 1224)
+                                表情栏 = [[85, 928], [183, 929], [287, 932], [358, 932]]
+                                tapSleep(*random.choice(表情栏))
                                 表情 = [[60, 1021], [157, 1024], [252, 1016], [366, 1029], [448, 1025], [547, 1018],
                                         [656, 1024]]
                                 tapSleep(*random.choice(表情))
@@ -662,6 +685,78 @@ class FuBenTask:
                     self.dailyTask.homePage()
 
         sleep(0.2)
+
+    def moWangCount(self, needUpdate=True):
+        db = pymysql.connect(
+            host="8.140.162.237",  # 开发者后台,创建的数据库 “主机地址”
+            port=3307,  # 开发者后台,创建的数据库 “端口”
+            user='yiwan233',  # 开发者后台,创建的数据库 “用户名”
+            password='233233',  # 开发者后台,创建的数据库 “初始密码”
+            database='db_dev_12886',  # 开发者后台 ,创建的 "数据库"
+            charset='utf8mb4'  ""
+        )  # 连接数据库
+
+        count = 0
+        money = 0
+        now_time = int(time.time())
+        # 获取北京时间戳（当天0点）
+        today_time = int(
+            (datetime.utcnow() + timedelta(hours=8)).replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+        cursor = db.cursor()
+        sql = "SELECT * FROM mowang WHERE user_name	 = %s and today_time = %s"
+        # 使用参数化查询
+        cursor.execute(sql, (任务记录['玩家名称'], today_time))
+        results = cursor.fetchall()
+        for row in results:
+            count = row[1]
+            money = row[3]
+
+        # 执行完之后要记得关闭游标和数据库连接
+        cursor.close()
+        # 执行完毕后记得关闭db,不然会并发连接失败哦
+        db.close()
+
+        if needUpdate:
+            self.daiDuiUpdate(count, money, today_time)
+
+        if count == 0:
+            count = 1
+        else:
+            count = count + 1
+
+        return count, money, today_time
+
+    def daiDuiUpdate(self, count, money, today_time):
+        db = pymysql.connect(
+            host="8.140.162.237",  # 开发者后台,创建的数据库 “主机地址”
+            port=3307,  # 开发者后台,创建的数据库 “端口”
+            user='yiwan233',  # 开发者后台,创建的数据库 “用户名”
+            password='233233',  # 开发者后台,创建的数据库 “初始密码”
+            database='db_dev_12886',  # 开发者后台 ,创建的 "数据库"
+            charset='utf8mb4'  ""
+        )  # 连接数据库
+        cursor = db.cursor()
+
+        # 插入
+        if count == 0:
+            count = 1
+            # 构造 SQL 语句
+            sql = f"Insert into mowang (user_name,count,today_time,money) Values (%s,%s,%s,%s)"
+            # 使用参数化查询
+            cursor.execute(sql, (任务记录["玩家名称"], count, today_time, money))
+            db.commit()  # 不要忘了提交,不然数据上不去哦
+        else:
+            count = count + 1
+            # 构造 SQL 语句
+            sql = "UPDATE mowang SET count = %s, money = %s WHERE user_name = %s and today_time = %s"
+            # 使用参数化查询
+            cursor.execute(sql, (count, money, 任务记录["玩家名称"], today_time))
+            db.commit()  # 不要忘了提交,不然数据上不去哦
+
+        # 执行完之后要记得关闭游标和数据库连接
+        cursor.close()
+        # 执行完毕后记得关闭db,不然会并发连接失败哦
+        db.close()
 
     def 圣兽试炼(self):
         if 功能开关["圣兽试炼"] == 0 or 任务记录["圣兽试炼"] == 1:
@@ -757,8 +852,10 @@ class FuBenTask:
             return
 
         re = CompareColors.compare("611,254,#BCF3F5|601,284,#BBEEF4|541,290,#1E2826|536,307,#1A2329|609,336,#6EB9BE")
+        if not re:
+            re = CompareColors.compare("478,299,#0E233A|524,286,#0B1317|589,321,#A9ECF1|597,340,#BEEBF5")  # 幻想阶梯点亮
         if re:
-            tapSleep(585, 273, 1.2)
+            tapSleep(561, 303, 1.2)
         if not re:
             re = TomatoOcrTap(432, 124, 596, 173, '幻想阶梯', match_mode='fuzzy')
         if not re:
@@ -831,6 +928,8 @@ class FuBenTask:
         if not re:
             return
         re = CompareColors.compare("157,991,#EEE6BA|172,1021,#F0ECDD|252,989,#836651|240,1046,#B68A5D|208,1076,#A4A195")
+        if not re:
+            re = CompareColors.compare("155,1022,#BE9D83|204,1045,#D2B492|255,1000,#6D574C|289,1016,#6E5042")
         if not re:
             Toast('日常-素材秘境未开启')
             sleep(0.5)
@@ -1049,7 +1148,7 @@ class FuBenTask:
 
         re = CompareColors.compare("153,244,#324C6C|198,236,#2C4540|225,344,#FEFFFF|216,358,#83B2D1|235,353,#EBF6FB")
         if re:
-            tapSleep(192, 274, 1.5)  # 点击日常副本
+            tapSleep(30, 273, 1.5)  # 点击日常副本
         if not re:
             re = TomatoOcrTap(14, 124, 159, 170, '日常', match_mode='fuzzy')
         if not re:

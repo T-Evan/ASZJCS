@@ -85,21 +85,27 @@ def kamiActive():
             activeInfo = '试用卡密激活成功，过期时间：' + formatted_date
             Toast(activeInfo, 3000)
         if device_id != '':
-            # 判断首次激活
-            if expire_time == 0:
-                expire_time = int(time.time()) + 86400 * 0.5  # 日卡
+            # 获取当前时间和过期时间的日期
+            current_date = datetime.fromtimestamp(int(time.time())).date()
+            expire_date = datetime.fromtimestamp(expire_time).date()
+
+            # 判断首次激活或已过期（包括跨天情况）
+            if expire_time == 0 or current_date > expire_date:
+                # 如果是新的一天或者首次激活，重置试用时间
+                expire_time = int(time.time()) + 60 * 60 * 5  # 3小时试用
                 dt_object = datetime.fromtimestamp(expire_time)
                 formatted_date = dt_object.strftime('%Y-%m-%d %H:%M:%S')
                 now_device_id = Device.id()
                 device_ids = json.dumps(now_device_id)
                 # 构造 SQL 语句
-                sql = "UPDATE kami SET device_id = %s, expire_time = %s WHERE device_id LIKE %s and kami == ''"
+                sql = "UPDATE kami SET device_id = %s, expire_time = %s WHERE device_id LIKE %s and kami = ''"
                 # 使用参数化查询
-                cursor.execute(sql, (device_ids, expire_time, kami))
+                cursor.execute(sql, (device_ids, expire_time, now_device_id))
                 db.commit()  # 不要忘了提交,不然数据上不去哦
                 activeInfo = '试用卡密激活成功，过期时间：' + formatted_date
                 Toast(activeInfo, 3000)
-            if expire_time != 0:
+            else:
+                # 未过期的情况
                 dt_object = datetime.fromtimestamp(expire_time)
                 formatted_date = dt_object.strftime('%Y-%m-%d %H:%M:%S')
                 # 判断卡密是否过期
@@ -180,9 +186,9 @@ def kamiActive():
     db.close()
 
 
-print('卡密联网激活开始')
 kamiActive()
-print('卡密联网激活完成')
+Toast('激活完成', 10)
+sleep(0.3)
 
 
 # debug
@@ -221,9 +227,14 @@ def main():
         # dailyTask.食材采集()
         # system.exit()
 
+        # 间隔20分钟检测账号是否过期
+        checkKami = int(time.time())
         start_up.multiAccount()
         while True:
             try:
+                if int(time.time()) - checkKami > 60 * 20:
+                    checkKami = int(time.time())
+                    kamiActive()
                 # 启动app
                 start_up.start_app()
                 if 功能开关["日常总开关"] == 0 and 功能开关["副本总开关"] == 0 and 功能开关["公会总开关"] == 0:
@@ -264,8 +275,9 @@ def main():
                     sleep(1.5)
                     功能开关["fighting"] = 0
                     功能开关["needHome"] = 0
-                    action.Key.home()
 
+                    r = system.shell(f"am force-stop {功能开关['游戏包名']}")
+                    action.Key.home()
                     total_sleep_time = need_wait_minute * 60  # 总休息时间（秒）
                     sleep_interval = min(5, total_sleep_time)  # 每次睡眠间隔（最多60秒）
 
@@ -283,6 +295,8 @@ def main():
                         remaining_time -= actual_sleep_time
 
                     任务记录["定时休息-倒计时"] = int(time.time())
+                    # 启动app
+                    start_up.start_app()
                     # sleep(need_wait_minute * 60)
                     # 任务记录["定时休息-倒计时"] = int(time.time())
 
@@ -317,6 +331,8 @@ def main():
                     print('尝试切换游戏版本')
                     功能开关['游戏包名'] = random.choice(
                         ["com.leiting.zjcs", "com.leiting.zjcs.bilibili", "com.m88.zjcs.j", "com.m88.zjcs.h",
+                         "com.zjcs.android.jp",
+                         "com.m88.zjcs.n",
                          "com.m88.zjcs.g", "com.m88.idleXX", "com.leiting.zjcs.b", "com.m88.zjcs.b", "com.m88.zjcs.f"])
                     start_up = StartUp(f'{功能开关["游戏包名"]}')
 
